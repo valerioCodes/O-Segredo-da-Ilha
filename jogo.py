@@ -38,13 +38,8 @@ state = {
 # ============================================================
 
 def escolher(msg, opcoes):
-    while True:
-        r = input(msg).strip().lower()
-
-        if r in opcoes:
-            return r
-
-        print("⚠️ Opção inválida.")
+    print(msg)
+    print("Escolha uma opção:", ", ".join(opcoes))
 
 
 def pegar(item):
