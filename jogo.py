@@ -1734,7 +1734,9 @@ O segredo da ilha foi descoberto.
 
     elif state["monstro_derrotado"]:
 
-        mostrar("""
+mudar_imagem("final_01.png")
+        
+mostrar("""
 🌅 FINAL DA VITÓRIA
 
 A criatura foi derrotada.
@@ -1751,7 +1753,9 @@ esquecerão aqueles que ficaram para trás.
 
     elif state["batalha"] >= 3:
 
-        mostrar("""
+mudar_imagem("final_02.png")
+        
+mostrar("""
 👁️ FINAL DO SELAMENTO
 
 A criatura é selada novamente.
@@ -1769,7 +1773,9 @@ Barbara:
 
     elif state["vida"] > 0:
 
-        mostrar("""
+mudar_imagem("final_03.png")
+        
+mostrar("""
 🏃 FINAL DA FUGA
 
 Vocês conseguem chegar ao barco.
@@ -1787,7 +1793,9 @@ Ela ainda está viva.
 
     else:
 
-        mostrar("""
+mudar_imagem("final_06.png")
+      
+mostrar("""
 💀 FINAL DA ILHA
 
 A criatura vence.
@@ -1797,7 +1805,7 @@ Ninguém consegue escapar.
 O segredo permanece enterrado na ilha.
 """)
 
-mudar_imagem("final_vitoria.png")
+mudar_imagem("Gemini_Generated_Image_I0ib9910ib9910ib.png")
     
 mostrar("""
 ============================================================
