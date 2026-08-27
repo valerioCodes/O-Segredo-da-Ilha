@@ -10,8 +10,8 @@
 
 <title>O Segredo na Ilha</title>
 
-<!-- PYSCRIPT -->
-<script type="module"
+<script
+    type="module"
     src="https://pyscript.net/releases/2025.3.1/core.js">
 </script>
 
@@ -33,7 +33,7 @@
 
     h1 {
         font-size: 36px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
 
     /* =========================
@@ -41,7 +41,7 @@
     ========================= */
 
     #musica-controle {
-        margin: 15px 0 20px 0;
+        margin: 20px 0;
     }
 
     #botao-musica {
@@ -73,7 +73,7 @@
     }
 
     /* =========================
-       ÁREA DO JOGO
+       JOGO
     ========================= */
 
     #jogo {
@@ -142,26 +142,32 @@
 <div id="jogo-container">
 
 ```
-<!-- =========================
-     TÍTULO
-========================== -->
-
 <h1>🏝️ O Segredo na Ilha</h1>
 
 
 <!-- =========================
-     CONTROLE DA MÚSICA
+     MÚSICA
 ========================== -->
 
 <div id="musica-controle">
 
-    <button id="botao-musica">
+    <button
+        id="botao-musica"
+        type="button">
+
         🎵 Tocar música
+
     </button>
 
-    <audio id="musica" loop preload="auto">
 
-        <source src="musica.mp3" type="audio/mpeg">
+    <audio
+        id="musica"
+        loop
+        preload="auto">
+
+        <source
+            src="./musica.mp3"
+            type="audio/mpeg">
 
     </audio>
 
@@ -169,14 +175,13 @@
 
 
 <!-- =========================
-     IMAGEM DA FASE
+     IMAGEM
 ========================== -->
 
 <img
     id="imagem-fase"
     src=""
-    alt="Imagem da fase"
->
+    alt="Imagem da fase">
 
 
 <!-- =========================
@@ -187,14 +192,14 @@
 
 
 <!-- =========================
-     TEXTO DO JOGO
+     JOGO
 ========================== -->
 
 <div id="jogo"></div>
 
 
 <!-- =========================
-     BOTÕES DAS ESCOLHAS
+     BOTÕES
 ========================== -->
 
 <div id="botoes"></div>
@@ -203,7 +208,7 @@
 </div>
 
 <!-- =========================
-     CONTROLE DA MÚSICA
+     TESTE DA MÚSICA
 ========================= -->
 
 <script>
@@ -215,44 +220,88 @@
         document.getElementById("musica");
 
 
-    botaoMusica.addEventListener("click", async function () {
+    botaoMusica.addEventListener(
+        "click",
+        async function () {
 
-        try {
+            console.log(
+                "Tentando tocar:",
+                musica.currentSrc
+            );
 
-            if (musica.paused) {
 
-                await musica.play();
+            try {
 
-                botaoMusica.innerText =
-                    "🔇 Pausar música";
+                if (musica.paused) {
+
+                    await musica.play();
+
+                    botaoMusica.innerText =
+                        "🔇 Pausar música";
+
+                    console.log(
+                        "Música começou!"
+                    );
+
+                }
+
+                else {
+
+                    musica.pause();
+
+                    botaoMusica.innerText =
+                        "🎵 Tocar música";
+
+                }
 
             }
 
-            else {
+            catch (erro) {
 
-                musica.pause();
+                console.error(
+                    "ERRO DA MÚSICA:",
+                    erro
+                );
 
-                botaoMusica.innerText =
-                    "🎵 Tocar música";
+                alert(
+                    "ERRO DA MÚSICA:\n\n" +
+                    erro.name +
+                    "\n\n" +
+                    erro.message +
+                    "\n\nArquivo usado:\n" +
+                    musica.currentSrc
+                );
 
             }
 
         }
+    );
 
-        catch (erro) {
+
+    /* Verifica se o navegador encontrou o arquivo */
+
+    musica.addEventListener(
+        "loadeddata",
+        function () {
+
+            console.log(
+                "✅ Arquivo de música encontrado!"
+            );
+
+        }
+    );
+
+
+    musica.addEventListener(
+        "error",
+        function () {
 
             console.error(
-                "Erro ao tocar música:",
-                erro
-            );
-
-            alert(
-                "Não foi possível tocar a música."
+                "❌ O navegador não conseguiu carregar musica.mp3"
             );
 
         }
-
-    });
+    );
 
 </script>
 
@@ -262,7 +311,7 @@
 
 <script
     type="py"
-    src="jogo.py">
+    src="./jogo.py">
 </script>
 
 </body>
