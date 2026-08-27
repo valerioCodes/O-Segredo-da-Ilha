@@ -55,7 +55,7 @@ def preparar_fase(numero):
     limpar_tela()
     limpar_botoes()
 
-    # Só existem imagens até a fase 20
+    # Existem imagens das fases somente até a fase 20
     if numero <= 20:
         imagem_fase(numero)
     else:
@@ -85,7 +85,7 @@ def escolher(msg, opcoes):
 
 
 # ============================================================
-# ESTADO
+# ESTADO DO JOGO
 # ============================================================
 
 state = {
@@ -122,7 +122,12 @@ def pegar(item):
 
 def perder_vida(qtd=1):
     state["vida"] -= qtd
+
+    if state["vida"] < 0:
+        state["vida"] = 0
+
     atualizar_status()
+
     mostrar("❤️ Vida: " + str(state["vida"]))
 
     return state["vida"] <= 0
@@ -130,15 +135,22 @@ def perder_vida(qtd=1):
 
 def perder_sanidade(qtd=1):
     state["sanidade"] -= qtd
+
+    if state["sanidade"] < 0:
+        state["sanidade"] = 0
+
     atualizar_status()
+
     mostrar("🧠 Sanidade: " + str(state["sanidade"]))
 
     return state["sanidade"] <= 0
 
 
 def personagem_secundario():
+
     if state["personagem"] == "Olivier":
         return "Amelie"
+
     return "Olivier"
 
 
@@ -1600,6 +1612,12 @@ Barbara:
 
             state["monstro_derrotado"] = True
 
+            mostrar("""
+Vocês atacam juntos.
+
+A criatura finalmente é derrotada!
+""")
+
         else:
 
             state["monstro_derrotado"] = False
@@ -1782,6 +1800,10 @@ Ninguém consegue escapar.
 O segredo permanece enterrado na ilha.
 """)
 
+    # ========================================================
+    # INFORMAÇÕES FINAIS
+    # ========================================================
+
     mostrar("""
 ============================================================
 🎮 FIM DO JOGO
@@ -1804,9 +1826,17 @@ O segredo permanece enterrado na ilha.
         "🔎 Pistas: " + str(state["pistas"])
     )
 
-    mostrar(
-        "🎒 Inventário: " + ", ".join(state["inv"])
-    )
+    if len(state["inv"]) > 0:
+
+        mostrar(
+            "🎒 Inventário: " + ", ".join(state["inv"])
+        )
+
+    else:
+
+        mostrar(
+            "🎒 Inventário: vazio"
+        )
 
     mostrar("""
 👥 SITUAÇÃO DOS PERSONAGENS:
@@ -1876,13 +1906,21 @@ cenas = {
 
 
 # ============================================================
-# INICIAR
+# INICIAR O JOGO
 # ============================================================
 
 cena = "fase1"
 
 while cena != "fim":
 
-    funcao = cenas[cena]
+    funcao = cenas.get(cena)
+
+    if funcao is None:
+
+        mostrar(
+            "❌ Erro: fase não encontrada: " + str(cena)
+        )
+
+        break
 
     cena = funcao()
