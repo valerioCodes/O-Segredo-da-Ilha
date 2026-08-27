@@ -1,21 +1,23 @@
-
 # ============================================================
 # 🏝️ O SEGREDO NA ILHA
 # RPG DE ESCOLHAS - 30 FASES
+# VERSÃO PYSCRIPT PARA GITHUB PAGES
 # ============================================================
-from js import window
+
+from js import document
+from pyodide.ffi import create_proxy
+import asyncio
+
+
 # ============================================================
 # ESTADO DO JOGO
 # ============================================================
 
 state = {
     "personagem": "",
-
     "vida": 5,
     "sanidade": 5,
-
     "inv": [],
-
     "pistas": 0,
 
     "milo_vivo": True,
@@ -34,50 +36,151 @@ state = {
 
 
 # ============================================================
-# FUNÇÕES
+# ELEMENTOS DA PÁGINA
 # ============================================================
 
-def escolher(msg, opcoes):
-    resposta = window.prompt(msg + "\n\n" + " | ".join(opcoes))
+area = document.getElementById("jogo")
+botoes = document.getElementById("botoes")
+status = document.getElementById("status")
 
-    if resposta is None:
-        return opcoes[0]
 
-    return str(resposta).strip().lower()
+# ============================================================
+# MOSTRAR TEXTO
+# ============================================================
+
+def mostrar(texto):
+    bloco = document.createElement("pre")
+
+    bloco.textContent = str(texto)
+
+    bloco.className = "texto-jogo"
+
+    area.appendChild(bloco)
+
+    area.scrollTop = area.scrollHeight
+
+
+# ============================================================
+# LIMPAR BOTÕES
+# ============================================================
+
+def limpar_botoes():
+    botoes.innerHTML = ""
+
+
+# ============================================================
+# ATUALIZAR STATUS
+# ============================================================
+
+def atualizar_status():
+
+    status.textContent = (
+        f"❤️ Vida: {state['vida']}    "
+        f"🧠 Sanidade: {state['sanidade']}    "
+        f"🔎 Pistas: {state['pistas']}    "
+        f"🎒 Itens: {len(state['inv'])}"
+    )
+
+
+# ============================================================
+# ESCOLHER
+# ============================================================
+
+async def escolher(pergunta, opcoes):
+
+    mostrar("\n" + pergunta)
+
+    limpar_botoes()
+
+    loop = asyncio.get_running_loop()
+
+    resultado = loop.create_future()
+
+    def escolher_botao(valor):
+
+        if not resultado.done():
+            resultado.set_result(valor)
+
+    for opcao in opcoes:
+
+        botao = document.createElement("button")
+
+        botao.textContent = opcao
+
+        botao.className = "opcao"
+
+        valor = opcao
+
+        proxy = create_proxy(
+            lambda evento, v=valor:
+            escolher_botao(v)
+        )
+
+        botao.addEventListener("click", proxy)
+
+        botoes.appendChild(botao)
+
+    resposta = await resultado
+
+    limpar_botoes()
+
+    return resposta
+
+
+# ============================================================
+# INVENTÁRIO
+# ============================================================
 
 def pegar(item):
-    if item not in state["inv"]:
-        state["inv"].append(item)
-        print(f"🎒 Você encontrou: {item}")
 
+    if item not in state["inv"]:
+
+        state["inv"].append(item)
+
+        mostrar(
+            f"\n🎒 Você encontrou: {item}"
+        )
+
+        atualizar_status()
+
+
+# ============================================================
+# PERDER VIDA
+# ============================================================
 
 def perder_vida(qtd=1):
+
     state["vida"] -= qtd
-    print(f"❤️ Vida: {state['vida']}")
 
-    if state["vida"] <= 0:
-        return True
+    mostrar(
+        f"\n❤️ Vida: {state['vida']}"
+    )
 
-    return False
+    atualizar_status()
 
+    return state["vida"] <= 0
+
+
+# ============================================================
+# PERDER SANIDADE
+# ============================================================
 
 def perder_sanidade(qtd=1):
+
     state["sanidade"] -= qtd
-    print(f"🧠 Sanidade: {state['sanidade']}")
 
-    if state["sanidade"] <= 0:
-        return True
+    mostrar(
+        f"\n🧠 Sanidade: {state['sanidade']}"
+    )
 
-    return False
+    atualizar_status()
+
+    return state["sanidade"] <= 0
 
 
-def personagem_secundario():
-
-    if state["personagem"] == "Olivier":
-        return "Amelie"
-    else:
-        return "Olivier"
-
+# ============================================================
+# COMPANHEIROS
+# ============================================================
 
 def companheiros_vivos():
 
@@ -90,10 +193,12 @@ def companheiros_vivos():
         vivos.append("Barbara")
 
     if state["personagem"] == "Olivier":
+
         if state["amelie_viva"]:
             vivos.append("Amelie")
 
     else:
+
         if state["olivier_vivo"]:
             vivos.append("Olivier")
 
@@ -101,12 +206,12 @@ def companheiros_vivos():
 
 
 # ============================================================
-# FASE 1 - ESCOLHA
+# FASE 1
 # ============================================================
 
-def fase1():
+async def fase1():
 
-    print("""
+    mostrar("""
 ============================================================
 🏝️ O SEGREDO NA ILHA
 ============================================================
@@ -124,34 +229,40 @@ Por isso, vocês decidiram viajar até a ilha.
 Antes de começar, escolha seu personagem:
 """)
 
-    op = escolher(
-        "1) Olivier\n"
-        "2) Amelie\n\n"
-        "Escolha: ",
-        ["1", "2"]
+    resposta = await escolher(
+        "👤 Escolha seu personagem:",
+        [
+            "🧑 Olivier",
+            "👩 Amelie"
+        ]
     )
 
-    if op == "1":
+    if "Olivier" in resposta:
+
         state["personagem"] = "Olivier"
+
     else:
+
         state["personagem"] = "Amelie"
 
-    print(f"""
+    mostrar(f"""
 Você escolheu {state["personagem"]}.
 
-A viagem para a ilha começa.
+A viagem para a ilha começa...
 """)
+
+    atualizar_status()
 
     return "fase2"
 
 
 # ============================================================
-# FASE 2 - VIAGEM
+# FASE 2
 # ============================================================
 
 def fase2():
 
-    print("""
+    mostrar("""
 ============================================================
 🚢 FASE 2 - A VIAGEM
 ============================================================
@@ -161,39 +272,35 @@ O barco atravessa o mar durante horas.
 A ilha aparece no horizonte.
 
 Durante a viagem, ninguém fala muito sobre o passado.
-""")
 
-    print(f"""
-{state["personagem"]}:
+Você:
 — Por que todo mundo está evitando falar sobre essa ilha?
 
 Um familiar responde:
 
 — Porque o que aconteceu lá não foi algo normal.
 
-{state["personagem"]}:
+Você:
 — E o que aconteceu?
 
 Familiar:
 — Quando chegarmos, você vai entender.
-""")
 
-    print("""
 O barco chega ao porto.
 
-A aventura começa.
+🏝️ A aventura começa.
 """)
 
     return "fase3"
 
 
 # ============================================================
-# FASE 3 - CHEGADA
+# FASE 3
 # ============================================================
 
-def fase3():
+async def fase3():
 
-    print("""
+    mostrar("""
 ============================================================
 🏝️ FASE 3 - CHEGADA
 ============================================================
@@ -202,9 +309,7 @@ A ilha parece pequena, mas existe uma grande floresta
 ao redor da vila.
 
 Alguns moradores observam vocês.
-""")
 
-    print("""
 Milo:
 — Vocês são os visitantes?
 
@@ -218,26 +323,30 @@ Barbara:
 — O quê? É verdade.
 """)
 
-    op = escolher(
-        "\n1) Perguntar sobre a ilha\n"
-        "2) Perguntar sobre sua família\n"
-        "3) Perguntar sobre os desaparecimentos\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você quer perguntar?",
+        [
+            "1️⃣ Perguntar sobre a ilha",
+            "2️⃣ Perguntar sobre sua família",
+            "3️⃣ Perguntar sobre os desaparecimentos"
+        ]
     )
 
-    if op == "1":
-        print("""
+    if resposta.startswith("1"):
+
+        mostrar("""
 Milo:
 — A ilha é tranquila durante o dia.
 
 Barbara:
 — Durante a noite é outra história.
 """)
+
         state["confianca_milo"] += 1
 
-    elif op == "2":
-        print("""
+    elif resposta.startswith("2"):
+
+        mostrar("""
 Você:
 — Vocês conhecem minha família?
 
@@ -247,10 +356,12 @@ Barbara:
 Milo:
 — E não por um motivo muito bom.
 """)
+
         state["pistas"] += 2
 
     else:
-        print("""
+
+        mostrar("""
 Você:
 — É verdade que pessoas desapareceram?
 
@@ -260,18 +371,21 @@ Milo:
 Barbara:
 — E algumas nunca foram encontradas.
 """)
+
         state["pistas"] += 1
+
+    atualizar_status()
 
     return "fase4"
 
 
 # ============================================================
-# FASE 4 - CONHECENDO A VILA
+# FASE 4
 # ============================================================
 
-def fase4():
+async def fase4():
 
-    print("""
+    mostrar("""
 ============================================================
 🏘️ FASE 4 - A VILA
 ============================================================
@@ -280,14 +394,12 @@ Milo mostra a vila.
 
 Existem três lugares importantes:
 
-Uma igreja antiga.
+⛪ Uma igreja antiga.
 
-Uma casa abandonada.
+🏚️ Uma casa abandonada.
 
-Um farol.
-""")
+🔦 Um farol.
 
-    print("""
 Milo:
 — Se querem descobrir alguma coisa, comecem por esses
 lugares.
@@ -302,30 +414,31 @@ Barbara:
 — Porque alguns lugares não gostam de visitantes.
 """)
 
-    op = escolher(
-        "\n1) Igreja\n"
-        "2) Casa abandonada\n"
-        "3) Farol\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "Para onde você vai?",
+        [
+            "1️⃣ Igreja",
+            "2️⃣ Casa abandonada",
+            "3️⃣ Farol"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
         return "fase5"
 
-    if op == "2":
+    if resposta.startswith("2"):
         return "fase6"
 
     return "fase7"
 
 
 # ============================================================
-# FASE 5 - IGREJA
+# FASE 5
 # ============================================================
 
-def fase5():
+async def fase5():
 
-    print("""
+    mostrar("""
 ============================================================
 ⛪ FASE 5 - A IGREJA
 ============================================================
@@ -333,9 +446,7 @@ def fase5():
 A igreja está abandonada.
 
 Nas paredes existem símbolos estranhos.
-""")
 
-    print("""
 Barbara:
 — Eu nunca vi esses símbolos.
 
@@ -349,38 +460,47 @@ Milo:
 — Nos documentos antigos da ilha.
 """)
 
-    op = escolher(
-        "\n1) Examinar os símbolos\n"
-        "2) Procurar documentos\n"
-        "3) Fotografar os símbolos\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Examinar os símbolos",
+            "2️⃣ Procurar documentos",
+            "3️⃣ Fotografar os símbolos"
+        ]
     )
 
-    if op == "1":
-        print("""
+    if resposta.startswith("1"):
+
+        mostrar("""
 Você percebe que os símbolos formam um mapa.
 """)
+
         state["pistas"] += 2
 
-    elif op == "2":
+    elif resposta.startswith("2"):
+
         pegar("livro antigo")
+
         state["pistas"] += 3
 
     else:
+
         pegar("fotografia dos símbolos")
+
         state["pistas"] += 1
+
+    atualizar_status()
 
     return "fase8"
 
 
 # ============================================================
-# FASE 6 - CASA
+# FASE 6
 # ============================================================
 
-def fase6():
+async def fase6():
 
-    print("""
+    mostrar("""
 ============================================================
 🏚️ FASE 6 - CASA ABANDONADA
 ============================================================
@@ -389,9 +509,7 @@ A casa está coberta de poeira.
 
 Mesmo assim, alguns objetos parecem ter sido usados
 recentemente.
-""")
 
-    print("""
 Milo:
 — Eu não gosto desse lugar.
 
@@ -402,56 +520,59 @@ Milo:
 — Porque normalmente eu estou certo.
 """)
 
-    op = escolher(
-        "\n1) Procurar documentos\n"
-        "2) Subir as escadas\n"
-        "3) Ir ao porão\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Procurar documentos",
+            "2️⃣ Subir as escadas",
+            "3️⃣ Ir ao porão"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
+
         pegar("documentos da família")
+
         state["pistas"] += 3
 
-    elif op == "2":
+    elif resposta.startswith("2"):
+
         pegar("chave enferrujada")
+
         state["pistas"] += 2
+
         perder_sanidade()
 
     else:
+
         pegar("fotografia antiga")
+
         state["pistas"] += 3
+
+    atualizar_status()
 
     return "fase8"
 
 
 # ============================================================
-# FASE 7 - FAROL
+# FASE 7
 # ============================================================
 
 def fase7():
 
-    print("""
+    mostrar("""
 ============================================================
 🔦 FASE 7 - O FAROL
 ============================================================
 
 No topo do farol existe uma caixa escondida.
-""")
 
-    print("""
 Você encontra uma fotografia antiga.
 
 Nela está parte da sua família.
 
 Ao fundo aparece uma criatura que você não reconhece.
-""")
 
-    pegar("fotografia da criatura")
-    state["pistas"] += 3
-
-    print("""
 Milo:
 — Isso estava na fotografia?
 
@@ -459,16 +580,22 @@ Barbara:
 — Não deveria existir.
 """)
 
+    pegar("fotografia da criatura")
+
+    state["pistas"] += 3
+
+    atualizar_status()
+
     return "fase8"
 
 
 # ============================================================
-# FASE 8 - PRIMEIRA NOITE
+# FASE 8
 # ============================================================
 
-def fase8():
+async def fase8():
 
-    print("""
+    mostrar("""
 ============================================================
 🌙 FASE 8 - PRIMEIRA NOITE
 ============================================================
@@ -480,9 +607,7 @@ TOC.
 TOC.
 
 TOC.
-""")
 
-    print("""
 Milo:
 — Não abre.
 
@@ -496,26 +621,38 @@ Barbara:
 — E é isso que me assusta.
 """)
 
-    op = escolher(
-        "\n1) Abrir a janela\n"
-        "2) Ignorar\n"
-        "3) Sair pela porta\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Abrir a janela",
+            "2️⃣ Ignorar",
+            "3️⃣ Sair pela porta"
+        ]
     )
 
-    if op == "1":
-        print("Não existe ninguém do lado de fora.")
-        print("Mas há marcas enormes no chão.")
+    if resposta.startswith("1"):
+
+        mostrar("""
+Não existe ninguém do lado de fora.
+
+Mas há marcas enormes no chão.
+""")
+
         state["pistas"] += 2
+
         perder_sanidade()
 
-    elif op == "2":
-        print("As batidas param depois de alguns minutos.")
+    elif resposta.startswith("2"):
+
+        mostrar("""
+As batidas param depois de alguns minutos.
+""")
+
         state["pistas"] += 1
 
     else:
-        print("""
+
+        mostrar("""
 Vocês saem.
 
 Barbara:
@@ -523,18 +660,21 @@ Barbara:
 
 Existem pegadas enormes.
 """)
+
         state["pistas"] += 3
+
+    atualizar_status()
 
     return "fase9"
 
 
 # ============================================================
-# FASE 9 - O DESAPARECIMENTO
+# FASE 9
 # ============================================================
 
-def fase9():
+async def fase9():
 
-    print("""
+    mostrar("""
 ============================================================
 🚨 FASE 9 - O DESAPARECIMENTO
 ============================================================
@@ -542,9 +682,7 @@ def fase9():
 Na manhã seguinte, um morador desapareceu.
 
 Os moradores estão assustados.
-""")
 
-    print("""
 Milo:
 — Ele estava aqui ontem.
 
@@ -555,31 +693,42 @@ Milo:
 — Antes que seja tarde.
 """)
 
-    op = escolher(
-        "\n1) Procurar na vila\n"
-        "2) Procurar na floresta\n\n"
-        "Escolha: ",
-        ["1", "2"]
+    resposta = await escolher(
+        "Onde procurar?",
+        [
+            "1️⃣ Procurar na vila",
+            "2️⃣ Procurar na floresta"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
+
         state["pistas"] += 1
-        print("Você encontra marcas de sangue perto da floresta.")
+
+        mostrar(
+            "Você encontra marcas de sangue perto da floresta."
+        )
 
     else:
+
         state["pistas"] += 2
-        print("Vocês encontram pegadas enormes.")
+
+        mostrar(
+            "Vocês encontram pegadas enormes."
+        )
+
+    atualizar_status()
 
     return "fase10"
 
 
 # ============================================================
-# FASE 10 - PROCURANDO O DESAPARECIDO
+# FASE 10
 # ============================================================
 
 def fase10():
 
-    print("""
+    mostrar("""
 ============================================================
 🔎 FASE 10 - A INVESTIGAÇÃO
 ============================================================
@@ -588,11 +737,7 @@ Vocês seguem as pistas pela floresta.
 
 Depois de algum tempo encontram um objeto pertencente
 ao desaparecido.
-""")
 
-    pegar("objeto do desaparecido")
-
-    print("""
 Barbara:
 — Ele esteve aqui.
 
@@ -600,18 +745,22 @@ Milo:
 — E alguma coisa levou ele.
 """)
 
+    pegar("objeto do desaparecido")
+
     state["pistas"] += 2
+
+    atualizar_status()
 
     return "fase11"
 
 
 # ============================================================
-# FASE 11 - FLORESTA
+# FASE 11
 # ============================================================
 
-def fase11():
+async def fase11():
 
-    print("""
+    mostrar("""
 ============================================================
 🌲 FASE 11 - A FLORESTA
 ============================================================
@@ -621,24 +770,26 @@ A floresta fica cada vez mais escura.
 Vocês encontram uma trilha escondida.
 """)
 
-    op = escolher(
-        "\n1) Seguir a trilha\n"
-        "2) Marcar o caminho e voltar\n"
-        "3) Separar o grupo\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Seguir a trilha",
+            "2️⃣ Marcar o caminho e voltar",
+            "3️⃣ Separar o grupo"
+        ]
     )
 
-    if op == "1":
-        state["pistas"] += 2
-        return "fase12"
+    if resposta.startswith("1"):
 
-    elif op == "2":
+        state["pistas"] += 2
+
+    elif resposta.startswith("2"):
+
         state["pistas"] += 1
-        return "fase12"
 
     else:
-        print("""
+
+        mostrar("""
 Milo:
 — Não acho uma boa ideia.
 
@@ -650,16 +801,18 @@ Você decide seguir sozinho.
 
         perder_sanidade()
 
-        return "fase12"
+    atualizar_status()
+
+    return "fase12"
 
 
 # ============================================================
-# FASE 12 - ACAMPAMENTO
+# FASE 12
 # ============================================================
 
-def fase12():
+async def fase12():
 
-    print("""
+    mostrar("""
 ============================================================
 🔥 FASE 12 - ACAMPAMENTO
 ============================================================
@@ -667,9 +820,7 @@ def fase12():
 Vocês montam um pequeno acampamento.
 
 Durante a noite, conversam sobre a criatura.
-""")
 
-    print("""
 Milo:
 — Acho que aquilo não é um animal.
 
@@ -683,34 +834,43 @@ Você:
 — Precisamos descobrir.
 """)
 
-    op = escolher(
-        "\n1) Conversar com Milo\n"
-        "2) Conversar com Barbara\n"
-        "3) Dormir\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Conversar com Milo",
+            "2️⃣ Conversar com Barbara",
+            "3️⃣ Dormir"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
+
         state["confianca_milo"] += 2
 
-    elif op == "2":
+    elif resposta.startswith("2"):
+
         state["confianca_barbara"] += 2
 
     else:
-        print("Você descansa e recupera um pouco da sanidade.")
+
+        mostrar(
+            "Você descansa e recupera um pouco da sanidade."
+        )
+
         state["sanidade"] += 1
+
+    atualizar_status()
 
     return "fase13"
 
 
 # ============================================================
-# FASE 13 - PEGADAS
+# FASE 13
 # ============================================================
 
 def fase13():
 
-    print("""
+    mostrar("""
 ============================================================
 🐾 FASE 13 - PEGADAS
 ============================================================
@@ -718,9 +878,7 @@ def fase13():
 Na manhã seguinte, vocês encontram pegadas gigantes.
 
 Elas parecem ter sido feitas recentemente.
-""")
 
-    print("""
 Barbara:
 — Isso é grande demais.
 
@@ -733,16 +891,18 @@ Você:
 
     state["pistas"] += 3
 
+    atualizar_status()
+
     return "fase14"
 
 
 # ============================================================
-# FASE 14 - CABANA
+# FASE 14
 # ============================================================
 
 def fase14():
 
-    print("""
+    mostrar("""
 ============================================================
 🏚️ FASE 14 - A CABANA
 ============================================================
@@ -750,12 +910,8 @@ def fase14():
 Uma pequena cabana aparece no meio da floresta.
 
 Dentro há um diário.
-""")
 
-    pegar("diário")
-
-    print("""
-No diário está escrito:
+Vocês encontram uma mensagem:
 
 "ELE NÃO PODE SER MORTO COM ARMAS COMUNS."
 
@@ -766,18 +922,22 @@ Milo:
 — Precisamos descobrir qual.
 """)
 
+    pegar("diário")
+
     state["pistas"] += 3
+
+    atualizar_status()
 
     return "fase15"
 
 
 # ============================================================
-# FASE 15 - O DIÁRIO
+# FASE 15
 # ============================================================
 
 def fase15():
 
-    print("""
+    mostrar("""
 ============================================================
 📖 FASE 15 - O DIÁRIO
 ============================================================
@@ -786,19 +946,12 @@ Vocês leem o diário inteiro.
 
 Ele fala sobre uma criatura que vive escondida
 nas profundezas da ilha.
-""")
 
-    print("""
 O diário também menciona:
 
 "Quando a criatura for ferida pelo símbolo original,
 ela ficará vulnerável."
-""")
 
-    state["monstro_fraqueza"] = True
-    state["pistas"] += 3
-
-    print("""
 Milo:
 — Então precisamos encontrar esse símbolo.
 
@@ -806,16 +959,22 @@ Barbara:
 — E alguma coisa capaz de usá-lo.
 """)
 
+    state["monstro_fraqueza"] = True
+
+    state["pistas"] += 3
+
+    atualizar_status()
+
     return "fase16"
 
 
 # ============================================================
-# FASE 16 - EQUIPAMENTOS
+# FASE 16
 # ============================================================
 
-def fase16():
+async def fase16():
 
-    print("""
+    mostrar("""
 ============================================================
 🎒 FASE 16 - PREPARAÇÃO
 ============================================================
@@ -823,44 +982,53 @@ def fase16():
 Vocês precisam encontrar equipamentos antes de continuar.
 """)
 
-    op = escolher(
-        "\n1) Procurar uma arma\n"
-        "2) Procurar medicamentos\n"
-        "3) Procurar o símbolo\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que procurar?",
+        [
+            "1️⃣ Procurar uma arma",
+            "2️⃣ Procurar medicamentos",
+            "3️⃣ Procurar o símbolo"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
+
         pegar("arma")
+
         state["pistas"] += 1
 
-    elif op == "2":
+    elif resposta.startswith("2"):
+
         pegar("medicamento")
-        print("❤️ Vocês encontram medicamentos.")
+
+        mostrar(
+            "❤️ Vocês encontram medicamentos."
+        )
 
     else:
+
         pegar("símbolo antigo")
+
         state["pistas"] += 3
+
+    atualizar_status()
 
     return "fase17"
 
 
 # ============================================================
-# FASE 17 - O LAGO
+# FASE 17
 # ============================================================
 
-def fase17():
+async def fase17():
 
-    print("""
+    mostrar("""
 ============================================================
 🌊 FASE 17 - O LAGO
 ============================================================
 
 O mapa indica que o próximo símbolo está perto de um lago.
-""")
 
-    print("""
 Barbara:
 — Eu não gosto desse lugar.
 
@@ -871,44 +1039,51 @@ Você:
 — Precisamos continuar.
 """)
 
-    op = escolher(
-        "\n1) Procurar dentro da água\n"
-        "2) Procurar ao redor do lago\n"
-        "3) Ignorar o lago\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Procurar dentro da água",
+            "2️⃣ Procurar ao redor do lago",
+            "3️⃣ Ignorar o lago"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
+
         perder_vida()
+
         pegar("cristal")
+
         state["pistas"] += 2
 
-    elif op == "2":
+    elif resposta.startswith("2"):
+
         pegar("cristal")
+
         state["pistas"] += 2
 
     else:
+
         state["pistas"] += 1
+
+    atualizar_status()
 
     return "fase18"
 
 
 # ============================================================
-# FASE 18 - CAVERNA
+# FASE 18
 # ============================================================
 
-def fase18():
+async def fase18():
 
-    print("""
+    mostrar("""
 ============================================================
 🕳️ FASE 18 - A CAVERNA
 ============================================================
 
 O cristal aponta para uma caverna escondida.
-""")
 
-    print("""
 Milo:
 — Acho que estamos perto.
 
@@ -916,28 +1091,34 @@ Barbara:
 — Perto demais.
 """)
 
-    op = escolher(
-        "\n1) Entrar\n"
-        "2) Procurar outra entrada\n\n"
-        "Escolha: ",
-        ["1", "2"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Entrar",
+            "2️⃣ Procurar outra entrada"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
+
         state["pistas"] += 3
+
     else:
+
         state["pistas"] += 1
+
+    atualizar_status()
 
     return "fase19"
 
 
 # ============================================================
-# FASE 19 - PRIMEIRO ENCONTRO
+# FASE 19
 # ============================================================
 
 def fase19():
 
-    print("""
+    mostrar("""
 ============================================================
 👹 FASE 19 - O PRIMEIRO ENCONTRO
 ============================================================
@@ -947,9 +1128,7 @@ Um rugido ecoa pela caverna.
 A criatura aparece por alguns segundos.
 
 Ela é enorme e desaparece rapidamente.
-""")
 
-    print("""
 Milo:
 — CORRE!
 
@@ -961,16 +1140,18 @@ Vocês fogem antes que ela alcance o grupo.
 
     perder_sanidade()
 
+    atualizar_status()
+
     return "fase20"
 
 
 # ============================================================
-# FASE 20 - FUGA
+# FASE 20
 # ============================================================
 
-def fase20():
+async def fase20():
 
-    print("""
+    mostrar("""
 ============================================================
 🏃 FASE 20 - FUGA DO MONSTRO
 ============================================================
@@ -978,36 +1159,51 @@ def fase20():
 A criatura começa a perseguir vocês.
 """)
 
-    op = escolher(
-        "\n1) Correr para a esquerda\n"
-        "2) Correr para a direita\n"
-        "3) Se esconder\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "Para onde correr?",
+        [
+            "1️⃣ Correr para a esquerda",
+            "2️⃣ Correr para a direita",
+            "3️⃣ Se esconder"
+        ]
     )
 
-    if op == "1":
-        print("Vocês encontram uma saída.")
+    if resposta.startswith("1"):
+
+        mostrar(
+            "Vocês encontram uma saída."
+        )
+
         state["pistas"] += 1
 
-    elif op == "2":
-        print("Vocês encontram uma sala escondida.")
+    elif resposta.startswith("2"):
+
+        mostrar(
+            "Vocês encontram uma sala escondida."
+        )
+
         state["pistas"] += 2
 
     else:
-        print("Vocês conseguem se esconder.")
+
+        mostrar(
+            "Vocês conseguem se esconder."
+        )
+
         state["sanidade"] += 1
+
+    atualizar_status()
 
     return "fase21"
 
 
 # ============================================================
-# FASE 21 - DESCOBRINDO A FRAQUEZA
+# FASE 21
 # ============================================================
 
 def fase21():
 
-    print("""
+    mostrar("""
 ============================================================
 🔎 FASE 21 - A FRAQUEZA
 ============================================================
@@ -1016,12 +1212,7 @@ Na sala escondida, vocês encontram uma inscrição.
 
 Ela revela que o monstro pode ser ferido pelo símbolo
 original da ilha.
-""")
 
-    state["monstro_fraqueza"] = True
-    state["pistas"] += 3
-
-    print("""
 Barbara:
 — Então podemos derrotá-lo.
 
@@ -1032,25 +1223,29 @@ Você:
 — Mas precisamos chegar perto dele.
 """)
 
+    state["monstro_fraqueza"] = True
+
+    state["pistas"] += 3
+
+    atualizar_status()
+
     return "fase22"
 
 
 # ============================================================
-# FASE 22 - O ESCONDERIJO
+# FASE 22
 # ============================================================
 
 def fase22():
 
-    print("""
+    mostrar("""
 ============================================================
 🏚️ FASE 22 - O ESCONDERIJO
 ============================================================
 
 Vocês descobrem que a criatura possui um esconderijo
 abaixo da ilha.
-""")
 
-    print("""
 Milo:
 — É lá que ela fica.
 
@@ -1065,12 +1260,12 @@ Você:
 
 
 # ============================================================
-# FASE 23 - RESGATE
+# FASE 23
 # ============================================================
 
-def fase23():
+async def fase23():
 
-    print("""
+    mostrar("""
 ============================================================
 🆘 FASE 23 - O RESGATE
 ============================================================
@@ -1078,9 +1273,7 @@ def fase23():
 Vocês encontram o morador desaparecido.
 
 Ele está ferido, mas vivo.
-""")
 
-    print("""
 Morador:
 — Vocês precisam ir embora!
 
@@ -1091,31 +1284,40 @@ Morador:
 — Ela está acordada.
 """)
 
-    op = escolher(
-        "\n1) Levar o homem embora\n"
-        "2) Deixá-lo escondido\n\n"
-        "Escolha: ",
-        ["1", "2"]
+    resposta = await escolher(
+        "O que fazer com o homem?",
+        [
+            "1️⃣ Levar o homem embora",
+            "2️⃣ Deixá-lo escondido"
+        ]
     )
 
-    if op == "1":
-        print("Vocês levam o homem para um local seguro.")
+    if resposta.startswith("1"):
+
+        mostrar(
+            "Vocês levam o homem para um local seguro."
+        )
 
     else:
-        print("Vocês o escondem em uma área protegida.")
+
+        mostrar(
+            "Vocês o escondem em uma área protegida."
+        )
 
     state["pistas"] += 1
+
+    atualizar_status()
 
     return "fase24"
 
 
 # ============================================================
-# FASE 24 - ENTRADA DO ESCONDERIJO
+# FASE 24
 # ============================================================
 
 def fase24():
 
-    print("""
+    mostrar("""
 ============================================================
 🚪 FASE 24 - A ENTRADA
 ============================================================
@@ -1126,31 +1328,37 @@ Ela possui o símbolo original.
 """)
 
     if "símbolo antigo" in state["inv"]:
-        print("""
+
+        mostrar("""
 O símbolo que vocês encontraram encaixa na porta.
 
 Ela se abre.
 """)
+
         state["pistas"] += 3
 
     else:
-        print("""
+
+        mostrar("""
 Vocês precisam forçar a porta.
 
 Isso faz um grande barulho.
 """)
+
         perder_vida()
+
+    atualizar_status()
 
     return "fase25"
 
 
 # ============================================================
-# FASE 25 - O PASSADO
+# FASE 25
 # ============================================================
 
 def fase25():
 
-    print("""
+    mostrar("""
 ============================================================
 📜 FASE 25 - O PASSADO DA FAMÍLIA
 ============================================================
@@ -1162,9 +1370,7 @@ no passado.
 
 Seu parente desaparecido tentou impedir que ela
 fosse libertada.
-""")
 
-    print("""
 Barbara:
 — Então ele estava tentando proteger a ilha.
 
@@ -1177,16 +1383,18 @@ Você:
 
     state["pistas"] += 4
 
+    atualizar_status()
+
     return "fase26"
 
 
 # ============================================================
-# FASE 26 - PREPARAÇÃO
+# FASE 26
 # ============================================================
 
-def fase26():
+async def fase26():
 
-    print("""
+    mostrar("""
 ============================================================
 ⚔️ FASE 26 - PREPARAÇÃO
 ============================================================
@@ -1194,51 +1402,71 @@ def fase26():
 Antes da batalha, vocês precisam decidir como agir.
 """)
 
-    op = escolher(
-        "\n1) Preparar a arma\n"
-        "2) Preparar o símbolo\n"
-        "3) Procurar mais informações\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "Como se preparar?",
+        [
+            "1️⃣ Preparar a arma",
+            "2️⃣ Preparar o símbolo",
+            "3️⃣ Procurar mais informações"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
 
         if "arma" in state["inv"]:
-            print("A arma está pronta.")
-            state["batalha"] += 1
-        else:
-            print("Vocês não possuem uma arma adequada.")
 
-    elif op == "2":
+            mostrar(
+                "A arma está pronta."
+            )
+
+            state["batalha"] += 1
+
+        else:
+
+            mostrar(
+                "Vocês não possuem uma arma adequada."
+            )
+
+    elif resposta.startswith("2"):
 
         if "símbolo antigo" in state["inv"]:
-            print("O símbolo está pronto.")
+
+            mostrar(
+                "O símbolo está pronto."
+            )
+
             state["batalha"] += 2
+
         else:
-            print("Vocês não encontraram o símbolo.")
+
+            mostrar(
+                "Vocês não encontraram o símbolo."
+            )
 
     else:
 
-        print("""
+        mostrar("""
 Vocês descobrem uma informação importante:
 
 A criatura fica mais fraca quando o símbolo é ativado.
 """)
 
         state["monstro_fraqueza"] = True
+
         state["batalha"] += 2
+
+    atualizar_status()
 
     return "fase27"
 
 
 # ============================================================
-# FASE 27 - ENCONTRO FINAL
+# FASE 27
 # ============================================================
 
 def fase27():
 
-    print("""
+    mostrar("""
 ============================================================
 👹 FASE 27 - O MONSTRO
 ============================================================
@@ -1248,9 +1476,7 @@ Vocês chegam à última sala.
 A criatura está esperando.
 
 Ela é muito maior do que parecia antes.
-""")
 
-    print("""
 Milo:
 — É agora.
 
@@ -1271,12 +1497,12 @@ Barbara:
 
 
 # ============================================================
-# FASE 28 - BATALHA
+# FASE 28
 # ============================================================
 
-def fase28():
+async def fase28():
 
-    print("""
+    mostrar("""
 ============================================================
 ⚔️ FASE 28 - BATALHA CONTRA O MONSTRO
 ============================================================
@@ -1286,24 +1512,24 @@ A criatura ataca.
 Vocês precisam agir rápido.
 """)
 
-    op = escolher(
-        "\n1) Atacar o monstro\n"
-        "2) Ativar o símbolo\n"
-        "3) Ajudar Milo\n"
-        "4) Ajudar Barbara\n\n"
-        "Escolha: ",
-        ["1", "2", "3", "4"]
+    resposta = await escolher(
+        "O que você faz?",
+        [
+            "1️⃣ Atacar o monstro",
+            "2️⃣ Ativar o símbolo",
+            "3️⃣ Ajudar Milo",
+            "4️⃣ Ajudar Barbara"
+        ]
     )
 
-    # -------------------------
-    # ATAQUE
-    # -------------------------
+    if resposta.startswith("1"):
 
-    if op == "1":
+        if (
+            "arma" in state["inv"]
+            and state["monstro_fraqueza"]
+        ):
 
-        if "arma" in state["inv"] and state["monstro_fraqueza"]:
-
-            print("""
+            mostrar("""
 Você ataca a criatura no ponto fraco.
 
 Ela grita e recua.
@@ -1313,7 +1539,7 @@ Ela grita e recua.
 
         else:
 
-            print("""
+            mostrar("""
 Seu ataque não causa muito efeito.
 
 A criatura contra-ataca.
@@ -1321,15 +1547,11 @@ A criatura contra-ataca.
 
             perder_vida()
 
-    # -------------------------
-    # SÍMBOLO
-    # -------------------------
-
-    elif op == "2":
+    elif resposta.startswith("2"):
 
         if "símbolo antigo" in state["inv"]:
 
-            print("""
+            mostrar("""
 Você ativa o símbolo.
 
 A criatura começa a enfraquecer.
@@ -1339,7 +1561,7 @@ A criatura começa a enfraquecer.
 
         else:
 
-            print("""
+            mostrar("""
 Você tenta ativar o símbolo.
 
 Mas não possui o objeto necessário.
@@ -1347,15 +1569,11 @@ Mas não possui o objeto necessário.
 
             perder_sanidade()
 
-    # -------------------------
-    # AJUDAR MILO
-    # -------------------------
-
-    elif op == "3":
+    elif resposta.startswith("3"):
 
         if state["milo_vivo"]:
 
-            print("""
+            mostrar("""
 Você salva Milo de um ataque.
 
 Milo:
@@ -1365,20 +1583,20 @@ Ele consegue atacar a criatura.
 """)
 
             state["confianca_milo"] += 2
+
             state["batalha"] += 2
 
         else:
-            print("Milo não está mais aqui.")
 
-    # -------------------------
-    # AJUDAR BARBARA
-    # -------------------------
+            mostrar(
+                "Milo não está mais aqui."
+            )
 
     else:
 
         if state["barbara_viva"]:
 
-            print("""
+            mostrar("""
 Você ajuda Barbara.
 
 Barbara:
@@ -1388,21 +1606,27 @@ Ela encontra uma abertura.
 """)
 
             state["confianca_barbara"] += 2
+
             state["batalha"] += 2
 
         else:
-            print("Barbara não está mais aqui.")
+
+            mostrar(
+                "Barbara não está mais aqui."
+            )
+
+    atualizar_status()
 
     return "fase29"
 
 
 # ============================================================
-# FASE 29 - ÚLTIMA ESCOLHA
+# FASE 29
 # ============================================================
 
-def fase29():
+async def fase29():
 
-    print("""
+    mostrar("""
 ============================================================
 🔥 FASE 29 - ÚLTIMA ESCOLHA
 ============================================================
@@ -1412,9 +1636,7 @@ A criatura está ferida.
 Mas ainda não foi derrotada.
 
 Você tem uma última oportunidade.
-""")
 
-    print("""
 Milo:
 — Se atacarmos juntos, talvez consigamos.
 
@@ -1422,59 +1644,55 @@ Barbara:
 — Ou podemos tentar selar a criatura novamente.
 """)
 
-    op = escolher(
-        "\n1) Derrotar o monstro\n"
-        "2) Selar o monstro\n"
-        "3) Fugir\n\n"
-        "Escolha: ",
-        ["1", "2", "3"]
+    resposta = await escolher(
+        "Qual é sua decisão?",
+        [
+            "1️⃣ Derrotar o monstro",
+            "2️⃣ Selar o monstro",
+            "3️⃣ Fugir"
+        ]
     )
 
-    if op == "1":
+    if resposta.startswith("1"):
 
         if state["batalha"] >= 5:
 
             state["monstro_derrotado"] = True
-            return "fase30"
 
         else:
 
-            print("""
+            mostrar("""
 Vocês atacam.
 
 Mas não conseguiram enfraquecer a criatura o suficiente.
 """)
 
-            return "fase30"
+    elif resposta.startswith("2"):
 
-    elif op == "2":
-
-        print("""
+        mostrar("""
 Vocês conseguem selar a criatura novamente.
 
 Mas ela não foi destruída.
 """)
 
-        return "fase30"
-
     else:
 
-        print("""
+        mostrar("""
 Vocês decidem fugir.
 
 A ilha começa a desmoronar.
 """)
 
-        return "fase30"
+    return "fase30"
 
 
 # ============================================================
-# FASE 30 - FINAIS
+# FASE 30
 # ============================================================
 
 def fase30():
 
-    print("""
+    mostrar("""
 ============================================================
 🏁 FASE 30 - O FINAL
 ============================================================
@@ -1482,13 +1700,12 @@ def fase30():
 
     vivos = companheiros_vivos()
 
-    # ========================================================
-    # FINAL 1 - TODOS VIVOS + MONSTRO DERROTADO
-    # ========================================================
+    if (
+        state["monstro_derrotado"]
+        and len(vivos) >= 3
+    ):
 
-    if state["monstro_derrotado"] and len(vivos) >= 3:
-
-        print("""
+        mostrar("""
 🌟 FINAL PERFEITO
 
 A criatura finalmente é derrotada.
@@ -1511,13 +1728,9 @@ Todos sobrevivem.
 O segredo da ilha foi descoberto.
 """)
 
-    # ========================================================
-    # FINAL 2 - MONSTRO DERROTADO, MAS ALGUÉM MORREU
-    # ========================================================
-
     elif state["monstro_derrotado"]:
 
-        print("""
+        mostrar("""
 🌅 FINAL DA VITÓRIA
 
 A criatura foi derrotada.
@@ -1528,15 +1741,13 @@ Os sobreviventes deixam a ilha sabendo que nunca
 esquecerão aqueles que ficaram para trás.
 """)
 
-        print("Sobreviventes:", vivos)
-
-    # ========================================================
-    # FINAL 3 - MONSTRO SELADO
-    # ========================================================
+        mostrar(
+            "Sobreviventes: " + ", ".join(vivos)
+        )
 
     elif state["batalha"] >= 3:
 
-        print("""
+        mostrar("""
 👁️ FINAL DO SELAMENTO
 
 A criatura é selada novamente.
@@ -1552,13 +1763,9 @@ Barbara:
 — Então espero que não estejamos aqui.
 """)
 
-    # ========================================================
-    # FINAL 4 - FUGA
-    # ========================================================
-
     elif state["vida"] > 0:
 
-        print("""
+        mostrar("""
 🏃 FINAL DA FUGA
 
 Vocês conseguem chegar ao barco.
@@ -1574,13 +1781,9 @@ Ela observa o barco partir.
 Ela ainda está viva.
 """)
 
-    # ========================================================
-    # FINAL 5 - TODOS MORREM
-    # ========================================================
-
     else:
 
-        print("""
+        mostrar("""
 💀 FINAL DA ILHA
 
 A criatura vence.
@@ -1590,34 +1793,46 @@ Ninguém consegue escapar.
 O segredo permanece enterrado na ilha.
 """)
 
-    # ========================================================
-    # RESULTADO
-    # ========================================================
-
-    print("""
+    mostrar("""
 ============================================================
                     🎮 FIM DO JOGO
 ============================================================
+
+👤 Personagem:
+""" + state["personagem"] + """
+
+❤️ Vida:
+""" + str(state["vida"]) + """
+
+🧠 Sanidade:
+""" + str(state["sanidade"]) + """
+
+🔎 Pistas:
+""" + str(state["pistas"]) + """
+
+🎒 Inventário:
+""" + ", ".join(state["inv"]) + """
+
+👥 SITUAÇÃO DOS PERSONAGENS:
+
+Milo:
+""" + ("VIVO" if state["milo_vivo"] else "MORTO") + """
+
+Barbara:
+""" + ("VIVA" if state["barbara_viva"] else "MORTA") + """
+
+Olivier:
+""" + ("VIVO" if state["olivier_vivo"] else "MORTO") + """
+
+Amelie:
+""" + ("VIVA" if state["amelie_viva"] else "MORTA") + """
+
+============================================================
+                  🏝️ FIM DO JOGO
+============================================================
 """)
 
-    print("👤 Personagem:", state["personagem"])
-    print("❤️ Vida:", state["vida"])
-    print("🧠 Sanidade:", state["sanidade"])
-    print("🔎 Pistas:", state["pistas"])
-    print("🎒 Inventário:", state["inv"])
-
-    print("\n👥 SITUAÇÃO DOS PERSONAGENS:")
-
-    print("Milo:", "VIVO" if state["milo_vivo"] else "MORTO")
-    print("Barbara:", "VIVA" if state["barbara_viva"] else "MORTA")
-    print(
-        "Olivier:",
-        "VIVO" if state["olivier_vivo"] else "MORTO"
-    )
-    print(
-        "Amelie:",
-        "VIVA" if state["amelie_viva"] else "MORTA"
-    )
+    limpar_botoes()
 
     return "fim"
 
@@ -1662,15 +1877,34 @@ cenas = {
 
 
 # ============================================================
-# COMEÇAR O JOGO
+# INICIAR O JOGO
 # ============================================================
 
-from js import document
+async def iniciar_jogo():
 
-area = document.getElementById("jogo")
+    limpar_botoes()
 
-area.innerHTML = """
-<h2>🎮 O jogo carregou!</h2>
-<p>Se você está vendo esta mensagem, o Python conseguiu aparecer na tela.</p>
-<button onclick="alert('Funcionou!')">TESTAR BOTÃO</button>
-"""
+    atualizar_status()
+
+    cena = "fase1"
+
+    while cena != "fim":
+
+        funcao = cenas[cena]
+
+        resultado = funcao()
+
+        if hasattr(resultado, "__await__"):
+
+            cena = await resultado
+
+        else:
+
+            cena = resultado
+
+        atualizar_status()
+
+
+asyncio.ensure_future(
+    iniciar_jogo()
+)
