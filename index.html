@@ -34,10 +34,11 @@
 
     h1 {
         font-size: 36px;
+        margin-bottom: 10px;
     }
 
     #musica-controle {
-        margin: 20px 0;
+        margin: 15px 0 20px 0;
     }
 
     #botao-musica {
@@ -64,6 +65,15 @@
         margin-bottom: 20px;
     }
 
+    #status {
+        background: #252525;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 15px 0;
+        font-weight: bold;
+        text-align: center;
+    }
+
     #jogo {
         background: #1d1d1d;
         padding: 20px;
@@ -78,14 +88,6 @@
         font-family: Arial, sans-serif;
         font-size: 17px;
         line-height: 1.5;
-    }
-
-    #status {
-        background: #252525;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 15px 0;
-        font-weight: bold;
     }
 
     #botoes {
@@ -124,7 +126,9 @@
     <h1>🏝️ O Segredo na Ilha</h1>
 
 
+    <!-- ========================= -->
     <!-- MÚSICA -->
+    <!-- ========================= -->
 
     <div id="musica-controle">
 
@@ -143,7 +147,9 @@
     </div>
 
 
-    <!-- IMAGEM -->
+    <!-- ========================= -->
+    <!-- IMAGEM DA FASE -->
+    <!-- ========================= -->
 
     <img
         id="imagem-fase"
@@ -151,74 +157,88 @@
         alt="Imagem da fase">
 
 
+    <!-- ========================= -->
     <!-- STATUS -->
+    <!-- ========================= -->
 
     <div id="status"></div>
 
 
-    <!-- JOGO -->
+    <!-- ========================= -->
+    <!-- TEXTO DO JOGO -->
+    <!-- ========================= -->
 
     <div id="jogo"></div>
 
 
-    <!-- BOTÕES -->
+    <!-- ========================= -->
+    <!-- BOTÕES DO JOGO -->
+    <!-- ========================= -->
 
     <div id="botoes"></div>
 
 </div>
 
 
+<!-- ========================= -->
 <!-- CONTROLE DA MÚSICA -->
+<!-- ========================= -->
 
 <script>
-
-    const botaoMusica =
-        document.getElementById("botao-musica");
 
     const musica =
         document.getElementById("musica");
 
+    const botaoMusica =
+        document.getElementById("botao-musica");
 
-    botaoMusica.addEventListener("click", function () {
 
-        if (musica.paused) {
+    botaoMusica.addEventListener(
+        "click",
+        function () {
 
-            musica.play()
-                .then(function () {
+            if (musica.paused) {
 
-                    botaoMusica.innerText =
-                        "🔇 Pausar música";
+                musica.play()
+                    .then(function () {
 
-                })
-                .catch(function (erro) {
+                        botaoMusica.innerText =
+                            "🔇 Pausar música";
 
-                    console.log(
-                        "Erro ao tocar:",
-                        erro
-                    );
+                    })
+                    .catch(function (erro) {
 
-                    alert(
-                        "Não consegui tocar a música. " +
-                        "Confira se o arquivo música.mp3 está no GitHub."
-                    );
+                        console.error(
+                            "Erro ao tocar música:",
+                            erro
+                        );
 
-                });
+                        alert(
+                            "A música não conseguiu tocar. " +
+                            "Verifique se o arquivo música.mp3 " +
+                            "está no mesmo lugar que o index.html."
+                        );
 
-        } else {
+                    });
 
-            musica.pause();
+            } else {
 
-            botaoMusica.innerText =
-                "🎵 Tocar música";
+                musica.pause();
+
+                botaoMusica.innerText =
+                    "🎵 Tocar música";
+
+            }
 
         }
-
-    });
+    );
 
 </script>
 
 
+<!-- ========================= -->
 <!-- PYSCRIPT -->
+<!-- ========================= -->
 
 <script
     type="py"
