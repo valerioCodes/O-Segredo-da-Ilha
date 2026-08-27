@@ -5,13 +5,35 @@
     <title>O Segredo na Ilha</title>
 
     <script type="module" src="https://pyscript.net/releases/2025.3.1/core.js"></script>
+
+    <style>
+        body {
+            background: #111827;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+
+        #jogo {
+            background: #1f2937;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 15px;
+            min-height: 300px;
+            text-align: left;
+        }
+    </style>
 </head>
 
 <body>
 
     <h1>🏝️ O Segredo na Ilha</h1>
 
-<script type="py" src="./jogo.py"></script>
+    <div id="jogo"></div>
+
+    <script type="py" src="./jogo.py" target="jogo"></script>
 
 </body>
 </html>
