@@ -2,9 +2,7 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>O Segredo na Ilha</title>
@@ -14,7 +12,6 @@
     </script>
 
     <style>
-
         body {
             margin: 0;
             background: #111;
@@ -53,7 +50,6 @@
 
         .texto-jogo {
             white-space: pre-wrap;
-            font-family: Arial, sans-serif;
             font-size: 17px;
             line-height: 1.5;
         }
@@ -87,9 +83,7 @@
         .opcao:hover {
             transform: scale(1.03);
         }
-
     </style>
-
 </head>
 
 <body>
@@ -98,11 +92,7 @@
 
         <h1>🏝️ O Segredo na Ilha</h1>
 
-        <img
-            id="imagem-fase"
-            src=""
-            alt="Imagem da fase"
-        >
+        <img id="imagem-fase" src="" alt="Imagem da fase">
 
         <div id="status"></div>
 
@@ -112,15 +102,45 @@
 
     </div>
 
-    <!--
-        O ?v=3 é IMPORTANTE.
-        Ele força o navegador a carregar a versão nova
-        do jogo.py em vez de usar a antiga.
-    -->
 
-    <script
-        type="py"
-        src="jogo.py?v=3">
+    <!-- CARREGA O JOGO -->
+    <script type="py" src="jogo.py?v=999"></script>
+
+
+    <!-- REMOVE QUALQUER BOTÃO "CONTINUAR" -->
+    <script>
+
+        const observador = new MutationObserver(() => {
+
+            const botoes = document.querySelectorAll("#botoes button");
+
+            botoes.forEach(botao => {
+
+                const texto = botao.innerText
+                    .trim()
+                    .toLowerCase();
+
+                if (
+                    texto.includes("continuar") ||
+                    texto.includes("➡️ continuar") ||
+                    texto.includes("➡ continuar")
+                ) {
+                    botao.remove();
+                }
+
+            });
+
+        });
+
+
+        observador.observe(
+            document.body,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
+
     </script>
 
 </body>
