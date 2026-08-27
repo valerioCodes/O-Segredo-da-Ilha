@@ -1,8 +1,9 @@
 from js import document
 
-
 # ============================================================
+
 # ELEMENTOS DA PÁGINA
+
 # ============================================================
 
 tela = document.getElementById("jogo")
@@ -10,125 +11,140 @@ botoes = document.getElementById("botoes")
 imagem = document.getElementById("imagem-fase")
 status = document.getElementById("status")
 
-
 # ============================================================
+
 # ESTADO DO JOGO
+
 # ============================================================
 
 state = {
-    "personagem": "",
-    "vida": 5,
-    "sanidade": 5,
-    "pistas": 0,
-    "inv": [],
+"personagem": "",
+"vida": 5,
+"sanidade": 5,
+"pistas": 0,
+"inv": [],
 
-    "milo_vivo": True,
-    "barbara_viva": True,
-    "olivier_vivo": True,
-    "amelie_viva": True,
+```
+"milo_vivo": True,
+"barbara_viva": True,
+"olivier_vivo": True,
+"amelie_viva": True,
 
-    "confianca_milo": 0,
-    "confianca_barbara": 0,
+"confianca_milo": 0,
+"confianca_barbara": 0,
 
-    "monstro_fraqueza": False,
-    "monstro_derrotado": False,
-    "batalha": 0
+"monstro_fraqueza": False,
+"monstro_derrotado": False,
+"batalha": 0,
+
+# NOVO:
+# Guarda exatamente qual final foi escolhido.
+"final_escolhido": ""
+```
+
 }
 
-
 # ============================================================
-# TELA
+
+# FUNÇÕES DA TELA
+
 # ============================================================
 
 def limpar():
-    tela.innerHTML = ""
-    botoes.innerHTML = ""
-
+tela.innerHTML = ""
+botoes.innerHTML = ""
 
 def mostrar(texto):
-    div = document.createElement("div")
-    div.className = "texto-jogo"
-    div.innerHTML = str(texto).replace("\n", "<br>")
-    tela.appendChild(div)
-
+div = document.createElement("div")
+div.className = "texto-jogo"
+div.innerHTML = str(texto).replace("\n", "<br>")
+tela.appendChild(div)
 
 def atualizar_status():
-    status.innerHTML = (
-        f"❤️ Vida: {state['vida']} &nbsp;&nbsp;"
-        f"🧠 Sanidade: {state['sanidade']} &nbsp;&nbsp;"
-        f"🔎 Pistas: {state['pistas']} &nbsp;&nbsp;"
-        f"🎒 Itens: {len(state['inv'])}"
-    )
-
+status.innerHTML = (
+f"❤️ Vida: {state['vida']}    "
+f"🧠 Sanidade: {state['sanidade']}    "
+f"🔎 Pistas: {state['pistas']}    "
+f"🎒 Itens: {len(state['inv'])}"
+)
 
 def imagem_fase(numero):
-    imagem.src = f"fase_{numero:02d}.png"
-    imagem.style.display = "block"
-
+imagem.src = f"fase_{numero:02d}.png"
+imagem.style.display = "block"
 
 def mudar_imagem(nome):
-    imagem.src = nome
-    imagem.style.display = "block"
-
+imagem.src = nome
+imagem.style.display = "block"
 
 def botao(texto, funcao):
-    b = document.createElement("button")
-    b.className = "opcao"
-    b.innerText = texto
+b = document.createElement("button")
 
-    def clicar(event):
-        funcao(event)
+```
+b.className = "opcao"
+b.innerText = texto
 
-    b.onclick = clicar
-    botoes.appendChild(b)
+b.onclick = funcao
 
+botoes.appendChild(b)
+```
 
 def preparar(numero):
-    limpar()
-    atualizar_status()
+limpar()
+atualizar_status()
 
-    if numero <= 20:
-        imagem_fase(numero)
-    else:
-        imagem.style.display = "none"
-
-
-# ============================================================
-# VIDA / SANIDADE / ITENS
-# ============================================================
+```
+if numero <= 20:
+    imagem_fase(numero)
+else:
+    imagem.style.display = "none"
+```
 
 def pegar(item):
-    if item not in state["inv"]:
-        state["inv"].append(item)
+if item not in state["inv"]:
+state["inv"].append(item)
 
+```
+    mostrar(
+        f"🎒 Você encontrou: {item}"
+    )
+
+    atualizar_status()
+```
 
 def perder_vida(qtd=1):
-    state["vida"] -= qtd
+state["vida"] -= qtd
 
-    if state["vida"] < 0:
-        state["vida"] = 0
+```
+if state["vida"] < 0:
+    state["vida"] = 0
 
-    atualizar_status()
-
+atualizar_status()
+```
 
 def perder_sanidade(qtd=1):
-    state["sanidade"] -= qtd
+state["sanidade"] -= qtd
 
-    if state["sanidade"] < 0:
-        state["sanidade"] = 0
+```
+if state["sanidade"] < 0:
+    state["sanidade"] = 0
 
-    atualizar_status()
-
+atualizar_status()
+```
 
 # ============================================================
+
 # FASE 1
+
 # ============================================================
 
-def fase1(event=None):
+def fase1():
 
-    preparar(1)
+```
+preparar(1)
 
-    mostrar("""
+mostrar("""
+```
+
 🏝️ O SEGREDO NA ILHA
 
 Há muitos anos, um membro da sua família desapareceu
@@ -141,31 +157,33 @@ Agora você precisa descobrir o que aconteceu.
 ESCOLHA SEU PERSONAGEM:
 """)
 
-    botao("🧑 Olivier", escolher_olivier)
-    botao("👩 Amelie", escolher_amelie)
+```
+botao("🧑 Olivier", escolher_olivier)
+botao("👩 Amelie", escolher_amelie)
+```
 
+def escolher_olivier(event):
+state["personagem"] = "Olivier"
+fase2()
 
-def escolher_olivier(event=None):
-
-    state["personagem"] = "Olivier"
-    fase2()
-
-
-def escolher_amelie(event=None):
-
-    state["personagem"] = "Amelie"
-    fase2()
-
+def escolher_amelie(event):
+state["personagem"] = "Amelie"
+fase2()
 
 # ============================================================
+
 # FASE 2
+
 # ============================================================
 
-def fase2(event=None):
+def fase2():
 
-    preparar(2)
+```
+preparar(2)
 
-    mostrar("""
+mostrar("""
+```
+
 🚢 FASE 2 — A VIAGEM
 
 O barco atravessa o mar.
@@ -183,19 +201,25 @@ Você olha para a ilha.
 Alguma coisa parece estar errada.
 """)
 
-    # PASSA AUTOMATICAMENTE
-    fase3()
-
+```
+# NÃO TEM MAIS BOTÃO "CONTINUAR"
+fase3()
+```
 
 # ============================================================
+
 # FASE 3
+
 # ============================================================
 
-def fase3(event=None):
+def fase3():
 
-    preparar(3)
+```
+preparar(3)
 
-    mostrar("""
+mostrar("""
+```
+
 🏝️ FASE 3 — CHEGADA
 
 Vocês chegam à vila.
@@ -207,20 +231,22 @@ Milo:
 
 Barbara:
 — Eu sabia que alguém viria.
-
-O que você quer perguntar?
 """)
 
-    botao("🔎 Perguntar sobre a ilha", fase3_ilha)
-    botao("👨‍👩‍👧 Perguntar sobre sua família", fase3_familia)
-    botao("👻 Perguntar sobre desaparecimentos", fase3_desaparecimentos)
+```
+botao("🔎 Perguntar sobre a ilha", fase3_ilha)
+botao("👨‍👩‍👧 Perguntar sobre sua família", fase3_familia)
+botao("👻 Perguntar sobre desaparecimentos", fase3_desaparecimentos)
+```
 
+def fase3_ilha(event):
 
-def fase3_ilha(event=None):
+```
+state["confianca_milo"] += 1
 
-    state["confianca_milo"] += 1
+mostrar("""
+```
 
-    mostrar("""
 Milo:
 — Durante o dia a ilha parece tranquila.
 
@@ -228,14 +254,18 @@ Barbara:
 — Durante a noite é outra história.
 """)
 
-    fase4()
+```
+fase4()
+```
 
+def fase3_familia(event):
 
-def fase3_familia(event=None):
+```
+state["pistas"] += 2
 
-    state["pistas"] += 2
+mostrar("""
+```
 
-    mostrar("""
 Barbara:
 — O sobrenome da sua família é conhecido aqui.
 
@@ -243,14 +273,19 @@ Milo:
 — E não por um motivo muito bom.
 """)
 
-    fase4()
+```
+atualizar_status()
+fase4()
+```
 
+def fase3_desaparecimentos(event):
 
-def fase3_desaparecimentos(event=None):
+```
+state["pistas"] += 1
 
-    state["pistas"] += 1
+mostrar("""
+```
 
-    mostrar("""
 Milo:
 — Sim. Pessoas desapareceram.
 
@@ -258,21 +293,28 @@ Barbara:
 — Algumas nunca foram encontradas.
 """)
 
-    fase4()
-
+```
+atualizar_status()
+fase4()
+```
 
 # ============================================================
+
 # FASE 4
+
 # ============================================================
 
-def fase4(event=None):
+def fase4():
 
-    preparar(4)
+```
+preparar(4)
 
-    mostrar("""
+mostrar("""
+```
+
 🏘️ FASE 4 — A VILA
 
-Existem três lugares importantes.
+Existem três lugares importantes:
 
 ⛪ Igreja antiga
 🏚️ Casa abandonada
@@ -281,20 +323,26 @@ Existem três lugares importantes.
 Para onde você vai?
 """)
 
-    botao("⛪ Igreja", fase5)
-    botao("🏚️ Casa abandonada", fase6)
-    botao("🔦 Farol", fase7)
-
+```
+botao("⛪ Igreja", fase5)
+botao("🏚️ Casa abandonada", fase6)
+botao("🔦 Farol", fase7)
+```
 
 # ============================================================
+
 # FASE 5
+
 # ============================================================
 
-def fase5(event=None):
+def fase5():
 
-    preparar(5)
+```
+preparar(5)
 
-    mostrar("""
+mostrar("""
+```
+
 ⛪ FASE 5 — A IGREJA
 
 A igreja está abandonada.
@@ -303,99 +351,125 @@ Nas paredes existem símbolos estranhos.
 
 Milo:
 — Eu já vi esses símbolos antes.
-
-O que você faz?
 """)
 
-    botao("🔎 Examinar símbolos", fase5_simbolos)
-    botao("📖 Procurar documentos", fase5_documentos)
-    botao("📷 Fotografar símbolos", fase5_foto)
+```
+botao("🔎 Examinar símbolos", fase5_simbolos)
+botao("📖 Procurar documentos", fase5_documentos)
+botao("📷 Fotografar símbolos", fase5_foto)
+```
 
+def fase5_simbolos(event):
 
-def fase5_simbolos(event=None):
+```
+state["pistas"] += 2
 
-    state["pistas"] += 2
+mostrar("""
+```
 
-    mostrar("""
 Você percebe que os símbolos formam um mapa.
 """)
 
-    fase8()
+```
+atualizar_status()
+fase8()
+```
 
+def fase5_documentos(event):
 
-def fase5_documentos(event=None):
+```
+pegar("livro antigo")
 
-    pegar("livro antigo")
-    state["pistas"] += 3
+state["pistas"] += 3
 
-    fase8()
+atualizar_status()
+fase8()
+```
 
+def fase5_foto(event):
 
-def fase5_foto(event=None):
+```
+pegar("fotografia dos símbolos")
 
-    pegar("fotografia dos símbolos")
-    state["pistas"] += 1
+state["pistas"] += 1
 
-    fase8()
-
+atualizar_status()
+fase8()
+```
 
 # ============================================================
+
 # FASE 6
+
 # ============================================================
 
-def fase6(event=None):
+def fase6():
 
-    preparar(6)
+```
+preparar(6)
 
-    mostrar("""
+mostrar("""
+```
+
 🏚️ FASE 6 — CASA ABANDONADA
 
 A casa está coberta de poeira.
 
 Alguns objetos parecem ter sido usados recentemente.
-
-O que você faz?
 """)
 
-    botao("📄 Procurar documentos", fase6_documentos)
-    botao("⬆️ Subir as escadas", fase6_escadas)
-    botao("⬇️ Ir ao porão", fase6_porao)
+```
+botao("📄 Procurar documentos", fase6_documentos)
+botao("⬆️ Subir as escadas", fase6_escadas)
+botao("⬇️ Ir ao porão", fase6_porao)
+```
 
+def fase6_documentos(event):
 
-def fase6_documentos(event=None):
+```
+pegar("documentos da família")
 
-    pegar("documentos da família")
-    state["pistas"] += 3
+state["pistas"] += 3
 
-    fase8()
+fase8()
+```
 
+def fase6_escadas(event):
 
-def fase6_escadas(event=None):
+```
+pegar("chave enferrujada")
 
-    pegar("chave enferrujada")
-    state["pistas"] += 2
-    perder_sanidade()
+state["pistas"] += 2
 
-    fase8()
+perder_sanidade()
 
+fase8()
+```
 
-def fase6_porao(event=None):
+def fase6_porao(event):
 
-    pegar("fotografia antiga")
-    state["pistas"] += 3
+```
+pegar("fotografia antiga")
 
-    fase8()
+state["pistas"] += 3
 
+fase8()
+```
 
 # ============================================================
+
 # FASE 7
+
 # ============================================================
 
-def fase7(event=None):
+def fase7():
 
-    preparar(7)
+```
+preparar(7)
 
-    mostrar("""
+mostrar("""
+```
+
 🔦 FASE 7 — O FAROL
 
 No topo do farol existe uma caixa escondida.
@@ -405,10 +479,16 @@ Dentro dela existe uma fotografia.
 Ao fundo aparece uma criatura desconhecida.
 """)
 
-    pegar("fotografia da criatura")
-    state["pistas"] += 3
+```
+pegar("fotografia da criatura")
 
-    mostrar("""
+state["pistas"] += 3
+
+atualizar_status()
+
+mostrar("""
+```
+
 Milo:
 — Isso não deveria existir.
 
@@ -416,18 +496,24 @@ Barbara:
 — Precisamos descobrir o que é.
 """)
 
-    fase8()
-
+```
+fase8()
+```
 
 # ============================================================
+
 # FASE 8
+
 # ============================================================
 
-def fase8(event=None):
+def fase8():
 
-    preparar(8)
+```
+preparar(8)
 
-    mostrar("""
+mostrar("""
+```
+
 🌙 FASE 8 — PRIMEIRA NOITE
 
 Durante a noite vocês escutam:
@@ -443,60 +529,75 @@ Milo:
 
 Barbara:
 — E é isso que me assusta.
-
-O que você faz?
 """)
 
-    botao("🪟 Abrir a janela", fase8_janela)
-    botao("😶 Ignorar", fase8_ignorar)
-    botao("🚪 Sair pela porta", fase8_porta)
+```
+botao("🪟 Abrir a janela", fase8_janela)
+botao("😶 Ignorar", fase8_ignorar)
+botao("🚪 Sair pela porta", fase8_porta)
+```
 
+def fase8_janela(event):
 
-def fase8_janela(event=None):
+```
+state["pistas"] += 2
+perder_sanidade()
 
-    state["pistas"] += 2
-    perder_sanidade()
+mostrar("""
+```
 
-    mostrar("""
 Não existe ninguém do lado de fora.
 
 Mas existem marcas enormes no chão.
 """)
 
-    fase9()
+```
+fase9()
+```
 
+def fase8_ignorar(event):
 
-def fase8_ignorar(event=None):
+```
+state["pistas"] += 1
 
-    state["pistas"] += 1
+mostrar(
+    "As batidas param depois de alguns minutos."
+)
 
-    mostrar("As batidas param depois de alguns minutos.")
+fase9()
+```
 
-    fase9()
+def fase8_porta(event):
 
+```
+state["pistas"] += 3
 
-def fase8_porta(event=None):
+mostrar("""
+```
 
-    state["pistas"] += 3
-
-    mostrar("""
 Vocês saem.
 
 Existem pegadas enormes no chão.
 """)
 
-    fase9()
-
+```
+fase9()
+```
 
 # ============================================================
+
 # FASE 9
+
 # ============================================================
 
-def fase9(event=None):
+def fase9():
 
-    preparar(9)
+```
+preparar(9)
 
-    mostrar("""
+mostrar("""
+```
+
 🚨 FASE 9 — O DESAPARECIMENTO
 
 Na manhã seguinte, um morador desapareceu.
@@ -506,41 +607,51 @@ Milo:
 
 Barbara:
 — Precisamos encontrá-lo.
-
-Onde procurar?
 """)
 
-    botao("🏘️ Procurar na vila", fase9_vila)
-    botao("🌲 Procurar na floresta", fase9_floresta)
+```
+botao("🏘️ Procurar na vila", fase9_vila)
+botao("🌲 Procurar na floresta", fase9_floresta)
+```
 
+def fase9_vila(event):
 
-def fase9_vila(event=None):
+```
+state["pistas"] += 1
 
-    state["pistas"] += 1
+mostrar(
+    "Você encontra marcas perto da floresta."
+)
 
-    mostrar("Você encontra marcas perto da floresta.")
+fase10()
+```
 
-    fase10()
+def fase9_floresta(event):
 
+```
+state["pistas"] += 2
 
-def fase9_floresta(event=None):
+mostrar(
+    "Vocês encontram pegadas enormes."
+)
 
-    state["pistas"] += 2
-
-    mostrar("Vocês encontram pegadas enormes.")
-
-    fase10()
-
+fase10()
+```
 
 # ============================================================
+
 # FASE 10
+
 # ============================================================
 
-def fase10(event=None):
+def fase10():
 
-    preparar(10)
+```
+preparar(10)
 
-    mostrar("""
+mostrar("""
+```
+
 🔎 FASE 10 — A INVESTIGAÇÃO
 
 Vocês seguem as pistas.
@@ -549,10 +660,14 @@ Depois de algum tempo encontram um objeto
 pertencente ao desaparecido.
 """)
 
-    pegar("objeto do desaparecido")
-    state["pistas"] += 2
+```
+pegar("objeto do desaparecido")
 
-    mostrar("""
+state["pistas"] += 2
+
+mostrar("""
+```
+
 Barbara:
 — Ele esteve aqui.
 
@@ -560,114 +675,134 @@ Milo:
 — E alguma coisa levou ele.
 """)
 
-    fase11()
-
+```
+fase11()
+```
 
 # ============================================================
+
 # FASE 11
+
 # ============================================================
 
-def fase11(event=None):
+def fase11():
 
-    preparar(11)
+```
+preparar(11)
 
-    mostrar("""
+mostrar("""
+```
+
 🌲 FASE 11 — A FLORESTA
 
 A floresta fica cada vez mais escura.
 
 Vocês encontram uma trilha escondida.
-
-O que fazer?
 """)
 
-    botao("➡️ Seguir a trilha", fase11_trilha)
-    botao("🪵 Marcar o caminho", fase11_marcar)
-    botao("⚠️ Separar o grupo", fase11_separar)
+```
+botao("➡️ Seguir a trilha", fase11_trilha)
+botao("🪵 Marcar o caminho", fase11_marcar)
+botao("⚠️ Separar o grupo", fase11_separar)
+```
 
+def fase11_trilha(event):
 
-def fase11_trilha(event=None):
+```
+state["pistas"] += 2
+fase12()
+```
 
-    state["pistas"] += 2
-    fase12()
+def fase11_marcar(event):
 
+```
+state["pistas"] += 1
+fase12()
+```
 
-def fase11_marcar(event=None):
+def fase11_separar(event):
 
-    state["pistas"] += 1
-    fase12()
+```
+perder_sanidade()
 
+mostrar("""
+```
 
-def fase11_separar(event=None):
-
-    perder_sanidade()
-
-    mostrar("""
 Milo:
 — Não acho uma boa ideia.
 
 Você decide continuar sozinho.
 """)
 
-    fase12()
-
+```
+fase12()
+```
 
 # ============================================================
+
 # FASE 12
+
 # ============================================================
 
-def fase12(event=None):
+def fase12():
 
-    preparar(12)
+```
+preparar(12)
 
-    mostrar("""
+mostrar("""
+```
+
 🔥 FASE 12 — ACAMPAMENTO
 
 Vocês montam um pequeno acampamento.
 
 Durante a noite conversam sobre a criatura.
-
-O que você faz?
 """)
 
-    botao("🗣️ Conversar com Milo", fase12_milo)
-    botao("🗣️ Conversar com Barbara", fase12_barbara)
-    botao("😴 Dormir", fase12_dormir)
+```
+botao("🗣️ Conversar com Milo", fase12_milo)
+botao("🗣️ Conversar com Barbara", fase12_barbara)
+botao("😴 Dormir", fase12_dormir)
+```
 
+def fase12_milo(event):
 
-def fase12_milo(event=None):
+```
+state["confianca_milo"] += 2
+fase13()
+```
 
-    state["confianca_milo"] += 2
-    fase13()
+def fase12_barbara(event):
 
+```
+state["confianca_barbara"] += 2
+fase13()
+```
 
-def fase12_barbara(event=None):
+def fase12_dormir(event):
 
-    state["confianca_barbara"] += 2
-    fase13()
-
-
-def fase12_dormir(event=None):
-
-    state["sanidade"] += 1
-
-    if state["sanidade"] > 5:
-        state["sanidade"] = 5
-
-    fase13()
-
+```
+state["sanidade"] += 1
+atualizar_status()
+fase13()
+```
 
 # ============================================================
+
 # FASE 13
+
 # ============================================================
 
-def fase13(event=None):
+def fase13():
 
-    preparar(13)
+```
+preparar(13)
 
-    state["pistas"] += 3
+state["pistas"] += 3
 
-    mostrar("""
+mostrar("""
+```
+
 🐾 FASE 13 — PEGADAS
 
 Na manhã seguinte vocês encontram pegadas gigantes.
@@ -679,18 +814,26 @@ Milo:
 — E está indo naquela direção.
 """)
 
-    fase14()
+```
+atualizar_status()
 
+fase14()
+```
 
 # ============================================================
+
 # FASE 14
+
 # ============================================================
 
-def fase14(event=None):
+def fase14():
 
-    preparar(14)
+```
+preparar(14)
 
-    mostrar("""
+mostrar("""
+```
+
 🏚️ FASE 14 — A CABANA
 
 Uma pequena cabana aparece no meio da floresta.
@@ -698,10 +841,14 @@ Uma pequena cabana aparece no meio da floresta.
 Dentro há um diário.
 """)
 
-    pegar("diário")
-    state["pistas"] += 3
+```
+pegar("diário")
 
-    mostrar("""
+state["pistas"] += 3
+
+mostrar("""
+```
+
 No diário está escrito:
 
 "ELE NÃO PODE SER MORTO COM ARMAS COMUNS."
@@ -710,21 +857,27 @@ Barbara:
 — Então existe uma forma de derrotar essa coisa.
 """)
 
-    fase15()
-
+```
+fase15()
+```
 
 # ============================================================
+
 # FASE 15
+
 # ============================================================
 
-def fase15(event=None):
+def fase15():
 
-    preparar(15)
+```
+preparar(15)
 
-    state["monstro_fraqueza"] = True
-    state["pistas"] += 3
+state["monstro_fraqueza"] = True
+state["pistas"] += 3
 
-    mostrar("""
+mostrar("""
+```
+
 📖 FASE 15 — O DIÁRIO
 
 O diário fala sobre uma criatura que vive
@@ -739,105 +892,135 @@ Milo:
 — Precisamos encontrar esse símbolo.
 """)
 
-    fase16()
+```
+atualizar_status()
 
+fase16()
+```
 
 # ============================================================
+
 # FASE 16
+
 # ============================================================
 
-def fase16(event=None):
+def fase16():
 
-    preparar(16)
+```
+preparar(16)
 
-    mostrar("""
+mostrar("""
+```
+
 🎒 FASE 16 — PREPARAÇÃO
 
 Vocês precisam encontrar equipamentos.
-
-O que procurar?
 """)
 
-    botao("⚔️ Procurar uma arma", fase16_arma)
-    botao("💊 Procurar medicamentos", fase16_medicamento)
-    botao("🔱 Procurar o símbolo", fase16_simbolo)
+```
+botao("⚔️ Procurar uma arma", fase16_arma)
+botao("💊 Procurar medicamentos", fase16_medicamento)
+botao("🔱 Procurar o símbolo", fase16_simbolo)
+```
 
+def fase16_arma(event):
 
-def fase16_arma(event=None):
+```
+pegar("arma")
 
-    pegar("arma")
-    state["batalha"] += 1
-    fase17()
+state["batalha"] += 1
 
+fase17()
+```
 
-def fase16_medicamento(event=None):
+def fase16_medicamento(event):
 
-    pegar("medicamento")
-    fase17()
+```
+pegar("medicamento")
 
+fase17()
+```
 
-def fase16_simbolo(event=None):
+def fase16_simbolo(event):
 
-    pegar("símbolo antigo")
-    state["pistas"] += 3
-    fase17()
+```
+pegar("símbolo antigo")
 
+state["pistas"] += 3
+
+fase17()
+```
 
 # ============================================================
+
 # FASE 17
+
 # ============================================================
 
-def fase17(event=None):
+def fase17():
 
-    preparar(17)
+```
+preparar(17)
 
-    mostrar("""
+mostrar("""
+```
+
 🌊 FASE 17 — O LAGO
 
 O mapa indica que o próximo símbolo está perto
 de um lago.
-
-O que fazer?
 """)
 
-    botao("🌊 Procurar dentro da água", fase17_agua)
-    botao("🔎 Procurar ao redor", fase17_redor)
-    botao("➡️ Ignorar o lago", fase17_ignorar)
+```
+botao("🌊 Procurar dentro da água", fase17_agua)
+botao("🔎 Procurar ao redor", fase17_redor)
+botao("➡️ Ignorar o lago", fase17_ignorar)
+```
 
+def fase17_agua(event):
 
-def fase17_agua(event=None):
+```
+perder_vida()
 
-    perder_vida()
-    pegar("cristal")
-    state["pistas"] += 2
+pegar("cristal")
 
-    fase18()
+state["pistas"] += 2
 
+fase18()
+```
 
-def fase17_redor(event=None):
+def fase17_redor(event):
 
-    pegar("cristal")
-    state["pistas"] += 2
+```
+pegar("cristal")
 
-    fase18()
+state["pistas"] += 2
 
+fase18()
+```
 
-def fase17_ignorar(event=None):
+def fase17_ignorar(event):
 
-    state["pistas"] += 1
+```
+state["pistas"] += 1
 
-    fase18()
-
+fase18()
+```
 
 # ============================================================
+
 # FASE 18
+
 # ============================================================
 
-def fase18(event=None):
+def fase18():
 
-    preparar(18)
+```
+preparar(18)
 
-    mostrar("""
+mostrar("""
+```
+
 🕳️ FASE 18 — A CAVERNA
 
 O cristal aponta para uma caverna escondida.
@@ -849,33 +1032,41 @@ Barbara:
 — Perto demais.
 """)
 
-    botao("🚪 Entrar", fase18_entrar)
-    botao("🔎 Procurar outra entrada", fase18_outra)
+```
+botao("🚪 Entrar", fase18_entrar)
+botao("🔎 Procurar outra entrada", fase18_outra)
+```
 
+def fase18_entrar(event):
 
-def fase18_entrar(event=None):
+```
+state["pistas"] += 3
+fase19()
+```
 
-    state["pistas"] += 3
-    fase19()
+def fase18_outra(event):
 
-
-def fase18_outra(event=None):
-
-    state["pistas"] += 1
-    fase19()
-
+```
+state["pistas"] += 1
+fase19()
+```
 
 # ============================================================
+
 # FASE 19
+
 # ============================================================
 
-def fase19(event=None):
+def fase19():
 
-    preparar(19)
+```
+preparar(19)
 
-    perder_sanidade()
+perder_sanidade()
 
-    mostrar("""
+mostrar("""
+```
+
 👹 FASE 19 — PRIMEIRO ENCONTRO
 
 Um rugido ecoa pela caverna.
@@ -889,18 +1080,24 @@ Barbara:
 — AGORA!
 """)
 
-    fase20()
-
+```
+fase20()
+```
 
 # ============================================================
+
 # FASE 20
+
 # ============================================================
 
-def fase20(event=None):
+def fase20():
 
-    preparar(20)
+```
+preparar(20)
 
-    mostrar("""
+mostrar("""
+```
+
 🏃 FASE 20 — FUGA DO MONSTRO
 
 A criatura começa a perseguir vocês.
@@ -908,45 +1105,50 @@ A criatura começa a perseguir vocês.
 Para onde correr?
 """)
 
-    botao("⬅️ Esquerda", fase20_esquerda)
-    botao("➡️ Direita", fase20_direita)
-    botao("🫣 Se esconder", fase20_esconder)
+```
+botao("⬅️ Esquerda", fase20_esquerda)
+botao("➡️ Direita", fase20_direita)
+botao("🫣 Se esconder", fase20_esconder)
+```
 
+def fase20_esquerda(event):
 
-def fase20_esquerda(event=None):
+```
+state["pistas"] += 1
+fase21()
+```
 
-    state["pistas"] += 1
-    fase21()
+def fase20_direita(event):
 
+```
+state["pistas"] += 2
+fase21()
+```
 
-def fase20_direita(event=None):
+def fase20_esconder(event):
 
-    state["pistas"] += 2
-    fase21()
-
-
-def fase20_esconder(event=None):
-
-    state["sanidade"] += 1
-
-    if state["sanidade"] > 5:
-        state["sanidade"] = 5
-
-    fase21()
-
+```
+state["sanidade"] += 1
+fase21()
+```
 
 # ============================================================
+
 # FASE 21
+
 # ============================================================
 
-def fase21(event=None):
+def fase21():
 
-    preparar(21)
+```
+preparar(21)
 
-    state["monstro_fraqueza"] = True
-    state["pistas"] += 3
+state["monstro_fraqueza"] = True
+state["pistas"] += 3
 
-    mostrar("""
+mostrar("""
+```
+
 🔎 FASE 21 — A FRAQUEZA
 
 Vocês encontram uma inscrição.
@@ -958,18 +1160,26 @@ Barbara:
 — Então podemos derrotá-lo.
 """)
 
-    fase22()
+```
+atualizar_status()
 
+fase22()
+```
 
 # ============================================================
+
 # FASE 22
+
 # ============================================================
 
-def fase22(event=None):
+def fase22():
 
-    preparar(22)
+```
+preparar(22)
 
-    mostrar("""
+mostrar("""
+```
+
 🏚️ FASE 22 — O ESCONDERIJO
 
 Vocês descobrem o esconderijo da criatura
@@ -982,20 +1192,26 @@ Você:
 — Então é lá que vamos.
 """)
 
-    fase23()
-
+```
+fase23()
+```
 
 # ============================================================
+
 # FASE 23
+
 # ============================================================
 
-def fase23(event=None):
+def fase23():
 
-    preparar(23)
+```
+preparar(23)
 
-    state["pistas"] += 1
+state["pistas"] += 1
 
-    mostrar("""
+mostrar("""
+```
+
 🆘 FASE 23 — O RESGATE
 
 Vocês encontram o morador desaparecido.
@@ -1012,19 +1228,37 @@ Morador:
 — Ela está acordada.
 """)
 
-    botao("🚶 Levar o homem embora", fase24)
-    botao("🫣 Deixá-lo escondido", fase24)
+```
+botao("🚶 Levar o homem embora", fase24_levar)
+botao("🫣 Deixá-lo escondido", fase24_esconder)
+```
 
+def fase24_levar(event):
+
+```
+fase24()
+```
+
+def fase24_esconder(event):
+
+```
+fase24()
+```
 
 # ============================================================
+
 # FASE 24
+
 # ============================================================
 
-def fase24(event=None):
+def fase24():
 
-    preparar(24)
+```
+preparar(24)
 
-    mostrar("""
+mostrar("""
+```
+
 🚪 FASE 24 — A ENTRADA
 
 Vocês encontram uma porta enorme.
@@ -1032,40 +1266,54 @@ Vocês encontram uma porta enorme.
 Ela possui o símbolo original.
 """)
 
-    if "símbolo antigo" in state["inv"]:
+```
+if "símbolo antigo" in state["inv"]:
 
-        state["pistas"] += 3
+    state["pistas"] += 3
 
-        mostrar("""
+    mostrar("""
+```
+
 O símbolo encaixa na porta.
 
 A porta se abre.
 """)
 
-    else:
+```
+else:
 
-        perder_vida()
+    perder_vida()
 
-        mostrar("""
+    mostrar("""
+```
+
 Vocês precisam forçar a porta.
 
 Um grande barulho ecoa pelo subterrâneo.
 """)
 
-    fase25()
+```
+atualizar_status()
 
+fase25()
+```
 
 # ============================================================
+
 # FASE 25
+
 # ============================================================
 
-def fase25(event=None):
+def fase25():
 
-    preparar(25)
+```
+preparar(25)
 
-    state["pistas"] += 4
+state["pistas"] += 4
 
-    mostrar("""
+mostrar("""
+```
+
 📜 FASE 25 — O PASSADO DA FAMÍLIA
 
 Dentro do esconderijo existem documentos.
@@ -1080,75 +1328,101 @@ Barbara:
 — Então ele estava tentando proteger a ilha.
 """)
 
-    fase26()
+```
+atualizar_status()
 
+fase26()
+```
 
 # ============================================================
+
 # FASE 26
+
 # ============================================================
 
-def fase26(event=None):
+def fase26():
 
-    preparar(26)
+```
+preparar(26)
 
-    mostrar("""
+mostrar("""
+```
+
 ⚔️ FASE 26 — PREPARAÇÃO
 
 Antes da batalha, vocês precisam decidir
 como agir.
 """)
 
-    botao("⚔️ Preparar arma", fase26_arma)
-    botao("🔱 Preparar símbolo", fase26_simbolo)
-    botao("📖 Procurar informações", fase26_info)
+```
+botao("⚔️ Preparar arma", fase26_arma)
+botao("🔱 Preparar símbolo", fase26_simbolo)
+botao("📖 Procurar informações", fase26_info)
+```
 
+def fase26_arma(event):
 
-def fase26_arma(event=None):
+```
+if "arma" in state["inv"]:
 
-    if "arma" in state["inv"]:
-        state["batalha"] += 1
-        mostrar("A arma está pronta.")
+    state["batalha"] += 1
 
-    else:
-        mostrar("Vocês não possuem uma arma.")
+    mostrar("A arma está pronta.")
 
-    fase27()
+else:
 
+    mostrar("Vocês não possuem uma arma.")
 
-def fase26_simbolo(event=None):
+fase27()
+```
 
-    if "símbolo antigo" in state["inv"]:
-        state["batalha"] += 2
-        mostrar("O símbolo está pronto.")
+def fase26_simbolo(event):
 
-    else:
-        mostrar("Vocês não possuem o símbolo.")
+```
+if "símbolo antigo" in state["inv"]:
 
-    fase27()
-
-
-def fase26_info(event=None):
-
-    state["monstro_fraqueza"] = True
     state["batalha"] += 2
 
-    mostrar("""
+    mostrar("O símbolo está pronto.")
+
+else:
+
+    mostrar("Vocês não possuem o símbolo.")
+
+fase27()
+```
+
+def fase26_info(event):
+
+```
+state["monstro_fraqueza"] = True
+state["batalha"] += 2
+
+mostrar("""
+```
+
 Vocês descobrem que a criatura fica
 mais fraca quando o símbolo é ativado.
 """)
 
-    fase27()
-
+```
+fase27()
+```
 
 # ============================================================
+
 # FASE 27
+
 # ============================================================
 
-def fase27(event=None):
+def fase27():
 
-    preparar(27)
+```
+preparar(27)
 
-    mostrar("""
+mostrar("""
+```
+
 👹 FASE 27 — O MONSTRO
 
 Vocês chegam à última sala.
@@ -1168,18 +1442,24 @@ Barbara:
 — Mas vamos mesmo assim.
 """)
 
-    fase28()
-
+```
+fase28()
+```
 
 # ============================================================
+
 # FASE 28
+
 # ============================================================
 
-def fase28(event=None):
+def fase28():
 
-    preparar(28)
+```
+preparar(28)
 
-    mostrar("""
+mostrar("""
+```
+
 ⚔️ FASE 28 — BATALHA
 
 A criatura ataca.
@@ -1187,94 +1467,119 @@ A criatura ataca.
 Escolha uma ação:
 """)
 
-    botao("⚔️ Atacar", fase28_atacar)
-    botao("🔱 Ativar símbolo", fase28_simbolo)
-    botao("🛡️ Ajudar Milo", fase28_milo)
-    botao("🛡️ Ajudar Barbara", fase28_barbara)
+```
+botao("⚔️ Atacar", fase28_atacar)
+botao("🔱 Ativar símbolo", fase28_simbolo)
+botao("🛡️ Ajudar Milo", fase28_milo)
+botao("🛡️ Ajudar Barbara", fase28_barbara)
+```
 
+def fase28_atacar(event):
 
-def fase28_atacar(event=None):
+```
+if "arma" in state["inv"] and state["monstro_fraqueza"]:
 
-    if "arma" in state["inv"] and state["monstro_fraqueza"]:
+    state["batalha"] += 3
 
-        state["batalha"] += 3
+    mostrar(
+        "Você ataca o ponto fraco da criatura."
+    )
 
-        mostrar("Você ataca o ponto fraco da criatura.")
+else:
 
-    else:
+    perder_vida()
 
-        perder_vida()
+    mostrar(
+        "Seu ataque não causa muito efeito."
+    )
 
-        mostrar("Seu ataque não causa muito efeito.")
+fase29()
+```
 
-    fase29()
+def fase28_simbolo(event):
 
+```
+if "símbolo antigo" in state["inv"]:
 
-def fase28_simbolo(event=None):
+    state["batalha"] += 4
+    state["monstro_fraqueza"] = True
 
-    if "símbolo antigo" in state["inv"]:
+    mostrar("""
+```
 
-        state["batalha"] += 4
-        state["monstro_fraqueza"] = True
-
-        mostrar("""
 Você ativa o símbolo.
 
 A criatura começa a enfraquecer.
 """)
 
-    else:
+```
+else:
 
-        perder_sanidade()
+    perder_sanidade()
 
-        mostrar("Você não possui o símbolo necessário.")
+    mostrar(
+        "Você não possui o símbolo necessário."
+    )
 
-    fase29()
+fase29()
+```
 
+def fase28_milo(event):
 
-def fase28_milo(event=None):
+```
+if state["milo_vivo"]:
 
-    if state["milo_vivo"]:
+    state["confianca_milo"] += 2
+    state["batalha"] += 2
 
-        state["confianca_milo"] += 2
-        state["batalha"] += 2
+    mostrar("""
+```
 
-        mostrar("""
 Você ajuda Milo.
 
 Milo:
 — Obrigado!
 """)
 
-    fase29()
+```
+fase29()
+```
 
+def fase28_barbara(event):
 
-def fase28_barbara(event=None):
+```
+if state["barbara_viva"]:
 
-    if state["barbara_viva"]:
+    state["confianca_barbara"] += 2
+    state["batalha"] += 2
 
-        state["confianca_barbara"] += 2
-        state["batalha"] += 2
+    mostrar("""
+```
 
-        mostrar("""
 Você ajuda Barbara.
 
 Barbara:
 — Eu sabia que podia confiar em você!
 """)
 
-    fase29()
-
+```
+fase29()
+```
 
 # ============================================================
+
 # FASE 29
+
 # ============================================================
 
-def fase29(event=None):
+def fase29():
 
-    preparar(29)
+```
+preparar(29)
 
-    mostrar("""
+mostrar("""
+```
+
 🔥 FASE 29 — ÚLTIMA ESCOLHA
 
 A criatura está ferida.
@@ -1284,93 +1589,210 @@ Mas ainda não foi derrotada.
 Você tem uma última oportunidade.
 """)
 
-    botao("⚔️ Derrotar o monstro", fase29_derrotar)
-    botao("🔒 Selar o monstro", fase29_selar)
-    botao("🏃 Fugir", fase29_fugir)
+```
+botao("⚔️ Derrotar o monstro", fase29_derrotar)
+botao("🔒 Selar o monstro", fase29_selar)
+botao("🏃 Fugir", fase29_fugir)
+```
 
+# ============================================================
 
-def fase29_derrotar(event=None):
+# FINAL: DERROTAR
 
-    if state["batalha"] >= 5:
-        state["monstro_derrotado"] = True
-    else:
-        state["monstro_derrotado"] = False
+# ============================================================
 
-        mostrar("""
-Vocês atacam.
+def fase29_derrotar(event):
 
-Mas não conseguiram enfraquecer
-a criatura o suficiente.
-""")
+```
+# GUARDA A ESCOLHA
+state["final_escolhido"] = "derrotar"
 
-    fase30()
+if state["batalha"] >= 5:
 
-
-def fase29_selar(event=None):
-
-    state["monstro_derrotado"] = False
-    state["batalha"] = max(state["batalha"], 3)
+    state["monstro_derrotado"] = True
 
     mostrar("""
+```
+
+⚔️ VOCÊ DERROTOU A CRIATURA!
+
+O golpe final funciona.
+
+A criatura finalmente é derrotada.
+""")
+
+```
+else:
+
+    state["monstro_derrotado"] = False
+
+    mostrar("""
+```
+
+⚔️ VOCÊ TENTA DERROTAR A CRIATURA.
+
+Mas vocês não conseguiram enfraquecê-la
+o suficiente.
+""")
+
+```
+fase30()
+```
+
+# ============================================================
+
+# FINAL: SELAR
+
+# ============================================================
+
+def fase29_selar(event):
+
+```
+# GUARDA A ESCOLHA
+state["final_escolhido"] = "selar"
+
+state["monstro_derrotado"] = False
+
+state["batalha"] = max(
+    state["batalha"],
+    3
+)
+
+mostrar("""
+```
+
+🔒 VOCÊ ESCOLHEU SELAR A CRIATURA.
+
 Vocês conseguem selar a criatura novamente.
 
 Mas ela não foi destruída.
 """)
 
-    fase30()
+```
+fase30()
+```
 
+# ============================================================
 
-def fase29_fugir(event=None):
+# FINAL: FUGIR
 
-    state["monstro_derrotado"] = False
-    state["vida"] = max(state["vida"], 1)
+# ============================================================
 
-    mostrar("""
+def fase29_fugir(event):
+
+```
+# GUARDA A ESCOLHA
+state["final_escolhido"] = "fugir"
+
+state["monstro_derrotado"] = False
+
+if state["vida"] <= 0:
+    state["vida"] = 1
+
+mostrar("""
+```
+
+🏃 VOCÊ ESCOLHEU FUGIR.
+
 Vocês decidem fugir.
 
 A ilha começa a desmoronar.
 """)
 
-    fase30()
-
+```
+fase30()
+```
 
 # ============================================================
+
 # FASE 30 — FINAIS
+
 # ============================================================
 
-def fase30(event=None):
+def fase30():
 
-    limpar()
-    atualizar_status()
+```
+limpar()
 
-    vivos = []
+vivos = []
 
-    if state["milo_vivo"]:
-        vivos.append("Milo")
+if state["milo_vivo"]:
+    vivos.append("Milo")
 
-    if state["barbara_viva"]:
-        vivos.append("Barbara")
+if state["barbara_viva"]:
+    vivos.append("Barbara")
 
-    if state["personagem"] == "Olivier":
+if state["personagem"] == "Olivier":
 
-        if state["amelie_viva"]:
-            vivos.append("Amelie")
+    if state["amelie_viva"]:
+        vivos.append("Amelie")
 
-    else:
+else:
 
-        if state["olivier_vivo"]:
-            vivos.append("Olivier")
+    if state["olivier_vivo"]:
+        vivos.append("Olivier")
 
 
-    # ========================================================
-    # FINAL 1
-    # ========================================================
+# ========================================================
+# FINAL DE FUGA
+# ========================================================
 
-    if state["monstro_derrotado"] and len(vivos) >= 3:
+if state["final_escolhido"] == "fugir":
+
+    mudar_imagem("final_06.png")
+
+    mostrar("""
+```
+
+🏃 FINAL DA FUGA
+
+Vocês conseguem chegar ao barco.
+
+A ilha fica para trás.
+
+Mas a criatura ainda está viva.
+
+Vocês sobreviveram,
+mas o segredo da ilha continua escondido.
+""")
+
+```
+# ========================================================
+# FINAL DO SELAMENTO
+# ========================================================
+
+elif state["final_escolhido"] == "selar":
+
+    mudar_imagem("final_03.png")
+
+    mostrar("""
+```
+
+👁️ FINAL DO SELAMENTO
+
+A criatura é selada novamente.
+
+A ilha está segura...
+
+Por enquanto.
+
+Vocês sabem que o selo pode não durar para sempre.
+""")
+
+```
+# ========================================================
+# FINAL DE DERROTA DO MONSTRO
+# ========================================================
+
+elif state["final_escolhido"] == "derrotar" and state["monstro_derrotado"]:
+
+    if len(vivos) >= 3:
 
         mudar_imagem("final_01.png")
 
         mostrar("""
+```
+
 🌟 FINAL PERFEITO
 
 A criatura finalmente é derrotada.
@@ -1380,18 +1802,18 @@ Todos conseguem sair da câmara.
 Todos sobrevivem.
 
 O segredo da ilha foi descoberto.
+
+Sua família finalmente pode descansar em paz.
 """)
 
-
-    # ========================================================
-    # FINAL 2
-    # ========================================================
-
-    elif state["monstro_derrotado"]:
+```
+    else:
 
         mudar_imagem("final_02.png")
 
         mostrar("""
+```
+
 🌅 FINAL DA VITÓRIA
 
 A criatura foi derrotada.
@@ -1399,62 +1821,52 @@ A criatura foi derrotada.
 Nem todos conseguiram sobreviver.
 
 Os sobreviventes deixam a ilha.
+
+Mas o segredo finalmente foi descoberto.
 """)
 
+```
         mostrar(
-            "Sobreviventes: " + ", ".join(vivos)
+            "Sobreviventes: " +
+            ", ".join(vivos)
         )
 
 
-    # ========================================================
-    # FINAL 3
-    # ========================================================
+# ========================================================
+# DERROTA DO MONSTRO SEM FORÇA SUFICIENTE
+# ========================================================
 
-    elif state["batalha"] >= 3:
+elif state["final_escolhido"] == "derrotar":
 
-        mudar_imagem("final_03.png")
+    mudar_imagem("final_02.png")
 
-        mostrar("""
-👁️ FINAL DO SELAMENTO
+    mostrar("""
+```
 
-A criatura é selada novamente.
+🌅 FINAL DA VITÓRIA INCOMPLETA
 
-A ilha está segura...
+Vocês tentaram derrotar a criatura,
+mas ela não estava enfraquecida o suficiente.
 
-Por enquanto.
+Mesmo assim, vocês conseguiram escapar.
+
+A criatura continua na ilha.
 """)
 
+```
+# ========================================================
+# FINAL ALTERNATIVO
+# ========================================================
 
-    # ========================================================
-    # FINAL 4
-    # ========================================================
+else:
 
-    elif state["vida"] > 0:
+    mudar_imagem(
+        "Gemini_Generated_Image_l0ib99l0ib99l0ib.png"
+    )
 
-        mudar_imagem("final_06.png")
+    mostrar("""
+```
 
-        mostrar("""
-🏃 FINAL DA FUGA
-
-Vocês conseguem chegar ao barco.
-
-A ilha fica para trás.
-
-Mas a criatura ainda está viva.
-""")
-
-
-    # ========================================================
-    # FINAL 5
-    # ========================================================
-
-    else:
-
-        mudar_imagem(
-            "Gemini_Generated_Image_I0ib9910ib9910ib.png"
-        )
-
-        mostrar("""
 💀 FINAL DA ILHA
 
 A criatura vence.
@@ -1464,8 +1876,14 @@ Ninguém consegue escapar.
 O segredo permanece enterrado na ilha.
 """)
 
+```
+# ========================================================
+# INFORMAÇÕES DO FIM
+# ========================================================
 
-    mostrar("""
+mostrar("""
+```
+
 ============================================================
 
 🎮 FIM DO JOGO
@@ -1473,62 +1891,86 @@ O segredo permanece enterrado na ilha.
 ============================================================
 """)
 
-    mostrar(
-        "👤 Personagem: " + state["personagem"]
-    )
+```
+mostrar(
+    "👤 Personagem: " +
+    state["personagem"]
+)
 
-    mostrar(
-        "❤️ Vida: " + str(state["vida"])
-    )
+mostrar(
+    "❤️ Vida: " +
+    str(state["vida"])
+)
 
-    mostrar(
-        "🧠 Sanidade: " + str(state["sanidade"])
-    )
+mostrar(
+    "🧠 Sanidade: " +
+    str(state["sanidade"])
+)
 
-    mostrar(
-        "🔎 Pistas: " + str(state["pistas"])
-    )
+mostrar(
+    "🔎 Pistas: " +
+    str(state["pistas"])
+)
 
-    mostrar(
-        "🎒 Inventário: " +
-        ", ".join(state["inv"])
-    )
+mostrar(
+    "🎒 Inventário: " +
+    ", ".join(state["inv"])
+)
 
-    botao(
-        "🔄 Jogar novamente",
-        reiniciar
-    )
-
+botao(
+    "🔄 Jogar novamente",
+    reiniciar
+)
+```
 
 # ============================================================
+
 # REINICIAR
-# ============================================================
-
-def reiniciar(event=None):
-
-    state["personagem"] = ""
-    state["vida"] = 5
-    state["sanidade"] = 5
-    state["pistas"] = 0
-    state["inv"] = []
-
-    state["milo_vivo"] = True
-    state["barbara_viva"] = True
-    state["olivier_vivo"] = True
-    state["amelie_viva"] = True
-
-    state["confianca_milo"] = 0
-    state["confianca_barbara"] = 0
-
-    state["monstro_fraqueza"] = False
-    state["monstro_derrotado"] = False
-    state["batalha"] = 0
-
-    fase1()
-
 
 # ============================================================
-# INICIAR
+
+def reiniciar(event):
+
+```
+state["personagem"] = ""
+
+state["vida"] = 5
+
+state["sanidade"] = 5
+
+state["pistas"] = 0
+
+state["inv"] = []
+
+state["milo_vivo"] = True
+
+state["barbara_viva"] = True
+
+state["olivier_vivo"] = True
+
+state["amelie_viva"] = True
+
+state["confianca_milo"] = 0
+
+state["confianca_barbara"] = 0
+
+state["monstro_fraqueza"] = False
+
+state["monstro_derrotado"] = False
+
+state["batalha"] = 0
+
+# MUITO IMPORTANTE:
+# limpa o final da partida anterior
+state["final_escolhido"] = ""
+
+fase1()
+```
+
+# ============================================================
+
+# COMEÇAR O JOGO
+
 # ============================================================
 
 fase1()
