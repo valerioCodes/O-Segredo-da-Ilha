@@ -1665,11 +1665,12 @@ cenas = {
 # COMEÇAR O JOGO
 # ============================================================
 
-cena = "fase1"
+from js import document
 
-while cena != "fim":
-    cena = cenas[cena]
-    cena = cena()
+area = document.getElementById("jogo")
 
-print("TESTE DO JOGO FUNCIONOU!")
-
+area.innerHTML = """
+<h2>🎮 O jogo carregou!</h2>
+<p>Se você está vendo esta mensagem, o Python conseguiu aparecer na tela.</p>
+<button onclick="alert('Funcionou!')">TESTAR BOTÃO</button>
+"""
