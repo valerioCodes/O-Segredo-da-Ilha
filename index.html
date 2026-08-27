@@ -1,28 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>O Segredo na Ilha</title>
 
-    <script type="module" src="https://pyscript.net/releases/2025.3.1/core.js"></script>
+    <script type="module"
+        src="https://pyscript.net/releases/2025.3.1/core.js">
+    </script>
 
     <style>
         body {
+            margin: 0;
+            padding: 20px;
             background: #111827;
             color: white;
             font-family: Arial, sans-serif;
+        }
+
+        h1 {
             text-align: center;
-            padding: 30px;
+        }
+
+        #status {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 15px;
+            background: #1f2937;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
         }
 
         #jogo {
-            background: #1f2937;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 25px;
+            max-width: 900px;
+            height: 500px;
+            margin: auto;
+            padding: 20px;
+            background: #0f172a;
             border-radius: 15px;
-            min-height: 300px;
-            text-align: left;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .texto-jogo {
+            white-space: pre-wrap;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 0 15px 0;
+        }
+
+        #botoes {
+            max-width: 900px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .opcao {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #374151;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .opcao:hover {
+            background: #4b5563;
         }
     </style>
 </head>
@@ -31,9 +81,19 @@
 
     <h1>🏝️ O Segredo na Ilha</h1>
 
+    <div id="status">
+        ❤️ Vida: 5 |
+        🧠 Sanidade: 5 |
+        🔎 Pistas: 0 |
+        🎒 Itens: 0
+    </div>
+
     <div id="jogo"></div>
 
-    <script type="py" src="./jogo.py" target="jogo"></script>
+    <div id="botoes"></div>
+
+    <script type="py" src="./jogo.py"></script>
 
 </body>
+
 </html>
