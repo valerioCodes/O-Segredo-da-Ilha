@@ -2,9 +2,7 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>O Segredo na Ilha</title>
@@ -14,7 +12,6 @@
     </script>
 
     <style>
-
         body {
             margin: 0;
             background: #111;
@@ -55,13 +52,14 @@
             padding: 20px;
             border-radius: 15px;
             text-align: left;
+            min-height: 250px;
             max-height: 500px;
             overflow-y: auto;
         }
 
         .texto-jogo {
             font-size: 17px;
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
 
@@ -84,12 +82,10 @@
         }
 
         .opcao:hover {
-            transform: scale(1.03);
             background: #666;
+            transform: scale(1.03);
         }
-
     </style>
-
 </head>
 
 <body>
@@ -98,9 +94,7 @@
 
         <h1>🏝️ O Segredo na Ilha</h1>
 
-        <img id="imagem-fase"
-             src=""
-             alt="Imagem da fase">
+        <img id="imagem-fase" alt="Imagem da fase">
 
         <div id="status"></div>
 
@@ -110,7 +104,8 @@
 
     </div>
 
-<script type="py" src="./jogo.py"></script>
+    <!-- IMPORTANTE: o Python fica dentro da página -->
+    <script type="py" src="./jogo.py"></script>
 
 </body>
 
