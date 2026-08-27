@@ -1,147 +1,158 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>O Segredo na Ilha</title>
+```
+<title>O Segredo na Ilha</title>
 
-    <script type="module"
-        src="https://pyscript.net/releases/2025.3.1/core.js">
-    </script>
+<script type="module"
+    src="https://pyscript.net/releases/2025.3.1/core.js">
+</script>
 
-    <style>
-        body {
-            margin: 0;
-            background: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+<style>
+    body {
+        margin: 0;
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
 
-        #jogo-container {
-            width: 90%;
-            max-width: 900px;
-            margin: 30px auto;
-            text-align: center;
-        }
+    #jogo-container {
+        width: 90%;
+        max-width: 900px;
+        margin: 30px auto;
+        text-align: center;
+    }
 
-        h1 {
-            font-size: 36px;
-        }
+    h1 {
+        font-size: 36px;
+    }
 
-        #imagem-fase {
-            width: 100%;
-            max-height: 450px;
-            object-fit: cover;
-            border-radius: 15px;
-            display: none;
-            margin-bottom: 20px;
-        }
+    #imagem-fase {
+        width: 100%;
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 15px;
+        display: none;
+        margin-bottom: 20px;
+    }
 
-        #jogo {
-            background: #1d1d1d;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: left;
-            max-height: 500px;
-            overflow-y: auto;
-        }
+    #jogo {
+        background: #1d1d1d;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: left;
+        max-height: 500px;
+        overflow-y: auto;
+    }
 
-        .texto-jogo {
-            white-space: pre-wrap;
-            font-size: 17px;
-            line-height: 1.5;
-        }
+    .texto-jogo {
+        white-space: pre-wrap;
+        font-family: Arial, sans-serif;
+        font-size: 17px;
+        line-height: 1.5;
+    }
 
-        #status {
-            background: #252525;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-weight: bold;
-        }
+    #status {
+        background: #252525;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 15px 0;
+        font-weight: bold;
+    }
 
-        #botoes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
+    #botoes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
 
-        .opcao {
-            padding: 14px 20px;
-            border: none;
-            border-radius: 10px;
-            background: #444;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .opcao {
+        padding: 14px 20px;
+        border: none;
+        border-radius: 10px;
+        background: #444;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-        .opcao:hover {
-            transform: scale(1.03);
-        }
-    </style>
+    .opcao:hover {
+        transform: scale(1.03);
+    }
+
+    #musica-controle {
+        margin: 15px 0;
+    }
+
+    #botao-musica {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        background: #444;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #botao-musica:hover {
+        transform: scale(1.03);
+    }
+</style>
+```
+
 </head>
 
 <body>
 
-    <div id="jogo-container">
+```
+<div id="jogo-container">
 
-        <h1>🏝️ O Segredo na Ilha</h1>
+    <h1>🏝️ O Segredo na Ilha</h1>
 
-        <img id="imagem-fase" src="" alt="Imagem da fase">
+    <div id="musica-controle">
+        <button id="botao-musica" onclick="tocarMusica()">
+            🎵 Tocar música
+        </button>
 
-        <div id="status"></div>
-
-        <div id="jogo"></div>
-
-        <div id="botoes"></div>
-
+        <audio id="musica" loop>
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
+    <img id="imagem-fase" src="" alt="Imagem da fase">
 
-    <!-- CARREGA O JOGO -->
-    <script type="py" src="jogo.py?v=999"></script>
+    <div id="status"></div>
 
+    <div id="jogo"></div>
 
-    <!-- REMOVE QUALQUER BOTÃO "CONTINUAR" -->
-    <script>
+    <div id="botoes"></div>
 
-        const observador = new MutationObserver(() => {
+</div>
 
-            const botoes = document.querySelectorAll("#botoes button");
+<script>
+    function tocarMusica() {
+        const musica = document.getElementById("musica");
+        const botao = document.getElementById("botao-musica");
 
-            botoes.forEach(botao => {
+        if (musica.paused) {
+            musica.play();
+            botao.innerText = "🔇 Pausar música";
+        } else {
+            musica.pause();
+            botao.innerText = "🎵 Tocar música";
+        }
+    }
+</script>
 
-                const texto = botao.innerText
-                    .trim()
-                    .toLowerCase();
-
-                if (
-                    texto.includes("continuar") ||
-                    texto.includes("➡️ continuar") ||
-                    texto.includes("➡ continuar")
-                ) {
-                    botao.remove();
-                }
-
-            });
-
-        });
-
-
-        observador.observe(
-            document.body,
-            {
-                childList: true,
-                subtree: true
-            }
-        );
-
-    </script>
+<script type="py" src="jogo.py"></script>
+```
 
 </body>
 
