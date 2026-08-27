@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>O Segredo na Ilha</title>
@@ -12,87 +14,101 @@
     </script>
 
     <style>
+
         body {
             margin: 0;
-            padding: 20px;
-            background: #111827;
+            background: #111;
             color: white;
             font-family: Arial, sans-serif;
         }
 
-        h1 {
+        #jogo-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
             text-align: center;
         }
 
-        #status {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 15px;
-            background: #1f2937;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
+        h1 {
+            font-size: 36px;
+        }
+
+        #imagem-fase {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 15px;
+            display: none;
+            margin-bottom: 20px;
         }
 
         #jogo {
-            max-width: 900px;
-            height: 500px;
-            margin: auto;
+            background: #1d1d1d;
             padding: 20px;
-            background: #0f172a;
             border-radius: 15px;
+            text-align: left;
+            max-height: 500px;
             overflow-y: auto;
-            box-sizing: border-box;
         }
 
         .texto-jogo {
             white-space: pre-wrap;
             font-family: Arial, sans-serif;
-            font-size: 16px;
+            font-size: 17px;
             line-height: 1.5;
-            margin: 0 0 15px 0;
+        }
+
+        #status {
+            background: #252525;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
         }
 
         #botoes {
-            max-width: 900px;
-            margin: 20px auto;
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
         }
 
         .opcao {
-            padding: 15px;
+            padding: 14px 20px;
             border: none;
             border-radius: 10px;
-            background: #374151;
+            background: #444;
             color: white;
             font-size: 16px;
             cursor: pointer;
         }
 
         .opcao:hover {
-            background: #4b5563;
+            transform: scale(1.03);
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <h1>🏝️ O Segredo na Ilha</h1>
+    <div id="jogo-container">
 
-    <div id="status">
-        ❤️ Vida: 5 |
-        🧠 Sanidade: 5 |
-        🔎 Pistas: 0 |
-        🎒 Itens: 0
+        <h1>🏝️ O Segredo na Ilha</h1>
+
+        <img id="imagem-fase" src="" alt="Imagem da fase">
+
+        <div id="status"></div>
+
+        <div id="jogo"></div>
+
+        <div id="botoes"></div>
+
     </div>
 
-    <div id="jogo"></div>
-
-    <div id="botoes"></div>
-
-    <script type="py" src="./jogo.py"></script>
+    <script type="py" src="jogo.py"></script>
 
 </body>
 
