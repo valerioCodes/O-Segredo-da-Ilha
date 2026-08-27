@@ -2,21 +2,12 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>🏝️ O Segredo na Ilha</title>
+    <title>O Segredo na Ilha</title>
 
-    <!-- PYScript -->
-    <link
-        rel="stylesheet"
-        href="https://pyscript.net/releases/2025.3.1/core.css"
-    >
-
-    <script
-        type="module"
+    <script type="module"
         src="https://pyscript.net/releases/2025.3.1/core.js">
     </script>
 
@@ -27,207 +18,93 @@
         }
 
         body {
-
             margin: 0;
-
-            padding: 0;
-
-            background:
-                linear-gradient(
-                    rgba(0, 0, 0, 0.65),
-                    rgba(0, 0, 0, 0.85)
-                );
-
-            background-color: #111;
-
-            color: white;
-
-            font-family: Arial, sans-serif;
-
             min-height: 100vh;
+            background: #101010;
+            color: white;
+            font-family: Arial, sans-serif;
         }
-
 
         #jogo-container {
-
-            width: 90%;
-
+            width: 92%;
             max-width: 1000px;
-
-            margin: 30px auto;
-
-            padding-bottom: 40px;
-
+            margin: 25px auto;
             text-align: center;
         }
-
 
         h1 {
-
             font-size: 38px;
-
-            margin-bottom: 25px;
-
-            text-shadow:
-                0 0 10px black,
-                0 0 20px black;
+            margin-bottom: 20px;
         }
-
 
         #imagem-fase {
-
             width: 100%;
-
             max-height: 450px;
-
             object-fit: cover;
-
             border-radius: 15px;
-
             display: none;
-
             margin-bottom: 20px;
-
-            box-shadow:
-                0 0 20px rgba(0, 0, 0, 0.8);
         }
-
 
         #status {
-
             background: #252525;
-
-            padding: 14px;
-
-            border-radius: 10px;
-
-            margin: 15px 0;
-
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
             font-weight: bold;
-
-            font-size: 16px;
-
             text-align: center;
-
-            border: 1px solid #444;
         }
-
 
         #jogo {
-
             background: #1d1d1d;
-
             padding: 25px;
-
             border-radius: 15px;
-
+            min-height: 250px;
             text-align: left;
-
-            min-height: 200px;
-
-            max-height: 550px;
-
             overflow-y: auto;
-
-            box-shadow:
-                0 0 15px rgba(0, 0, 0, 0.6);
         }
 
-
         .texto-jogo {
-
-            white-space: pre-wrap;
-
-            font-family: Arial, sans-serif;
-
             font-size: 17px;
-
             line-height: 1.6;
-
+            white-space: pre-wrap;
             margin-bottom: 15px;
         }
 
-
         #botoes {
-
             display: flex;
-
             flex-wrap: wrap;
-
             gap: 12px;
-
             justify-content: center;
-
             margin-top: 20px;
+            padding-bottom: 30px;
         }
 
-
         .opcao {
-
-            padding: 14px 22px;
-
+            padding: 15px 22px;
             border: none;
-
             border-radius: 10px;
-
             background: #444;
-
             color: white;
-
             font-size: 16px;
-
             cursor: pointer;
-
             transition: 0.2s;
         }
 
-
         .opcao:hover {
-
             transform: scale(1.05);
-
             background: #666;
         }
 
-
-        .opcao:active {
-
-            transform: scale(0.98);
-        }
-
-
-        @media (max-width: 600px) {
-
-            #jogo-container {
-
-                width: 95%;
-            }
-
-            h1 {
-
-                font-size: 28px;
-            }
-
-            #jogo {
-
-                padding: 15px;
-            }
-
-            .texto-jogo {
-
-                font-size: 15px;
-            }
-
-            .opcao {
-
-                width: 100%;
-            }
+        .titulo-fase {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
     </style>
 
 </head>
-
 
 <body>
 
@@ -235,44 +112,18 @@
 
         <h1>🏝️ O Segredo na Ilha</h1>
 
+        <img id="imagem-fase" src="" alt="Imagem da fase">
 
-        <!-- IMAGEM DA FASE -->
-
-        <img
-            id="imagem-fase"
-            src=""
-            alt="Imagem da fase"
-        >
-
-
-        <!-- STATUS DO JOGADOR -->
-
-        <div id="status">
-            Carregando jogo...
-        </div>
-
-
-        <!-- TEXTO DO JOGO -->
+        <div id="status"></div>
 
         <div id="jogo"></div>
-
-
-        <!-- BOTÕES -->
 
         <div id="botoes"></div>
 
     </div>
 
-
-    <!-- ================================================== -->
-    <!-- CARREGAR O PYTHON -->
-    <!-- ================================================== -->
-
-    <script
-        type="py"
-        src="./jogo.py">
-    </script>
-
+    <!-- IMPORTANTE: o Python roda dentro desta página -->
+    <script type="py" src="./jogo.py"></script>
 
 </body>
 
