@@ -11,7 +11,8 @@
 
 <title>O Segredo na Ilha</title>
 
-<script type="module"
+<script
+    type="module"
     src="https://pyscript.net/releases/2025.3.1/core.js">
 </script>
 
@@ -36,8 +37,7 @@
     }
 
     #musica-controle {
-        margin: 15px 0 20px 0;
-        text-align: center;
+        margin: 20px 0;
     }
 
     #botao-musica {
@@ -123,87 +123,83 @@
 
     <h1>🏝️ O Segredo na Ilha</h1>
 
-    <!-- ============================= -->
+
     <!-- MÚSICA -->
-    <!-- ============================= -->
 
     <div id="musica-controle">
 
-        <button id="botao-musica" onclick="tocarMusica()">
+        <button id="botao-musica">
             🎵 Tocar música
         </button>
 
         <audio id="musica" loop preload="auto">
-            <source src="./musica.mp3" type="audio/mpeg">
-            Seu navegador não consegue reproduzir este áudio.
+
+            <source
+                src="./m%C3%BAsica.mp3"
+                type="audio/mpeg">
+
         </audio>
 
     </div>
 
 
-    <!-- ============================= -->
     <!-- IMAGEM -->
-    <!-- ============================= -->
 
     <img
         id="imagem-fase"
         src=""
-        alt="Imagem da fase"
-    >
+        alt="Imagem da fase">
 
 
-    <!-- ============================= -->
     <!-- STATUS -->
-    <!-- ============================= -->
 
     <div id="status"></div>
 
 
-    <!-- ============================= -->
-    <!-- TEXTO DO JOGO -->
-    <!-- ============================= -->
+    <!-- JOGO -->
 
     <div id="jogo"></div>
 
 
-    <!-- ============================= -->
-    <!-- BOTÕES DO JOGO -->
-    <!-- ============================= -->
+    <!-- BOTÕES -->
 
     <div id="botoes"></div>
 
 </div>
 
 
-<!-- ============================= -->
 <!-- CONTROLE DA MÚSICA -->
-<!-- ============================= -->
 
 <script>
 
-    function tocarMusica() {
+    const botaoMusica =
+        document.getElementById("botao-musica");
 
-        const musica = document.getElementById("musica");
+    const musica =
+        document.getElementById("musica");
 
-        const botao = document.getElementById("botao-musica");
 
+    botaoMusica.addEventListener("click", function () {
 
         if (musica.paused) {
 
             musica.play()
                 .then(function () {
 
-                    botao.innerText = "🔇 Pausar música";
+                    botaoMusica.innerText =
+                        "🔇 Pausar música";
 
                 })
                 .catch(function (erro) {
 
-                    console.log("Erro ao tocar música:", erro);
+                    console.log(
+                        "Erro ao tocar:",
+                        erro
+                    );
 
                     alert(
-                        "A música não conseguiu tocar. " +
-                        "Confira se o arquivo se chama exatamente musica.mp3 " +
-                        "e está junto do index.html."
+                        "Não consegui tocar a música. " +
+                        "Confira se o arquivo música.mp3 está no GitHub."
                     );
 
                 });
@@ -212,18 +208,17 @@
 
             musica.pause();
 
-            botao.innerText = "🎵 Tocar música";
+            botaoMusica.innerText =
+                "🎵 Tocar música";
 
         }
 
-    }
+    });
 
 </script>
 
 
-<!-- ============================= -->
-<!-- PYTHON / PYSCRIPT -->
-<!-- ============================= -->
+<!-- PYSCRIPT -->
 
 <script
     type="py"
