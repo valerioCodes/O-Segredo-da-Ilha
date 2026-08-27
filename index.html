@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>O Segredo na Ilha</title>
@@ -13,28 +15,22 @@
 
     <style>
 
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            min-height: 100vh;
-            background: #101010;
+            background: #111;
             color: white;
             font-family: Arial, sans-serif;
         }
 
         #jogo-container {
-            width: 92%;
-            max-width: 1000px;
-            margin: 25px auto;
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
             text-align: center;
         }
 
         h1 {
-            font-size: 38px;
-            margin-bottom: 20px;
+            font-size: 36px;
         }
 
         #imagem-fase {
@@ -48,58 +44,48 @@
 
         #status {
             background: #252525;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
             font-weight: bold;
-            text-align: center;
         }
 
         #jogo {
             background: #1d1d1d;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
-            min-height: 250px;
             text-align: left;
+            max-height: 500px;
             overflow-y: auto;
         }
 
         .texto-jogo {
             font-size: 17px;
             line-height: 1.6;
-            white-space: pre-wrap;
             margin-bottom: 15px;
         }
 
         #botoes {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
             margin-top: 20px;
-            padding-bottom: 30px;
         }
 
         .opcao {
-            padding: 15px 22px;
+            padding: 14px 20px;
             border: none;
             border-radius: 10px;
             background: #444;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
         }
 
         .opcao:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
             background: #666;
-        }
-
-        .titulo-fase {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
         }
 
     </style>
@@ -112,7 +98,9 @@
 
         <h1>🏝️ O Segredo na Ilha</h1>
 
-        <img id="imagem-fase" src="" alt="Imagem da fase">
+        <img id="imagem-fase"
+             src=""
+             alt="Imagem da fase">
 
         <div id="status"></div>
 
@@ -122,8 +110,9 @@
 
     </div>
 
-    <!-- IMPORTANTE: o Python roda dentro desta página -->
-   <script type="py" src="./jogo.py"></script>
+
+    <script type="py"
+            src="./jogo.py"></script>
 
 </body>
 
