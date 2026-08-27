@@ -3,17 +3,20 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>O Segredo na Ilha</title>
 
+<!-- PYSCRIPT -->
 <script type="module"
     src="https://pyscript.net/releases/2025.3.1/core.js">
 </script>
 
 <style>
+
     body {
         margin: 0;
         background: #111;
@@ -30,14 +33,19 @@
 
     h1 {
         font-size: 36px;
+        margin-bottom: 15px;
     }
 
+    /* =========================
+       MÚSICA
+    ========================= */
+
     #musica-controle {
-        margin: 15px 0;
+        margin: 15px 0 20px 0;
     }
 
     #botao-musica {
-        padding: 12px 20px;
+        padding: 12px 22px;
         border: none;
         border-radius: 10px;
         background: #444;
@@ -47,9 +55,13 @@
     }
 
     #botao-musica:hover {
-        transform: scale(1.03);
         background: #555;
+        transform: scale(1.03);
     }
+
+    /* =========================
+       IMAGEM
+    ========================= */
 
     #imagem-fase {
         width: 100%;
@@ -59,6 +71,10 @@
         display: none;
         margin-bottom: 20px;
     }
+
+    /* =========================
+       ÁREA DO JOGO
+    ========================= */
 
     #jogo {
         background: #1d1d1d;
@@ -77,6 +93,10 @@
         margin-bottom: 10px;
     }
 
+    /* =========================
+       STATUS
+    ========================= */
+
     #status {
         background: #252525;
         padding: 12px;
@@ -84,6 +104,10 @@
         margin: 15px 0;
         font-weight: bold;
     }
+
+    /* =========================
+       BOTÕES
+    ========================= */
 
     #botoes {
         display: flex;
@@ -104,9 +128,10 @@
     }
 
     .opcao:hover {
-        transform: scale(1.03);
         background: #555;
+        transform: scale(1.03);
     }
+
 </style>
 ```
 
@@ -114,41 +139,81 @@
 
 <body>
 
-```
 <div id="jogo-container">
 
-    <h1>🏝️ O Segredo na Ilha</h1>
+```
+<!-- =========================
+     TÍTULO
+========================== -->
 
-    <!-- MÚSICA -->
-    <div id="musica-controle">
+<h1>🏝️ O Segredo na Ilha</h1>
 
-        <button id="botao-musica">
-            🎵 Tocar música
-        </button>
 
-        <audio id="musica" loop preload="auto">
-            <source src="./m%C3%BAsica.mp3" type="audio/mpeg">
-        </audio>
+<!-- =========================
+     CONTROLE DA MÚSICA
+========================== -->
 
-    </div>
+<div id="musica-controle">
 
-    <!-- IMAGEM -->
-    <img id="imagem-fase" src="" alt="Imagem da fase">
+    <button id="botao-musica">
+        🎵 Tocar música
+    </button>
 
-    <!-- STATUS -->
-    <div id="status"></div>
+    <audio id="musica" loop preload="auto">
 
-    <!-- TEXTO DO JOGO -->
-    <div id="jogo"></div>
+        <source src="musica.mp3" type="audio/mpeg">
 
-    <!-- BOTÕES DAS ESCOLHAS -->
-    <div id="botoes"></div>
+    </audio>
 
 </div>
 
+
+<!-- =========================
+     IMAGEM DA FASE
+========================== -->
+
+<img
+    id="imagem-fase"
+    src=""
+    alt="Imagem da fase"
+>
+
+
+<!-- =========================
+     STATUS
+========================== -->
+
+<div id="status"></div>
+
+
+<!-- =========================
+     TEXTO DO JOGO
+========================== -->
+
+<div id="jogo"></div>
+
+
+<!-- =========================
+     BOTÕES DAS ESCOLHAS
+========================== -->
+
+<div id="botoes"></div>
+```
+
+</div>
+
+<!-- =========================
+     CONTROLE DA MÚSICA
+========================= -->
+
 <script>
-    const botaoMusica = document.getElementById("botao-musica");
-    const musica = document.getElementById("musica");
+
+    const botaoMusica =
+        document.getElementById("botao-musica");
+
+    const musica =
+        document.getElementById("musica");
+
 
     botaoMusica.addEventListener("click", async function () {
 
@@ -158,33 +223,47 @@
 
                 await musica.play();
 
-                botaoMusica.innerText = "🔇 Pausar música";
-
-            } else {
-
-                musica.pause();
-
-                botaoMusica.innerText = "🎵 Tocar música";
+                botaoMusica.innerText =
+                    "🔇 Pausar música";
 
             }
 
-        } catch (erro) {
+            else {
 
-            console.error("Erro ao tocar música:", erro);
+                musica.pause();
+
+                botaoMusica.innerText =
+                    "🎵 Tocar música";
+
+            }
+
+        }
+
+        catch (erro) {
+
+            console.error(
+                "Erro ao tocar música:",
+                erro
+            );
 
             alert(
-                "Não consegui tocar a música. " +
-                "Confira se o arquivo música.mp3 está no GitHub."
+                "Não foi possível tocar a música."
             );
 
         }
 
     });
+
 </script>
 
-<!-- JOGO PYTHON -->
-<script type="py" src="./jogo.py"></script>
-```
+<!-- =========================
+     JOGO PYTHON
+========================= -->
+
+<script
+    type="py"
+    src="jogo.py">
+</script>
 
 </body>
 
