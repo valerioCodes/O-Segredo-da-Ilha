@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>O Segredo na Ilha</title>
@@ -12,6 +14,7 @@
     </script>
 
     <style>
+
         body {
             margin: 0;
             background: #111;
@@ -39,28 +42,28 @@
             margin-bottom: 20px;
         }
 
+        #jogo {
+            background: #1d1d1d;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .texto-jogo {
+            white-space: pre-wrap;
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
         #status {
             background: #252525;
             padding: 12px;
             border-radius: 10px;
             margin: 15px 0;
             font-weight: bold;
-        }
-
-        #jogo {
-            background: #1d1d1d;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: left;
-            min-height: 250px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .texto-jogo {
-            font-size: 17px;
-            line-height: 1.5;
-            margin-bottom: 15px;
         }
 
         #botoes {
@@ -82,10 +85,11 @@
         }
 
         .opcao:hover {
-            background: #666;
             transform: scale(1.03);
         }
+
     </style>
+
 </head>
 
 <body>
@@ -94,7 +98,11 @@
 
         <h1>🏝️ O Segredo na Ilha</h1>
 
-        <img id="imagem-fase" alt="Imagem da fase">
+        <img
+            id="imagem-fase"
+            src=""
+            alt="Imagem da fase"
+        >
 
         <div id="status"></div>
 
@@ -104,8 +112,16 @@
 
     </div>
 
-    <!-- IMPORTANTE: o Python fica dentro da página -->
-    <script type="py" src="./jogo.py"></script>
+    <!--
+        O ?v=3 é IMPORTANTE.
+        Ele força o navegador a carregar a versão nova
+        do jogo.py em vez de usar a antiga.
+    -->
+
+    <script
+        type="py"
+        src="jogo.py?v=3">
+    </script>
 
 </body>
 
