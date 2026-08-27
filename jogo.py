@@ -1671,3 +1671,5 @@ while cena != "fim":
     cena = cenas[cena]
     cena = cena()
 
+print("TESTE DO JOGO FUNCIONOU!")
+
