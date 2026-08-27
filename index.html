@@ -3,10 +3,12 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>O Segredo na Ilha</title>
 
 <script type="module"
@@ -14,6 +16,7 @@
 </script>
 
 <style>
+
     body {
         margin: 0;
         background: #111;
@@ -33,7 +36,8 @@
     }
 
     #musica-controle {
-        margin: 15px 0;
+        margin: 15px 0 20px 0;
+        text-align: center;
     }
 
     #botao-musica {
@@ -44,6 +48,11 @@
         color: white;
         font-size: 16px;
         cursor: pointer;
+    }
+
+    #botao-musica:hover {
+        transform: scale(1.03);
+        background: #555;
     }
 
     #imagem-fase {
@@ -66,6 +75,7 @@
 
     .texto-jogo {
         white-space: pre-wrap;
+        font-family: Arial, sans-serif;
         font-size: 17px;
         line-height: 1.5;
     }
@@ -95,6 +105,12 @@
         font-size: 16px;
         cursor: pointer;
     }
+
+    .opcao:hover {
+        transform: scale(1.03);
+        background: #555;
+    }
+
 </style>
 ```
 
@@ -107,43 +123,114 @@
 
     <h1>🏝️ O Segredo na Ilha</h1>
 
+    <!-- ============================= -->
+    <!-- MÚSICA -->
+    <!-- ============================= -->
+
     <div id="musica-controle">
+
         <button id="botao-musica" onclick="tocarMusica()">
             🎵 Tocar música
         </button>
 
-        <audio id="musica" loop>
-            <source src="musica.mp3" type="audio/mpeg">
+        <audio id="musica" loop preload="auto">
+            <source src="./musica.mp3" type="audio/mpeg">
+            Seu navegador não consegue reproduzir este áudio.
         </audio>
+
     </div>
 
-    <img id="imagem-fase" src="" alt="Imagem da fase">
+
+    <!-- ============================= -->
+    <!-- IMAGEM -->
+    <!-- ============================= -->
+
+    <img
+        id="imagem-fase"
+        src=""
+        alt="Imagem da fase"
+    >
+
+
+    <!-- ============================= -->
+    <!-- STATUS -->
+    <!-- ============================= -->
 
     <div id="status"></div>
 
+
+    <!-- ============================= -->
+    <!-- TEXTO DO JOGO -->
+    <!-- ============================= -->
+
     <div id="jogo"></div>
+
+
+    <!-- ============================= -->
+    <!-- BOTÕES DO JOGO -->
+    <!-- ============================= -->
 
     <div id="botoes"></div>
 
 </div>
 
+
+<!-- ============================= -->
+<!-- CONTROLE DA MÚSICA -->
+<!-- ============================= -->
+
 <script>
+
     function tocarMusica() {
+
         const musica = document.getElementById("musica");
+
         const botao = document.getElementById("botao-musica");
 
+
         if (musica.paused) {
-            musica.play();
-            botao.innerText = "🔇 Pausar música";
+
+            musica.play()
+                .then(function () {
+
+                    botao.innerText = "🔇 Pausar música";
+
+                })
+                .catch(function (erro) {
+
+                    console.log("Erro ao tocar música:", erro);
+
+                    alert(
+                        "A música não conseguiu tocar. " +
+                        "Confira se o arquivo se chama exatamente musica.mp3 " +
+                        "e está junto do index.html."
+                    );
+
+                });
+
         } else {
+
             musica.pause();
+
             botao.innerText = "🎵 Tocar música";
+
         }
+
     }
+
 </script>
 
-<script type="py" src="jogo.py"></script>
+
+<!-- ============================= -->
+<!-- PYTHON / PYSCRIPT -->
+<!-- ============================= -->
+
+<script
+    type="py"
+    src="jogo.py">
+</script>
 ```
 
 </body>
+
 </html>
