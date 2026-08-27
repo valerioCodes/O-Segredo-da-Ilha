@@ -5,7 +5,6 @@ botoes = document.getElementById("botoes")
 imagem = document.getElementById("imagem-fase")
 status = document.getElementById("status")
 
-
 state = {
     "personagem": "",
     "vida": 5,
@@ -35,7 +34,7 @@ def limpar():
 def mostrar(texto):
     div = document.createElement("div")
     div.className = "texto-jogo"
-    div.innerText = str(texto)
+    div.innerHTML = str(texto).replace("\n", "<br>")
     tela.appendChild(div)
 
 
@@ -105,25 +104,28 @@ def fase1(event=None):
     mostrar("""
 🏝️ O SEGREDO NA ILHA
 
-Olivier e Amelie estão viajando de barco em direção a uma pequena ilha.
+Tudo começa com uma viagem.
 
-Os dois encontraram documentos antigos relacionados à própria família.
-Entre esses documentos havia referências a um parente que desapareceu
-muitos anos atrás.
+Olivier e Amelie estão em um barco seguindo em direção
+a uma pequena ilha cercada pelo mar.
 
-Enquanto o barco se aproxima da ilha, os dois observam a costa pela primeira vez.
+Os dois decidiram ir até lá por causa de documentos
+antigos relacionados à família.
 
-Eles ainda não sabem o que encontrarão.
+Entre os documentos existe uma história sobre um parente
+que desapareceu misteriosamente muitos anos atrás.
 
-Na ilha, Milo e Barbara já vivem há muitos anos.
-Os dois conhecem as histórias, os caminhos e os lugares antigos da região.
+Enquanto o barco se aproxima da ilha, a paisagem começa
+a mudar.
 
-Agora Olivier e Amelie estão a caminho da ilha.
+A ilha parece tranquila, mas existe alguma coisa estranha
+naquele lugar.
 
-Escolha quem será o personagem principal:
+Agora você precisa escolher quem será o personagem
+principal da história.
 """)
 
-    criar_botao("🧑 Olivier", escolher_olivier)
+    criar_botao("👨 Olivier", escolher_olivier)
     criar_botao("👩 Amelie", escolher_amelie)
 
 
@@ -145,24 +147,29 @@ def fase2(event=None):
     preparar(2)
 
     mostrar("""
-🚢 A VIAGEM
+🚢 A VIAGEM DE BARCO
 
 Você escolheu jogar como """ + state["personagem"] + """.
 
 O barco continua avançando pelo mar.
 
-Amelie e Olivier estão juntos durante a viagem.
-Os dois observam a ilha ficando cada vez maior no horizonte.
+Amelie e Olivier observam a ilha ficando cada vez maior
+no horizonte.
 
-O objetivo da viagem é descobrir o que aconteceu com o parente
-desaparecido e entender por que a família deles aparece nos
-documentos antigos encontrados.
+O vento sopra forte e o barco balança levemente.
 
-O mar está relativamente tranquilo, mas existe uma sensação estranha.
+Nenhum dos dois sabe exatamente o que encontrará quando
+chegar lá.
 
-Depois de algumas horas, o barco finalmente se aproxima da ilha.
+Os documentos antigos mencionavam a ilha, mas muitas
+informações estavam incompletas.
+
+Depois de algum tempo, finalmente é possível enxergar
+o pequeno porto.
 
 A viagem está chegando ao fim.
+
+Vocês estão prestes a pisar na ilha.
 """)
 
     criar_botao("🏝️ Continuar até a ilha", fase3)
@@ -176,93 +183,88 @@ def fase3(event=None):
     preparar(3)
 
     mostrar("""
-🏝️ A CHEGADA À ILHA
+🏝️ A CHEGADA
 
-O barco finalmente chega ao pequeno porto da ilha.
+O barco finalmente chega à ilha.
 
-Amelie e Olivier desembarcam.
+Olivier e Amelie desembarcam no pequeno porto.
 
-A ilha parece tranquila, mas é bem diferente do que eles imaginavam.
+A ilha parece tranquila.
 
-Pouco depois, eles encontram duas pessoas que já vivem naquele lugar.
+Casas antigas aparecem ao longe e uma pequena vila
+fica próxima da praia.
+
+Duas pessoas estão esperando por vocês.
 
 São Milo e Barbara.
 
-Milo e Barbara moram na ilha há anos e conhecem muito bem
-a região, seus caminhos e suas histórias.
+Ao contrário de Olivier e Amelie, Milo e Barbara já
+moram na ilha há bastante tempo.
 
-Milo observa os dois visitantes.
+Eles conhecem a vila, as trilhas, o farol, a floresta
+e as histórias antigas daquele lugar.
 
-— Vocês devem ser as pessoas que estavam chegando.
+Milo se aproxima.
 
-Barbara olha para os documentos que eles trouxeram.
+— Vocês finalmente chegaram.
 
-— Vieram procurar alguém da família?
+Barbara observa os documentos que vocês trouxeram.
 
-A investigação está prestes a começar.
+— Vieram procurar respostas sobre a família, não é?
+
+A investigação começa.
 """)
 
     criar_botao("🗣️ Conversar com Milo", fase4_milo)
     criar_botao("🗣️ Conversar com Barbara", fase4_barbara)
 
 
-# =========================================================
-# FASE 4
-# =========================================================
-
 def fase4_milo(event):
     state["confianca_milo"] += 1
     state["pistas"] += 1
-
-    preparar(4)
-
-    mostrar("""
-🗣️ MILO
-
-Milo explica que sua família vive na ilha há gerações.
-
-Por conhecer a ilha desde criança, ele sabe onde ficam
-as trilhas, as casas antigas e alguns lugares que nem aparecem
-nos mapas.
-
-Ele também conta que alguns moradores desapareceram
-ao longo dos anos.
-
-— Se vocês estão procurando respostas, posso ajudar.
-
-Milo menciona uma região antiga da ilha onde ninguém gosta de entrar.
-
-Talvez seja lá que o mistério tenha começado.
-""")
-
-    criar_botao("➡️ Continuar", fase5)
+    fase4()
 
 
 def fase4_barbara(event):
     state["confianca_barbara"] += 1
     state["pistas"] += 1
+    fase4()
 
+
+# =========================================================
+# FASE 4
+# =========================================================
+
+def fase4(event=None):
     preparar(4)
 
     mostrar("""
-🗣️ BARBARA
+🏘️ A VILA
 
-Barbara conta que sua família também vive na ilha há muitas gerações.
+Milo e Barbara mostram a vila para vocês.
 
-Ela conhece histórias sobre símbolos antigos encontrados pela região.
+Eles explicam que a ilha possui vários lugares antigos
+que quase ninguém visita mais.
 
-Segundo sua família, esses símbolos estavam relacionados
-à proteção da ilha contra alguma coisa.
+Existe uma igreja abandonada.
 
-Barbara acredita que os documentos de Olivier e Amelie
-podem estar ligados a essa história.
+Existe uma casa que ficou vazia depois que o antigo
+morador desapareceu.
 
-— Talvez sua família tenha deixado alguma coisa aqui.
+E existe um velho farol no alto das pedras.
 
-A investigação continua.
+Segundo Milo, todos esses lugares possuem alguma ligação
+com o passado da ilha.
+
+Barbara acredita que os documentos da família podem
+ajudar a descobrir a verdade.
+
+Por onde vocês vão começar?
 """)
 
-    criar_botao("➡️ Continuar", fase5)
+    criar_botao("⛪ Ir para a igreja", fase5)
+    criar_botao("🏚️ Ir para a casa abandonada", fase6)
+    criar_botao("🔦 Ir para o farol", fase7)
 
 
 # =========================================================
@@ -273,26 +275,80 @@ def fase5(event=None):
     preparar(5)
 
     mostrar("""
-🏘️ A VILA
+⛪ A IGREJA ABANDONADA
 
-Milo e Barbara mostram a vila para Amelie e Olivier.
+A igreja está abandonada há muitos anos.
 
-Existem três lugares importantes:
+Milo explica que quase ninguém entra ali.
 
-⛪ Uma igreja antiga.
+Barbara percebe vários símbolos desenhados nas paredes.
 
-🏚️ Uma casa abandonada.
+Alguns deles parecem muito antigos.
 
-🔦 Um velho farol.
+Ela reconhece alguns símbolos porque sua família já havia
+contado histórias sobre eles.
 
-Cada lugar pode esconder uma pista diferente.
+Existe alguma coisa escondida naquele lugar.
 
-Onde vocês vão começar?
+O que vocês procuram?
 """)
 
-    criar_botao("⛪ Ir para a igreja", fase6)
-    criar_botao("🏚️ Ir para a casa abandonada", fase7)
-    criar_botao("🔦 Ir para o farol", fase8)
+    criar_botao("🔎 Examinar os símbolos", fase5_simbolos)
+    criar_botao("📖 Procurar documentos", fase5_documentos)
+
+
+def fase5_simbolos(event):
+    state["pistas"] += 2
+    pegar("fotografia dos símbolos")
+
+    limpar()
+
+    mostrar("""
+🔎 OS SÍMBOLOS
+
+Barbara observa cuidadosamente os desenhos.
+
+Alguns símbolos parecem formar um caminho.
+
+Milo percebe que determinados sinais apontam para
+a direção da floresta.
+
+Você tira uma fotografia para poder analisar os símbolos
+mais tarde.
+
+Talvez essa seja uma das pistas deixadas pelos antigos
+moradores da ilha.
+""")
+
+    atualizar_status()
+    criar_botao("🌲 Continuar", fase8)
+
+
+def fase5_documentos(event):
+    state["pistas"] += 3
+    pegar("livro antigo")
+
+    limpar()
+
+    mostrar("""
+📖 O LIVRO ANTIGO
+
+Atrás de um banco velho vocês encontram um livro.
+
+As páginas estão amareladas e algumas palavras estão
+quase apagadas.
+
+O livro fala sobre uma criatura que estaria escondida
+nas profundezas da ilha.
+
+Uma das páginas menciona um símbolo capaz de enfraquecer
+a criatura.
+
+Essa descoberta pode ser muito importante.
+""")
+
+    atualizar_status()
+    criar_botao("🌲 Continuar", fase8)
 
 
 # =========================================================
@@ -303,129 +359,84 @@ def fase6(event=None):
     preparar(6)
 
     mostrar("""
-⛪ A IGREJA
-
-A igreja está abandonada há muitos anos.
-
-Milo e Barbara conhecem o lugar.
-
-Nas paredes existem símbolos antigos.
-
-Barbara reconhece alguns deles.
-
-— Minha família falava sobre esses símbolos.
-
-Vocês começam a investigar.
-""")
-
-    criar_botao("🔎 Examinar os símbolos", fase6_simbolos)
-    criar_botao("📖 Procurar documentos", fase6_documentos)
-
-
-def fase6_simbolos(event):
-    state["pistas"] += 2
-    pegar("fotografia dos símbolos")
-
-    mostrar("""
-Os símbolos parecem formar um caminho.
-
-Barbara percebe que alguns desenhos apontam para a floresta.
-
-Você fotografa os símbolos para estudar depois.
-
-Talvez eles sejam uma pista importante.
-""")
-
-    atualizar_status()
-    criar_botao("🌲 Continuar", fase9)
-
-
-def fase6_documentos(event):
-    state["pistas"] += 3
-    pegar("livro antigo")
-
-    mostrar("""
-Atrás de um banco antigo vocês encontram um livro.
-
-Ele fala sobre uma criatura que estaria escondida
-nas profundezas da ilha.
-
-Uma das páginas menciona um símbolo capaz de enfraquecê-la.
-
-Essa informação pode ser muito importante.
-""")
-
-    atualizar_status()
-    criar_botao("🌲 Continuar", fase9)
-
-
-# =========================================================
-# FASE 7
-# =========================================================
-
-def fase7(event=None):
-    preparar(7)
-
-    mostrar("""
 🏚️ A CASA ABANDONADA
 
 Milo leva vocês até uma casa abandonada.
 
-O antigo morador desapareceu muitos anos atrás.
+Segundo ele, o antigo morador desapareceu muitos anos
+atrás e nunca voltou.
 
-Dentro existem documentos, fotografias e objetos.
+Dentro da casa existem móveis velhos, fotografias,
+documentos e objetos cobertos de poeira.
 
-Talvez alguma dessas coisas explique o passado da ilha.
+Alguma coisa ali pode explicar o passado da ilha.
 """)
 
-    criar_botao("📄 Procurar documentos", fase7_documentos)
-    criar_botao("⬆️ Subir as escadas", fase7_escadas)
-    criar_botao("⬇️ Investigar o porão", fase7_porao)
+    criar_botao("📄 Procurar documentos", fase6_documentos)
+    criar_botao("⬆️ Subir as escadas", fase6_escadas)
+    criar_botao("⬇️ Investigar o porão", fase6_porao)
 
 
-def fase7_documentos(event):
+def fase6_documentos(event):
     state["pistas"] += 3
     pegar("documentos da família")
 
+    limpar()
+
     mostrar("""
-Entre os documentos aparece o sobrenome da família.
+📄 OS DOCUMENTOS
+
+Entre os documentos antigos aparece o sobrenome da família.
 
 Barbara fica surpresa.
 
-— Sua família realmente esteve aqui.
+— Então sua família realmente esteve aqui.
 
-Agora existe uma ligação clara entre vocês e o passado da ilha.
+Os papéis mostram que alguém da família esteve envolvido
+com os acontecimentos misteriosos da ilha.
+
+Agora existe uma ligação clara entre vocês e o passado.
 """)
 
     atualizar_status()
-    criar_botao("🌲 Continuar", fase9)
+    criar_botao("🌲 Continuar", fase8)
 
 
-def fase7_escadas(event):
+def fase6_escadas(event):
     state["pistas"] += 2
     pegar("fotografia antiga")
 
+    limpar()
+
     mostrar("""
-No andar de cima vocês encontram uma fotografia.
+📸 A FOTOGRAFIA
+
+No andar de cima vocês encontram uma fotografia antiga.
 
 Ela mostra algumas pessoas diante da floresta.
 
 Uma delas parece ser o parente desaparecido.
 
-Milo reconhece o lugar.
+Milo observa a fotografia por alguns segundos.
 
-— Eu sei onde isso foi tirado.
+— Eu conheço esse lugar.
+
+A fotografia pode indicar o próximo destino.
 """)
 
     atualizar_status()
-    criar_botao("🌲 Continuar", fase9)
+    criar_botao("🌲 Continuar", fase8)
 
 
-def fase7_porao(event):
+def fase6_porao(event):
     state["pistas"] += 3
     pegar("fotografia antiga")
 
+    limpar()
+
     mostrar("""
+🕯️ O PORÃO
+
 No porão existe uma caixa escondida.
 
 Dentro dela há uma fotografia antiga.
@@ -434,19 +445,22 @@ No verso está escrito:
 
 "Aquilo que está abaixo da ilha nunca deve ser despertado."
 
-O segredo parece estar relacionado às cavernas.
+O aviso deixa todos em silêncio.
+
+Barbara acredita que a mensagem pode estar relacionada
+às cavernas da ilha.
 """)
 
     atualizar_status()
-    criar_botao("🌲 Continuar", fase9)
+    criar_botao("🌲 Continuar", fase8)
 
 
 # =========================================================
-# FASE 8
+# FASE 7
 # =========================================================
 
-def fase8(event=None):
-    preparar(8)
+def fase7(event=None):
+    preparar(7)
 
     state["pistas"] += 3
     pegar("fotografia da criatura")
@@ -460,34 +474,36 @@ Milo conhece o caminho e acompanha vocês.
 
 No topo existe uma caixa antiga.
 
-Dentro dela há uma fotografia.
+Dentro dela existe uma fotografia estranha.
 
-Ao fundo aparece uma figura estranha.
+Ao fundo aparece uma figura que ninguém consegue
+identificar direito.
 
-Barbara fica assustada.
+Barbara fica preocupada.
 
 — Então as histórias podem ser verdadeiras.
+
+A fotografia é mais uma pista.
 """)
 
     atualizar_status()
-    criar_botao("🌙 Continuar", fase9)
+    criar_botao("🌙 Continuar", fase8)
 
 
 # =========================================================
-# FASE 9
+# FASE 8
 # =========================================================
 
-def fase9(event=None):
-    preparar(9)
+def fase8(event=None):
+    preparar(8)
 
     mostrar("""
 🌙 A PRIMEIRA NOITE
 
-A investigação demora mais do que esperavam.
+A investigação demora mais do que vocês esperavam.
 
-A noite chega.
-
-Milo e Barbara levam vocês para uma casa segura na vila.
+Quando a noite chega, Milo e Barbara levam vocês
+para uma casa segura na vila.
 
 Durante a madrugada, alguém bate na janela.
 
@@ -502,45 +518,134 @@ Milo pede para ninguém abrir.
 O que você faz?
 """)
 
-    criar_botao("🪟 Abrir a janela", fase9_janela)
-    criar_botao("😶 Ignorar", fase9_ignorar)
+    criar_botao("🪟 Abrir a janela", fase8_janela)
+    criar_botao("😶 Ignorar", fase8_ignorar)
 
 
-def fase9_janela(event):
+def fase8_janela(event):
     perder_sanidade()
     state["pistas"] += 2
 
+    limpar()
+
     mostrar("""
+🪟 A JANELA
+
 Você abre a janela.
 
-Não há ninguém.
+Não existe ninguém do lado de fora.
 
-Mas existem marcas profundas no chão.
+Porém, existem marcas profundas no chão.
 
-Milo reconhece as marcas.
+Milo observa as marcas.
 
 — Eu já vi isso antes.
 
 Barbara olha para a floresta.
 
 — Então ela voltou.
+
+Ninguém sabe exatamente o que deixou aquelas marcas.
 """)
 
-    criar_botao("🌅 Continuar", fase10)
+    atualizar_status()
+    criar_botao("🌅 Continuar", fase9)
 
 
-def fase9_ignorar(event):
+def fase8_ignorar(event):
     state["pistas"] += 1
 
+    limpar()
+
     mostrar("""
-Vocês decidem ignorar as batidas.
+😶 O SILÊNCIO
+
+Vocês decidem não abrir a janela.
 
 Quando amanhece, encontram marcas no chão perto da casa.
 
 Alguma coisa esteve ali durante a noite.
+
+Milo acredita que as marcas podem estar relacionadas
+ao mistério que vocês estão investigando.
 """)
 
-    criar_botao("🌅 Continuar", fase10)
+    atualizar_status()
+    criar_botao("🌅 Continuar", fase9)
+
+
+# =========================================================
+# FASE 9
+# =========================================================
+
+def fase9(event=None):
+    preparar(9)
+
+    mostrar("""
+🚨 O DESAPARECIMENTO
+
+Na manhã seguinte, um morador da ilha desaparece.
+
+Milo conhece o homem e fica preocupado.
+
+Barbara começa a procurar informações.
+
+As marcas encontradas durante a noite podem estar
+relacionadas ao desaparecimento.
+
+Vocês precisam descobrir para onde ele foi.
+""")
+
+    criar_botao("🏘️ Procurar na vila", fase9_vila)
+    criar_botao("🌲 Procurar na floresta", fase9_floresta)
+
+
+def fase9_vila(event):
+    state["pistas"] += 1
+
+    limpar()
+
+    mostrar("""
+🏘️ A VILA
+
+Vocês procuram pela vila.
+
+Depois de algum tempo encontram marcas no chão.
+
+As marcas seguem para fora da vila.
+
+Milo aponta para a floresta.
+
+— Ele provavelmente foi para lá.
+
+A investigação continua.
+""")
+
+    atualizar_status()
+    criar_botao("🔎 Continuar", fase10)
+
+
+def fase9_floresta(event):
+    state["pistas"] += 2
+
+    limpar()
+
+    mostrar("""
+🌲 A FLORESTA
+
+Vocês seguem as marcas diretamente para a floresta.
+
+As pegadas parecem recentes.
+
+Barbara encontra um objeto no caminho.
+
+Talvez ele pertença ao morador desaparecido.
+
+Vocês decidem continuar seguindo a trilha.
+""")
+
+    atualizar_status()
+    criar_botao("🔎 Continuar", fase10)
 
 
 # =========================================================
@@ -550,57 +655,28 @@ Alguma coisa esteve ali durante a noite.
 def fase10(event=None):
     preparar(10)
 
-    mostrar("""
-🚨 O DESAPARECIMENTO
-
-Na manhã seguinte, um morador desaparece.
-
-Milo conhece o homem.
-
-Barbara começa a procurar informações.
-
-As marcas encontradas durante a noite podem estar relacionadas
-ao desaparecimento.
-
-Vocês precisam investigar.
-""")
-
-    criar_botao("🏘️ Procurar na vila", fase10_vila)
-    criar_botao("🌲 Procurar na floresta", fase10_floresta)
-
-
-def fase10_vila(event):
-    state["pistas"] += 1
-
-    mostrar("""
-Vocês procuram pela vila.
-
-Encontram marcas no chão.
-
-Elas seguem para fora da vila.
-
-Milo aponta para a floresta.
-
-— Ele provavelmente foi para lá.
-""")
-
-    criar_botao("🔎 Continuar", fase11)
-
-
-def fase10_floresta(event):
+    pegar("objeto do desaparecido")
     state["pistas"] += 2
 
     mostrar("""
-Vocês seguem as marcas diretamente para a floresta.
+🔎 A INVESTIGAÇÃO
 
-As pegadas parecem recentes.
+As marcas continuam pela floresta.
 
-Barbara encontra um objeto no caminho.
+Depois de algum tempo vocês encontram um objeto
+pertencente ao morador desaparecido.
 
-Talvez pertença ao homem desaparecido.
+Milo reconhece o objeto imediatamente.
+
+— Isso é dele.
+
+A trilha continua em direção a uma região mais afastada.
+
+Vocês decidem seguir.
 """)
 
-    criar_botao("🔎 Continuar", fase11)
+    atualizar_status()
+    criar_botao("🌲 Continuar", fase11)
 
 
 # =========================================================
@@ -610,26 +686,24 @@ Talvez pertença ao homem desaparecido.
 def fase11(event=None):
     preparar(11)
 
-    pegar("objeto do desaparecido")
-    state["pistas"] += 2
-
     mostrar("""
-🔎 A INVESTIGAÇÃO
+🌲 A FLORESTA
 
-As marcas continuam pela floresta.
+Milo lidera o grupo.
 
-Depois de algum tempo vocês encontram um objeto pertencente
-ao desaparecido.
+Como mora na ilha desde criança, ele conhece muitos
+dos caminhos escondidos.
 
-Milo reconhece.
+Uma trilha estreita aparece entre as árvores.
 
-— Isso é dele.
+No final dela existe uma pequena cabana.
 
-A trilha continua em direção a uma região mais afastada.
+Talvez o desaparecido tenha passado por lá.
+
+Vocês se aproximam.
 """)
 
-    atualizar_status()
-    criar_botao("🌲 Continuar", fase12)
+    criar_botao("🥾 Seguir a trilha", fase12)
 
 
 # =========================================================
@@ -640,18 +714,24 @@ def fase12(event=None):
     preparar(12)
 
     mostrar("""
-🌲 A FLORESTA
+🔥 O ACAMPAMENTO
 
-Milo lidera o grupo.
+A noite chega antes que vocês consigam voltar.
 
-Como mora na ilha desde criança, ele conhece muitos dos caminhos.
+O grupo decide montar um pequeno acampamento.
 
-Uma trilha escondida leva até uma pequena cabana.
+Milo conta histórias que ouviu de seu avô sobre a ilha.
 
-Vocês decidem investigar.
+Barbara explica que os símbolos antigos podem estar
+relacionados à criatura.
+
+Todos percebem que estão cada vez mais perto da verdade.
+
+Mas ninguém sabe o que encontrará quando chegar
+às profundezas da ilha.
 """)
 
-    criar_botao("🥾 Seguir a trilha", fase13)
+    criar_botao("🌅 Continuar", fase13)
 
 
 # =========================================================
@@ -661,22 +741,27 @@ Vocês decidem investigar.
 def fase13(event=None):
     preparar(13)
 
+    state["pistas"] += 2
+
     mostrar("""
-🔥 O ACAMPAMENTO
+🐾 AS PEGADAS
 
-A noite chega antes que vocês consigam voltar.
+Na manhã seguinte, novas pegadas aparecem perto
+do acampamento.
 
-O grupo monta um pequeno acampamento.
+Elas são muito maiores do que pegadas humanas.
 
-Milo conta histórias que ouviu do avô.
+Milo observa atentamente.
 
-Barbara explica que os símbolos antigos podem estar relacionados
-à criatura.
+— Elas vão naquela direção.
 
-Todos percebem que estão cada vez mais perto da verdade.
+Entre as árvores aparece uma pequena cabana.
+
+Vocês seguem as pegadas até lá.
 """)
 
-    criar_botao("🌅 Continuar", fase14)
+    atualizar_status()
+    criar_botao("🏚️ Ir para a cabana", fase14)
 
 
 # =========================================================
@@ -686,26 +771,29 @@ Todos percebem que estão cada vez mais perto da verdade.
 def fase14(event=None):
     preparar(14)
 
-    state["pistas"] += 2
+    pegar("diário")
+    state["pistas"] += 3
 
     mostrar("""
-🐾 AS PEGADAS
+📖 A CABANA
 
-Na manhã seguinte, novas pegadas aparecem.
+Dentro da cabana existem mapas, livros e objetos antigos.
 
-Elas são muito maiores que pegadas humanas.
+Barbara encontra um diário.
 
-Milo observa.
+As anotações falam sobre uma criatura escondida
+nas profundezas da ilha.
 
-— Elas vão naquela direção.
+Também existe uma referência a um símbolo capaz
+de enfraquecê-la.
 
-Uma pequena cabana aparece entre as árvores.
+Agora vocês possuem uma pista muito importante.
 
-Vocês seguem até lá.
+O diário pode revelar o que aconteceu no passado.
 """)
 
     atualizar_status()
-    criar_botao("🏚️ Ir para a cabana", fase15)
+    criar_botao("📖 Ler o diário", fase15)
 
 
 # =========================================================
@@ -715,25 +803,31 @@ Vocês seguem até lá.
 def fase15(event=None):
     preparar(15)
 
-    pegar("diário")
+    state["monstro_fraqueza"] = True
     state["pistas"] += 3
 
     mostrar("""
-📖 A CABANA
+📖 O DIÁRIO
 
-Dentro da cabana existem mapas e livros antigos.
+O diário revela que antigos moradores descobriram
+uma criatura nas profundezas da ilha.
 
-Barbara encontra um diário.
+Eles tentaram impedir que ela chegasse à superfície.
 
-Ele fala sobre uma criatura escondida nas profundezas da ilha.
+Depois de muito tempo, descobriram que um símbolo antigo
+era capaz de enfraquecer a criatura.
 
-Também menciona um símbolo capaz de enfraquecê-la.
+O símbolo foi escondido para que ninguém pudesse
+usá-lo de maneira errada.
 
-Agora vocês possuem uma pista muito importante.
+A última anotação diz que alguém da família precisaria
+encontrar o símbolo novamente.
+
+Talvez vocês tenham chegado à ilha justamente para isso.
 """)
 
     atualizar_status()
-    criar_botao("📖 Ler o diário", fase16)
+    criar_botao("🎒 Preparar equipamentos", fase16)
 
 
 # =========================================================
@@ -743,27 +837,73 @@ Agora vocês possuem uma pista muito importante.
 def fase16(event=None):
     preparar(16)
 
-    state["monstro_fraqueza"] = True
-    state["pistas"] += 3
+    mostrar("""
+🎒 PREPARAÇÃO
+
+Agora vocês sabem que a criatura existe.
+
+Antes de continuar, o grupo organiza tudo o que encontrou.
+
+Milo verifica os equipamentos.
+
+Barbara revisa as pistas.
+
+O símbolo pode ser a chave para enfrentar a criatura.
+
+Vocês precisam decidir o que preparar.
+""")
+
+    criar_botao("🎒 Organizar equipamentos", fase16_equipamentos)
+    criar_botao("🔱 Procurar o símbolo", fase16_simbolo)
+
+
+def fase16_equipamentos(event):
+    pegar("equipamento")
+    state["batalha"] += 2
+
+    limpar()
 
     mostrar("""
-📖 O DIÁRIO
+🎒 EQUIPAMENTOS
 
-O diário revela que antigos moradores descobriram uma criatura
-nas profundezas da ilha.
+Vocês organizam os equipamentos encontrados.
 
-Eles descobriram que um símbolo antigo podia enfraquecê-la.
+Milo verifica tudo cuidadosamente.
 
-O símbolo foi escondido.
+Barbara guarda as pistas mais importantes.
 
-A última anotação diz que alguém da família precisaria
-encontrar o símbolo novamente.
-
-Talvez vocês sejam essa pessoa.
+O grupo está mais preparado para continuar.
 """)
 
     atualizar_status()
-    criar_botao("🎒 Preparar equipamentos", fase17)
+    criar_botao("🌊 Continuar", fase17)
+
+
+def fase16_simbolo(event):
+    pegar("símbolo antigo")
+    state["monstro_fraqueza"] = True
+    state["batalha"] += 3
+
+    limpar()
+
+    mostrar("""
+🔱 O SÍMBOLO ANTIGO
+
+Entre os objetos antigos vocês encontram um símbolo.
+
+Barbara reconhece imediatamente o desenho.
+
+— É exatamente o símbolo descrito no diário.
+
+Milo percebe que ele pode ser a chave para enfrentar
+a criatura.
+
+Agora vocês possuem uma das coisas mais importantes
+da investigação.
+""")
+
+    atualizar_status()
+    criar_botao("🌊 Continuar", fase17)
 
 
 # =========================================================
@@ -774,59 +914,48 @@ def fase17(event=None):
     preparar(17)
 
     mostrar("""
-🎒 PREPARAÇÃO
+🌊 O LAGO
 
-Agora vocês sabem que a criatura existe.
+As pistas levam vocês até um lago escondido.
 
-Antes de continuar, o grupo organiza tudo o que encontrou
-durante a investigação.
+Perto da margem existe um pequeno cristal.
 
-Milo verifica os equipamentos.
+Barbara percebe que o cristal reage ao símbolo antigo.
 
-Barbara revisa as pistas.
+Talvez ele tenha alguma relação com a criatura.
 
-Vocês precisam decidir o que levar.
+O que vocês fazem?
 """)
 
-    criar_botao("🎒 Organizar equipamentos", fase17_equipamentos)
-    criar_botao("🔱 Preparar o símbolo", fase17_simbolo)
+    criar_botao("🔎 Pegar o cristal", fase17_cristal)
+    criar_botao("➡️ Continuar", fase18)
 
 
-def fase17_equipamentos(event):
-    pegar("equipamento")
-    state["batalha"] += 2
+def fase17_cristal(event):
+    pegar("cristal")
+    state["pistas"] += 2
+
+    limpar()
 
     mostrar("""
-Vocês organizam os equipamentos.
+💎 O CRISTAL
 
-Milo verifica tudo.
+Você pega o cristal.
 
-Barbara guarda as pistas mais importantes.
+Ele reage imediatamente ao símbolo antigo.
 
-O grupo está mais preparado.
+Uma luz percorre as pedras próximas.
+
+Barbara observa surpresa.
+
+— O cristal e o símbolo estão conectados.
+
+A ligação entre os objetos e a criatura parece cada
+vez mais clara.
 """)
 
     atualizar_status()
-    criar_botao("🌊 Continuar", fase18)
-
-
-def fase17_simbolo(event):
-    pegar("símbolo antigo")
-    state["monstro_fraqueza"] = True
-    state["batalha"] += 3
-
-    mostrar("""
-Entre os objetos antigos vocês encontram o símbolo original.
-
-Barbara reconhece o desenho.
-
-— É exatamente o símbolo descrito no diário.
-
-Milo percebe que ele pode ser a chave para enfrentar a criatura.
-""")
-
-    atualizar_status()
-    criar_botao("🌊 Continuar", fase18)
+    criar_botao("🕳️ Continuar", fase18)
 
 
 # =========================================================
@@ -837,37 +966,23 @@ def fase18(event=None):
     preparar(18)
 
     mostrar("""
-🌊 O LAGO
+🕳️ A CAVERNA
 
-As pistas levam vocês até um lago.
+O caminho termina diante de uma enorme caverna.
 
-Perto da margem existe um pequeno cristal.
+Milo reconhece o lugar.
 
-Barbara percebe que ele reage ao símbolo.
+— Meu avô falava dessa caverna.
 
-O cristal pode ser importante.
+Nas paredes existem os mesmos símbolos encontrados
+na igreja.
+
+A entrada parece levar para o interior da ilha.
+
+Vocês respiram fundo e entram.
 """)
 
-    criar_botao("🔎 Pegar o cristal", fase18_cristal)
-    criar_botao("➡️ Continuar", fase19)
-
-
-def fase18_cristal(event):
-    pegar("cristal")
-    state["pistas"] += 2
-
-    mostrar("""
-Você pega o cristal.
-
-Ele reage imediatamente ao símbolo antigo.
-
-Uma luz percorre as paredes próximas.
-
-A conexão entre o cristal e a criatura parece cada vez mais clara.
-""")
-
-    atualizar_status()
-    criar_botao("🕳️ Continuar", fase19)
+    criar_botao("🚪 Entrar na caverna", fase19)
 
 
 # =========================================================
@@ -877,21 +992,29 @@ A conexão entre o cristal e a criatura parece cada vez mais clara.
 def fase19(event=None):
     preparar(19)
 
+    perder_sanidade()
+
     mostrar("""
-🕳️ A CAVERNA
+👹 O PRIMEIRO ENCONTRO
 
-O caminho termina diante de uma enorme caverna.
+Um som estranho ecoa pela caverna.
 
-Milo reconhece o lugar.
+O grupo para.
 
-— Meu avô falava dessa caverna.
+Uma enorme silhueta aparece no fim do corredor.
 
-Nas paredes existem os mesmos símbolos encontrados na igreja.
+Barbara reconhece os símbolos nas paredes.
 
-Vocês entram.
+Milo finalmente entende o que está acontecendo.
+
+— A criatura existe.
+
+Vocês percebem que ainda não estão preparados.
+
+A única opção é fugir e descobrir como enfrentá-la.
 """)
 
-    criar_botao("🚪 Entrar na caverna", fase20)
+    criar_botao("🏃 Fugir", fase20)
 
 
 # =========================================================
@@ -901,27 +1024,24 @@ Vocês entram.
 def fase20(event=None):
     preparar(20)
 
-    perder_sanidade()
-
     mostrar("""
-👹 O PRIMEIRO ENCONTRO
+🏃 A FUGA
 
-Um som estranho ecoa pela caverna.
+O grupo corre pelos corredores da caverna.
 
-Uma enorme silhueta aparece no fim do corredor.
+Milo usa seu conhecimento da ilha para encontrar
+uma saída.
 
-Barbara reconhece os símbolos nas paredes.
+Depois de algum tempo vocês conseguem escapar.
 
-Milo entende o que está acontecendo.
+Todos estão cansados, mas conseguiram sair.
 
-— A criatura existe.
+Agora vocês sabem que a criatura realmente existe.
 
-Vocês ainda não estão preparados.
-
-Precisam fugir e descobrir como enfrentá-la.
+E precisam descobrir sua verdadeira fraqueza.
 """)
 
-    criar_botao("🏃 Fugir", fase21)
+    criar_botao("🔎 Descobrir a fraqueza", fase21)
 
 
 # =========================================================
@@ -930,28 +1050,6 @@ Precisam fugir e descobrir como enfrentá-la.
 
 def fase21(event=None):
     preparar(21)
-
-    mostrar("""
-🏃 A FUGA
-
-O grupo corre pelos corredores.
-
-Milo usa seu conhecimento da ilha para encontrar uma saída.
-
-Depois de algum tempo vocês conseguem escapar.
-
-Agora precisam descobrir a verdadeira fraqueza da criatura.
-""")
-
-    criar_botao("🔎 Descobrir a fraqueza", fase22)
-
-
-# =========================================================
-# FASE 22
-# =========================================================
-
-def fase22(event=None):
-    preparar(22)
 
     state["monstro_fraqueza"] = True
     state["pistas"] += 3
@@ -970,11 +1068,39 @@ Milo respira fundo.
 
 — Então podemos tentar.
 
+Agora o grupo sabe que existe uma maneira de enfrentar
+a criatura.
+
 Vocês voltam para o esconderijo.
 """)
 
     atualizar_status()
-    criar_botao("🏚️ Ir para o esconderijo", fase23)
+    criar_botao("🏚️ Ir para o esconderijo", fase22)
+
+
+# =========================================================
+# FASE 22
+# =========================================================
+
+def fase22(event=None):
+    preparar(22)
+
+    mostrar("""
+🏚️ O ESCONDERIJO
+
+As pistas levam vocês para uma região subterrânea.
+
+Ali existem documentos antigos e inscrições nas paredes.
+
+Tudo indica que aquele lugar foi usado para esconder
+informações sobre a criatura.
+
+Uma grande porta está no final do corredor.
+
+O segredo está atrás dela.
+""")
+
+    criar_botao("🚪 Abrir a porta", fase23)
 
 
 # =========================================================
@@ -985,21 +1111,25 @@ def fase23(event=None):
     preparar(23)
 
     mostrar("""
-🏚️ O ESCONDERIJO
+🆘 O RESGATE
 
-As pistas levam vocês para uma região subterrânea.
+Antes de chegar à sala principal, vocês encontram
+o morador desaparecido.
 
-Ali existem documentos antigos e inscrições.
+Milo corre para ajudá-lo.
 
-Tudo indica que aquele lugar foi usado para esconder
-informações sobre a criatura.
+O homem explica que foi levado para a região subterrânea.
 
-Uma grande porta está no final do corredor.
+Ele conseguiu escapar e encontrou aquele esconderijo.
 
-O segredo está atrás dela.
+— Ela está acordada — ele avisa.
+
+O grupo percebe que não existe mais tempo a perder.
+
+É preciso continuar.
 """)
 
-    criar_botao("🚪 Abrir a porta", fase24)
+    criar_botao("🚶 Levar o homem para fora", fase24)
 
 
 # =========================================================
@@ -1008,33 +1138,6 @@ O segredo está atrás dela.
 
 def fase24(event=None):
     preparar(24)
-
-    mostrar("""
-🆘 O RESGATE
-
-Antes de chegar à sala principal, vocês encontram
-o morador desaparecido.
-
-Milo corre para ajudá-lo.
-
-O homem explica que foi levado para a caverna.
-
-Ele conseguiu escapar e encontrou aquele esconderijo.
-
-— Ela está acordada — ele avisa.
-
-Vocês precisam continuar.
-""")
-
-    criar_botao("🚶 Levar o homem embora", fase25)
-
-
-# =========================================================
-# FASE 25
-# =========================================================
-
-def fase25(event=None):
-    preparar(25)
 
     state["pistas"] += 1
 
@@ -1052,14 +1155,17 @@ Uma grande porta de pedra bloqueia o caminho.
 
 No centro existe um símbolo.
 
-Se vocês tiverem o símbolo antigo, a porta poderá ser aberta.
+Se vocês tiverem o símbolo antigo, a porta poderá
+ser aberta.
 """)
 
     if "símbolo antigo" in state["inv"]:
         mostrar("""
+🔱 O SÍMBOLO
+
 O símbolo se encaixa perfeitamente.
 
-A porta começa a abrir.
+A porta começa a abrir lentamente.
 
 Uma passagem escura aparece.
 
@@ -1067,6 +1173,8 @@ Vocês estão muito perto do segredo.
 """)
     else:
         mostrar("""
+⚠️ A PASSAGEM
+
 Vocês não possuem o símbolo original.
 
 Mesmo assim conseguem encontrar uma passagem lateral.
@@ -1074,7 +1182,40 @@ Mesmo assim conseguem encontrar uma passagem lateral.
 Agora precisam continuar com cuidado.
 """)
 
-    criar_botao("🚪 Entrar", fase26)
+    criar_botao("🚪 Entrar", fase25)
+
+
+# =========================================================
+# FASE 25
+# =========================================================
+
+def fase25(event=None):
+    preparar(25)
+
+    state["pistas"] += 3
+
+    mostrar("""
+📜 O PASSADO
+
+Dentro do esconderijo vocês encontram documentos antigos.
+
+Eles confirmam que o parente de """ + state["personagem"] + """
+esteve na ilha.
+
+Ele descobriu a criatura e tentou impedir que ela voltasse
+a ameaçar os moradores.
+
+Uma anotação diz que alguém da família precisaria
+terminar o que ele começou.
+
+Agora vocês entendem por que os documentos foram escondidos.
+
+O passado da família está diretamente ligado ao segredo
+da ilha.
+""")
+
+    atualizar_status()
+    criar_botao("⚔️ Continuar", fase26)
 
 
 # =========================================================
@@ -1083,37 +1224,6 @@ Agora precisam continuar com cuidado.
 
 def fase26(event=None):
     preparar(26)
-
-    state["pistas"] += 3
-
-    mostrar("""
-📜 O PASSADO
-
-Dentro do esconderijo vocês encontram documentos.
-
-Eles confirmam que o parente de Olivier ou Amelie esteve na ilha.
-
-Ele descobriu a criatura e tentou impedir que ela voltasse
-a ameaçar os moradores.
-
-Uma anotação diz:
-
-"Se alguém da minha família encontrar este lugar,
-precisará terminar o que comecei."
-
-Agora vocês entendem por que os documentos foram escondidos.
-""")
-
-    atualizar_status()
-    criar_botao("⚔️ Continuar", fase27)
-
-
-# =========================================================
-# FASE 27
-# =========================================================
-
-def fase27(event=None):
-    preparar(27)
 
     mostrar("""
 ⚔️ A PREPARAÇÃO FINAL
@@ -1125,21 +1235,27 @@ Milo e Barbara estão prontos para ajudar.
 O símbolo antigo pode ser usado para enfraquecê-la.
 
 O grupo se prepara para o confronto final.
+
+Agora é preciso decidir como se preparar.
 """)
 
-    criar_botao("🔱 Preparar o símbolo", fase27_simbolo)
-    criar_botao("🎒 Organizar equipamentos", fase27_equipamentos)
+    criar_botao("🔱 Preparar o símbolo", fase26_simbolo)
+    criar_botao("🎒 Organizar equipamentos", fase26_equipamentos)
 
 
-def fase27_simbolo(event):
+def fase26_simbolo(event):
     if "símbolo antigo" in state["inv"]:
         state["batalha"] += 3
         state["monstro_fraqueza"] = True
 
+        limpar()
+
         mostrar("""
+🔱 O SÍMBOLO ESTÁ PRONTO
+
 O símbolo começa a reagir.
 
-O cristal brilha.
+O cristal também começa a brilhar.
 
 Barbara percebe que a criatura está sendo afetada
 mesmo antes do confronto.
@@ -1147,40 +1263,52 @@ mesmo antes do confronto.
 Vocês estão preparados.
 """)
     else:
+        limpar()
+
         mostrar("""
+⚠️ O SÍMBOLO NÃO FOI ENCONTRADO
+
 Vocês não conseguiram encontrar o símbolo original.
 
 Mesmo assim precisam continuar.
+
+Talvez ainda exista outra maneira de enfrentar
+a criatura.
 """)
 
     atualizar_status()
-    criar_botao("👹 Continuar", fase28)
+    criar_botao("👹 Continuar", fase27)
 
 
-def fase27_equipamentos(event):
+def fase26_equipamentos(event):
     pegar("equipamento")
     state["batalha"] += 2
 
+    limpar()
+
     mostrar("""
+🎒 EQUIPAMENTOS
+
 Vocês organizam os equipamentos.
 
 Milo verifica tudo.
 
 Barbara guarda as pistas.
 
-Agora o grupo está pronto.
+Agora o grupo está pronto para enfrentar
+o que existe naquela sala.
 """)
 
     atualizar_status()
-    criar_botao("👹 Continuar", fase28)
+    criar_botao("👹 Continuar", fase27)
 
 
 # =========================================================
-# FASE 28
+# FASE 27
 # =========================================================
 
-def fase28(event=None):
-    preparar(28)
+def fase27(event=None):
+    preparar(27)
 
     mostrar("""
 👹 O MONSTRO
@@ -1197,18 +1325,21 @@ Milo reconhece o local.
 
 Barbara segura o símbolo.
 
-Agora chegou a hora de decidir como enfrentar a criatura.
+Depois de tudo o que vocês descobriram,
+chegou a hora de enfrentar a criatura.
+
+Mas primeiro é preciso escolher uma estratégia.
 """)
 
-    criar_botao("⚔️ Preparar o confronto", fase29)
+    criar_botao("⚔️ Preparar o confronto", fase28)
 
 
 # =========================================================
-# FASE 29
+# FASE 28
 # =========================================================
 
-def fase29(event=None):
-    preparar(29)
+def fase28(event=None):
+    preparar(28)
 
     mostrar("""
 ⚔️ O CONFRONTO
@@ -1219,26 +1350,34 @@ O símbolo pode ser usado para enfraquecê-la.
 
 Milo e Barbara ajudam vocês.
 
+Cada escolha pode mudar o resultado do confronto.
+
 Escolha uma estratégia.
 """)
 
-    criar_botao("🔱 Ativar o símbolo", fase29_simbolo)
-    criar_botao("🛡️ Ajudar Milo", fase29_milo)
-    criar_botao("🛡️ Ajudar Barbara", fase29_barbara)
-    criar_botao("🏃 Recuar", fase29_recuar)
+    criar_botao("🔱 Ativar o símbolo", fase28_simbolo)
+    criar_botao("🛡️ Ajudar Milo", fase28_milo)
+    criar_botao("🛡️ Ajudar Barbara", fase28_barbara)
+    criar_botao("🏃 Recuar", fase28_recuar)
 
 
-def fase29_simbolo(event):
+def fase28_simbolo(event):
     if "símbolo antigo" in state["inv"]:
         state["batalha"] += 4
         state["monstro_fraqueza"] = True
 
+        limpar()
+
         mostrar("""
+🔱 O SÍMBOLO É ATIVADO
+
 Você ativa o símbolo antigo.
 
-As paredes brilham.
+As paredes começam a brilhar.
 
-A criatura perde força.
+O cristal reage.
+
+A criatura perde parte de sua força.
 
 Milo grita:
 
@@ -1249,87 +1388,112 @@ A estratégia está funcionando.
     else:
         perder_sanidade()
 
+        limpar()
+
         mostrar("""
-Você tenta ativar o símbolo, mas percebe que não o possui.
+⚠️ O SÍMBOLO NÃO ESTÁ COM VOCÊ
+
+Você tenta ativar o símbolo, mas percebe que não
+possui o objeto original.
 
 A criatura continua avançando.
+
+Vocês precisam pensar em outra maneira de continuar.
 """)
 
     atualizar_status()
-    criar_botao("🔥 Decisão final", fase30)
+    criar_botao("🔥 Decisão final", fase29)
 
 
-def fase29_milo(event):
+def fase28_milo(event):
     state["confianca_milo"] += 2
     state["batalha"] += 2
 
+    limpar()
+
     mostrar("""
-Você ajuda Milo.
+🛡️ AJUDANDO MILO
 
-Ele reconhece uma inscrição antiga.
+Você ajuda Milo a observar as inscrições.
 
-A descoberta ajuda o grupo a entender
-como utilizar os símbolos.
+Ele reconhece uma escrita antiga.
+
+A descoberta ajuda o grupo a entender como utilizar
+os símbolos.
+
+Milo ganha confiança e continua ajudando vocês.
+
+A criatura ainda está diante do grupo.
 """)
 
     atualizar_status()
-    criar_botao("🔥 Decisão final", fase30)
+    criar_botao("🔥 Decisão final", fase29)
 
 
-def fase29_barbara(event):
+def fase28_barbara(event):
     state["confianca_barbara"] += 2
     state["batalha"] += 2
 
+    limpar()
+
     mostrar("""
-Você ajuda Barbara.
+🛡️ AJUDANDO BARBARA
 
-Ela encontra uma inscrição escondida.
+Você ajuda Barbara a procurar uma inscrição escondida.
 
-A informação confirma a fraqueza da criatura.
+Ela encontra uma informação importante.
 
-Agora vocês sabem o que fazer.
+A descoberta confirma a fraqueza da criatura.
+
+Agora vocês sabem melhor o que fazer.
 """)
 
     atualizar_status()
-    criar_botao("🔥 Decisão final", fase30)
+    criar_botao("🔥 Decisão final", fase29)
 
 
-def fase29_recuar(event):
+def fase28_recuar(event):
     perder_vida()
 
+    limpar()
+
     mostrar("""
+🏃 RECUANDO
+
 Vocês recuam.
 
 A criatura avança.
 
 Milo e Barbara ajudam o grupo a se reorganizar.
 
-Agora não existe mais tempo para fugir da decisão.
+Todos percebem que não existe mais tempo para fugir
+da decisão.
+
+O confronto final está chegando.
 """)
 
     atualizar_status()
-    criar_botao("🔥 Decisão final", fase30)
+    criar_botao("🔥 Decisão final", fase29)
 
 
 # =========================================================
-# FASE 30 — ESCOLHA DOS FINAIS
+# FASE 29
 # =========================================================
 
-def fase30(event=None):
-    limpar()
-    atualizar_status()
+def fase29(event=None):
+    preparar(29)
 
     mostrar("""
 🔥 A ÚLTIMA ESCOLHA
 
 A criatura está diante de vocês.
 
-Depois de toda a investigação,
-o segredo da ilha finalmente foi descoberto.
+Depois de toda a investigação, o segredo da ilha
+finalmente foi descoberto.
 
 Agora você precisa tomar uma decisão.
 
-Qual será?
+O que você fará?
 """)
 
     criar_botao("⚔️ Derrotar o monstro", final_derrotar)
@@ -1338,7 +1502,7 @@ Qual será?
 
 
 # =========================================================
-# FINAL 1 — DERROTAR
+# DECISÕES DOS FINAIS
 # =========================================================
 
 def final_derrotar(event):
@@ -1351,12 +1515,8 @@ def final_derrotar(event):
     else:
         state["monstro_derrotado"] = False
 
-    mostrar_final()
+    fase30()
 
-
-# =========================================================
-# FINAL 3 — SELAR
-# =========================================================
 
 def final_selar(event):
     state["escolheu_derrotar"] = False
@@ -1364,12 +1524,8 @@ def final_selar(event):
     state["escolheu_fugir"] = False
     state["monstro_derrotado"] = False
 
-    mostrar_final()
+    fase30()
 
-
-# =========================================================
-# FINAL 4 — FUGIR
-# =========================================================
 
 def final_fugir(event):
     state["escolheu_derrotar"] = False
@@ -1377,17 +1533,18 @@ def final_fugir(event):
     state["escolheu_fugir"] = True
     state["monstro_derrotado"] = False
 
-    mostrar_final()
+    fase30()
 
 
 # =========================================================
-# MOSTRAR O FINAL CORRETO
+# FASE 30 — FINAIS
 # =========================================================
 
-def mostrar_final():
+def fase30(event=None):
     limpar()
     atualizar_status()
 
+    # FINAL 1 — DERROTOU O MONSTRO
     if state["escolheu_derrotar"] and state["monstro_derrotado"]:
 
         mostrar_imagem_final("final_01.png")
@@ -1399,20 +1556,32 @@ O símbolo antigo começa a brilhar.
 
 As inscrições da sala se iluminam.
 
+O cristal reage ao símbolo.
+
 A criatura perde completamente sua força.
 
 Milo e Barbara permanecem ao lado de vocês.
 
-Depois de tantos anos, o segredo da ilha finalmente chega ao fim.
+Depois de tantos anos, o segredo da ilha finalmente
+chega ao fim.
 
-Os documentos provam que o parente de Olivier ou Amelie
-tentou proteger a ilha no passado.
+Os documentos provam que o parente de """ + state["personagem"] + """
+esteve envolvido com os acontecimentos da ilha.
 
-Agora a verdade pode finalmente ser revelada.
+A verdade finalmente pode ser revelada.
+
+Milo e Barbara continuam na ilha, o lugar que sempre
+foi a casa deles.
+
+Olivier e Amelie conseguem voltar levando consigo
+as provas encontradas.
 
 🏝️ A ilha está livre da criatura.
+
+✨ VOCÊ CONSEGUIU O MELHOR FINAL!
 """)
 
+    # FINAL 2 — TENTOU DERROTAR, MAS NÃO CONSEGUIU
     elif state["escolheu_derrotar"]:
 
         mostrar_imagem_final("final_02.png")
@@ -1422,23 +1591,25 @@ Agora a verdade pode finalmente ser revelada.
 
 Vocês tentam derrotar a criatura.
 
-A estratégia funciona parcialmente,
-mas não é suficiente.
+A estratégia funciona parcialmente.
 
-A criatura recua para as profundezas.
+A criatura perde força, mas não é derrotada.
 
 Milo consegue levar todos para um lugar seguro.
 
 Vocês sobreviveram.
 
-Mas o segredo ainda não terminou.
+Porém, o segredo ainda não terminou.
 
-A criatura continua escondida.
+A criatura continua escondida nas profundezas.
 
-Talvez um dia alguém consiga terminar
+Talvez algum dia alguém consiga terminar
 o que vocês começaram.
+
+A ilha continua guardando seu segredo.
 """)
 
+    # FINAL 3 — SELAR
     elif state["escolheu_selar"]:
 
         mostrar_imagem_final("final_03.png")
@@ -1452,6 +1623,8 @@ Barbara ativa os símbolos antigos.
 
 Milo ajuda a manter o grupo seguro.
 
+O cristal começa a brilhar.
+
 A passagem começa a se fechar.
 
 A criatura desaparece novamente nas profundezas.
@@ -1461,8 +1634,15 @@ O segredo continua escondido.
 A ilha está segura...
 
 por enquanto.
+
+Milo e Barbara decidem continuar vivendo na ilha,
+enquanto Olivier e Amelie deixam o local levando
+as informações que descobriram.
+
+🏝️ O segredo continua.
 """)
 
+    # FINAL 4 — FUGA
     elif state["escolheu_fugir"]:
 
         mostrar_imagem_final("final_06.png")
@@ -1487,13 +1667,19 @@ Vocês sobreviveram.
 
 Mas nunca descobriram toda a verdade.
 
+A criatura continua nas profundezas.
+
 O segredo da ilha continua.
 """)
 
     mostrar("""
 🎮 FIM DO JOGO
 
-Obrigado por jogar O Segredo na Ilha!
+Obrigado por jogar:
+
+🏝️ O SEGREDO NA ILHA
+
+Cada escolha pode levar a um resultado diferente.
 """)
 
     criar_botao("🔄 Jogar novamente", reiniciar)
@@ -1531,7 +1717,7 @@ def reiniciar(event):
 
 
 # =========================================================
-# INICIAR O JOGO
+# COMEÇAR O JOGO
 # =========================================================
 
 fase1()
