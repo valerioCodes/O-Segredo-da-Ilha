@@ -3,21 +3,17 @@
 <html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>O Segredo na Ilha</title>
 
-<script
-    type="module"
+<script type="module"
     src="https://pyscript.net/releases/2025.3.1/core.js">
 </script>
 
 <style>
-
     body {
         margin: 0;
         background: #111;
@@ -34,11 +30,10 @@
 
     h1 {
         font-size: 36px;
-        margin-bottom: 10px;
     }
 
     #musica-controle {
-        margin: 15px 0 20px 0;
+        margin: 15px 0;
     }
 
     #botao-musica {
@@ -65,15 +60,6 @@
         margin-bottom: 20px;
     }
 
-    #status {
-        background: #252525;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 15px 0;
-        font-weight: bold;
-        text-align: center;
-    }
-
     #jogo {
         background: #1d1d1d;
         padding: 20px;
@@ -88,6 +74,15 @@
         font-family: Arial, sans-serif;
         font-size: 17px;
         line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    #status {
+        background: #252525;
+        padding: 12px;
+        border-radius: 10px;
+        margin: 15px 0;
+        font-weight: bold;
     }
 
     #botoes {
@@ -112,7 +107,6 @@
         transform: scale(1.03);
         background: #555;
     }
-
 </style>
 ```
 
@@ -125,11 +119,7 @@
 
     <h1>🏝️ O Segredo na Ilha</h1>
 
-
-    <!-- ========================= -->
     <!-- MÚSICA -->
-    <!-- ========================= -->
-
     <div id="musica-controle">
 
         <button id="botao-musica">
@@ -137,113 +127,63 @@
         </button>
 
         <audio id="musica" loop preload="auto">
-
-            <source
-                src="./m%C3%BAsica.mp3"
-                type="audio/mpeg">
-
+            <source src="./m%C3%BAsica.mp3" type="audio/mpeg">
         </audio>
 
     </div>
 
+    <!-- IMAGEM -->
+    <img id="imagem-fase" src="" alt="Imagem da fase">
 
-    <!-- ========================= -->
-    <!-- IMAGEM DA FASE -->
-    <!-- ========================= -->
-
-    <img
-        id="imagem-fase"
-        src=""
-        alt="Imagem da fase">
-
-
-    <!-- ========================= -->
     <!-- STATUS -->
-    <!-- ========================= -->
-
     <div id="status"></div>
 
-
-    <!-- ========================= -->
     <!-- TEXTO DO JOGO -->
-    <!-- ========================= -->
-
     <div id="jogo"></div>
 
-
-    <!-- ========================= -->
-    <!-- BOTÕES DO JOGO -->
-    <!-- ========================= -->
-
+    <!-- BOTÕES DAS ESCOLHAS -->
     <div id="botoes"></div>
 
 </div>
 
-
-<!-- ========================= -->
-<!-- CONTROLE DA MÚSICA -->
-<!-- ========================= -->
-
 <script>
+    const botaoMusica = document.getElementById("botao-musica");
+    const musica = document.getElementById("musica");
 
-    const musica =
-        document.getElementById("musica");
+    botaoMusica.addEventListener("click", async function () {
 
-    const botaoMusica =
-        document.getElementById("botao-musica");
-
-
-    botaoMusica.addEventListener(
-        "click",
-        function () {
+        try {
 
             if (musica.paused) {
 
-                musica.play()
-                    .then(function () {
+                await musica.play();
 
-                        botaoMusica.innerText =
-                            "🔇 Pausar música";
-
-                    })
-                    .catch(function (erro) {
-
-                        console.error(
-                            "Erro ao tocar música:",
-                            erro
-                        );
-
-                        alert(
-                            "A música não conseguiu tocar. " +
-                            "Verifique se o arquivo música.mp3 " +
-                            "está no mesmo lugar que o index.html."
-                        );
-
-                    });
+                botaoMusica.innerText = "🔇 Pausar música";
 
             } else {
 
                 musica.pause();
 
-                botaoMusica.innerText =
-                    "🎵 Tocar música";
+                botaoMusica.innerText = "🎵 Tocar música";
 
             }
 
+        } catch (erro) {
+
+            console.error("Erro ao tocar música:", erro);
+
+            alert(
+                "Não consegui tocar a música. " +
+                "Confira se o arquivo música.mp3 está no GitHub."
+            );
+
         }
-    );
 
+    });
 </script>
 
-
-<!-- ========================= -->
-<!-- PYSCRIPT -->
-<!-- ========================= -->
-
-<script
-    type="py"
-    src="jogo.py">
-</script>
+<!-- JOGO PYTHON -->
+<script type="py" src="./jogo.py"></script>
 ```
 
 </body>
