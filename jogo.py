@@ -3,7 +3,7 @@
 # 🏝️ O SEGREDO NA ILHA
 # RPG DE ESCOLHAS - 30 FASES
 # ============================================================
-
+from js import window
 # ============================================================
 # ESTADO DO JOGO
 # ============================================================
@@ -38,9 +38,12 @@ state = {
 # ============================================================
 
 def escolher(msg, opcoes):
-    print(msg)
-    print("Escolha uma opção:", ", ".join(opcoes))
+    resposta = window.prompt(msg + "\n\n" + " | ".join(opcoes))
 
+    if resposta is None:
+        return opcoes[0]
+
+    return str(resposta).strip().lower()
 
 def pegar(item):
     if item not in state["inv"]:
