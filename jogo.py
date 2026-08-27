@@ -43,6 +43,10 @@ area = document.getElementById("jogo")
 botoes = document.getElementById("botoes")
 status = document.getElementById("status")
 
+def mudar_imagem(nome):
+    imagem = document.getElementById("imagem-fase")
+    imagem.src = nome
+    imagem.style.display = "block"
 
 # ============================================================
 # MOSTRAR TEXTO
@@ -1793,7 +1797,9 @@ Ninguém consegue escapar.
 O segredo permanece enterrado na ilha.
 """)
 
-    mostrar("""
+mudar_imagem("final_vitoria.png")
+    
+mostrar("""
 ============================================================
                     🎮 FIM DO JOGO
 ============================================================
