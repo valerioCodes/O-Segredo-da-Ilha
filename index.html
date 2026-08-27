@@ -15,8 +15,13 @@
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
+            min-height: 100vh;
             background: #111;
             color: white;
             font-family: Arial, sans-serif;
@@ -31,6 +36,7 @@
 
         h1 {
             font-size: 36px;
+            margin-bottom: 20px;
         }
 
         #imagem-fase {
@@ -42,50 +48,65 @@
             margin-bottom: 20px;
         }
 
+        #status {
+            background: #252525;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+
         #jogo {
             background: #1d1d1d;
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             text-align: left;
+            min-height: 250px;
             max-height: 500px;
             overflow-y: auto;
         }
 
         .texto-jogo {
             white-space: pre-wrap;
-            font-family: Arial, sans-serif;
             font-size: 17px;
-            line-height: 1.5;
-        }
-
-        #status {
-            background: #252525;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-weight: bold;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
         #botoes {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
             margin-top: 20px;
+            margin-bottom: 30px;
         }
 
         .opcao {
-            padding: 14px 20px;
+            padding: 15px 25px;
             border: none;
             border-radius: 10px;
             background: #444;
             color: white;
             font-size: 16px;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .opcao:hover {
-            transform: scale(1.03);
+            transform: scale(1.04);
+            background: #666;
+        }
+
+        .titulo-fase {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .final {
+            text-align: center;
         }
 
     </style>
@@ -98,7 +119,11 @@
 
         <h1>🏝️ O Segredo na Ilha</h1>
 
-        <img id="imagem-fase" src="" alt="Imagem da fase">
+        <img
+            id="imagem-fase"
+            src=""
+            alt="Imagem da fase"
+        >
 
         <div id="status"></div>
 
