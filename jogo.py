@@ -1,65 +1,29 @@
 from js import document
 
-# ============================================================
-
-# O SEGREDO NA ILHA
-
-# JOGO COMPLETO
-
-# ============================================================
-
-# ============================================================
-
-# ELEMENTOS DA PÁGINA
-
-# ============================================================
-
 tela = document.getElementById("jogo")
 botoes = document.getElementById("botoes")
 imagem = document.getElementById("imagem-fase")
 status = document.getElementById("status")
 
-# ============================================================
-
-# ESTADO DO JOGO
-
-# ============================================================
-
 state = {
 "personagem": "",
-
-```
 "vida": 5,
 "sanidade": 5,
 "pistas": 0,
-
 "inv": [],
-
 "milo_vivo": True,
 "barbara_viva": True,
 "olivier_vivo": True,
 "amelie_viva": True,
-
 "confianca_milo": 0,
 "confianca_barbara": 0,
-
 "monstro_fraqueza": False,
 "monstro_derrotado": False,
-
 "escolheu_derrotar": False,
 "escolheu_selar": False,
 "escolheu_fugir": False,
-
 "batalha": 0
-```
-
 }
-
-# ============================================================
-
-# FUNÇÕES DA INTERFACE
-
-# ============================================================
 
 def limpar():
 tela.innerHTML = ""
@@ -74,12 +38,9 @@ tela.appendChild(div)
 def atualizar_status():
 status.innerHTML = (
 "❤️ Vida: " + str(state["vida"]) +
-"    " +
-"🧠 Sanidade: " + str(state["sanidade"]) +
-"    " +
-"🔎 Pistas: " + str(state["pistas"]) +
-"    " +
-"🎒 Itens: " + str(len(state["inv"]))
+"    🧠 Sanidade: " + str(state["sanidade"]) +
+"    🔎 Pistas: " + str(state["pistas"]) +
+"    🎒 Itens: " + str(len(state["inv"]))
 )
 
 def mostrar_imagem_fase(numero):
@@ -139,17 +100,10 @@ if state["sanidade"] > 5:
 atualizar_status()
 ```
 
-# ============================================================
-
-# FASE 1
-
-# ============================================================
-
 def fase1(event=None):
-
-```
 preparar(1)
 
+```
 mostrar("""
 ```
 
@@ -189,30 +143,17 @@ criar_botao("👩 Amelie", escolher_amelie)
 ```
 
 def escolher_olivier(event):
-
-```
 state["personagem"] = "Olivier"
 fase2()
-```
 
 def escolher_amelie(event):
-
-```
 state["personagem"] = "Amelie"
 fase2()
-```
-
-# ============================================================
-
-# FASE 2
-
-# ============================================================
 
 def fase2(event=None):
-
-```
 preparar(2)
 
+```
 mostrar("""
 ```
 
@@ -220,7 +161,7 @@ mostrar("""
 
 O barco continua avançando lentamente pelo mar.
 
-Olivier e Amelie estão sozinhos na viagem.
+Olivier e Amelie estão juntos na viagem.
 
 Nenhum dos dois conhece pessoalmente os moradores da ilha.
 
@@ -234,7 +175,7 @@ Amelie observa uma fotografia encontrada entre os papéis.
 A imagem mostra algumas pessoas diante de uma construção
 antiga da ilha.
 
-No verso da fotografia existe apenas uma pequena anotação:
+No verso da fotografia existe uma pequena anotação:
 
 "Procure a verdade onde tudo começou."
 
@@ -244,14 +185,11 @@ do pequeno porto.
 É a primeira vez que Olivier e Amelie colocam os pés
 na ilha.
 
-Eles não sabem o que encontrarão.
-
 Na praia, duas pessoas esperam pela chegada dos visitantes.
 
 São Milo e Barbara.
 
-Diferentemente de Olivier e Amelie, eles já vivem
-na ilha há muitos anos.
+Milo e Barbara já moram na ilha há muitos anos.
 
 Milo conhece praticamente todos os caminhos da região.
 
@@ -266,17 +204,10 @@ A investigação está prestes a começar.
 criar_botao("🏝️ Desembarcar na ilha", fase3)
 ```
 
-# ============================================================
-
-# FASE 3
-
-# ============================================================
-
 def fase3(event=None):
-
-```
 preparar(3)
 
+```
 mostrar("""
 ```
 
@@ -292,8 +223,8 @@ Barbara observa os documentos que eles carregam.
 
 — Vieram procurar alguém da família?
 
-Olivier/Amelie explica que encontrou documentos antigos
-relacionados a um parente desaparecido.
+Olivier e Amelie explicam que encontraram documentos
+antigos relacionados a um parente desaparecido.
 
 Milo fica em silêncio por alguns segundos.
 
@@ -326,10 +257,9 @@ criar_botao("🔎 Perguntar sobre a ilha", fase3_ilha)
 ```
 
 def fase3_milo(event):
-
-```
 state["confianca_milo"] += 1
 
+```
 mostrar("""
 ```
 
@@ -352,15 +282,13 @@ precisam ter cuidado.
 
 ```
 atualizar_status()
-
 criar_botao("➡️ Continuar investigação", fase4)
 ```
 
 def fase3_barbara(event):
-
-```
 state["confianca_barbara"] += 1
 
+```
 mostrar("""
 ```
 
@@ -384,15 +312,13 @@ que esses símbolos protegiam a ilha de alguma coisa.
 
 ```
 atualizar_status()
-
 criar_botao("➡️ Continuar investigação", fase4)
 ```
 
 def fase3_ilha(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -417,21 +343,13 @@ Agora vocês precisam decidir onde começar.
 
 ```
 atualizar_status()
-
 criar_botao("➡️ Escolher o primeiro lugar", fase4)
 ```
 
-# ============================================================
-
-# FASE 4
-
-# ============================================================
-
 def fase4(event=None):
-
-```
 preparar(4)
 
+```
 mostrar("""
 ```
 
@@ -452,7 +370,7 @@ Barbara aponta para uma casa abandonada.
 
 Por último, Milo aponta para o farol.
 
-— E lá em cima existem registros antigos.
+— Lá em cima existem registros antigos.
 
 Vocês precisam escolher onde começar a investigação.
 """)
@@ -463,17 +381,10 @@ criar_botao("🏚️ Ir para a casa abandonada", fase6)
 criar_botao("🔦 Ir para o farol", fase7)
 ```
 
-# ============================================================
-
-# FASE 5
-
-# ============================================================
-
 def fase5(event=None):
-
-```
 preparar(5)
 
+```
 mostrar("""
 ```
 
@@ -499,8 +410,7 @@ Barbara observa alguns deles.
 
 Vocês começam a investigar.
 
-Talvez os símbolos possam revelar alguma pista sobre
-a presença da família de vocês na ilha.
+Talvez os símbolos possam revelar alguma pista.
 """)
 
 ```
@@ -510,10 +420,9 @@ criar_botao("📷 Fotografar os símbolos", fase5_fotografia)
 ```
 
 def fase5_simbolos(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -536,16 +445,14 @@ a próxima pista.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar", fase8)
 ```
 
 def fase5_documentos(event):
-
-```
 pegar("livro antigo")
 state["pistas"] += 3
 
+```
 mostrar("""
 ```
 
@@ -570,16 +477,14 @@ Essa informação pode ser muito importante.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar", fase8)
 ```
 
 def fase5_fotografia(event):
-
-```
 pegar("fotografia dos símbolos")
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -598,21 +503,13 @@ Milo guarda a informação.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar", fase8)
 ```
 
-# ============================================================
-
-# FASE 6
-
-# ============================================================
-
 def fase6(event=None):
-
-```
 preparar(6)
 
+```
 mostrar("""
 ```
 
@@ -641,11 +538,10 @@ criar_botao("⬇️ Investigar o porão", fase6_porao)
 ```
 
 def fase6_documentos(event):
-
-```
 pegar("documentos da família")
 state["pistas"] += 3
 
+```
 mostrar("""
 ```
 
@@ -667,17 +563,15 @@ A investigação acaba de ganhar uma nova direção.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar", fase8)
 ```
 
 def fase6_escadas(event):
-
-```
 pegar("chave enferrujada")
 pegar("fotografia antiga")
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -699,16 +593,14 @@ Milo observa a fotografia.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar", fase8)
 ```
 
 def fase6_porao(event):
-
-```
 pegar("fotografia antiga")
 state["pistas"] += 3
 
+```
 mostrar("""
 ```
 
@@ -731,20 +623,15 @@ ligado às cavernas.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar", fase8)
 ```
 
-# ============================================================
-
-# FASE 7
-
-# ============================================================
-
 def fase7(event=None):
+preparar(7)
 
 ```
-preparar(7)
+pegar("fotografia da criatura")
+state["pistas"] += 3
 
 mostrar("""
 ```
@@ -777,25 +664,14 @@ a criatura podem não ser apenas histórias.
 """)
 
 ```
-pegar("fotografia da criatura")
-state["pistas"] += 3
-
 atualizar_status()
-
 criar_botao("🌙 Continuar", fase8)
 ```
 
-# ============================================================
-
-# FASE 8
-
-# ============================================================
-
 def fase8(event=None):
-
-```
 preparar(8)
 
+```
 mostrar("""
 ```
 
@@ -842,11 +718,10 @@ criar_botao("🚪 Verificar a porta", fase8_porta)
 ```
 
 def fase8_janela(event):
-
-```
 state["pistas"] += 2
 perder_sanidade()
 
+```
 mostrar("""
 ```
 
@@ -872,10 +747,9 @@ criar_botao("🌅 Continuar", fase9)
 ```
 
 def fase8_ignorar(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -896,10 +770,9 @@ criar_botao("🌅 Continuar", fase9)
 ```
 
 def fase8_porta(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -921,17 +794,10 @@ Talvez alguém tenha sido levado para lá.
 criar_botao("🌅 Continuar", fase9)
 ```
 
-# ============================================================
-
-# FASE 9
-
-# ============================================================
-
 def fase9(event=None):
-
-```
 preparar(9)
 
+```
 mostrar("""
 ```
 
@@ -959,10 +825,9 @@ criar_botao("🌲 Seguir para a floresta", fase9_floresta)
 ```
 
 def fase9_vila(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -984,10 +849,9 @@ criar_botao("🔎 Continuar", fase10)
 ```
 
 def fase9_floresta(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1008,17 +872,10 @@ O desaparecido esteve ali.
 criar_botao("🔎 Continuar", fase10)
 ```
 
-# ============================================================
-
-# FASE 10
-
-# ============================================================
-
 def fase10(event=None):
-
-```
 preparar(10)
 
+```
 pegar("objeto do desaparecido")
 state["pistas"] += 2
 
@@ -1051,21 +908,13 @@ E alguma coisa o levou para algum lugar.
 
 ```
 atualizar_status()
-
 criar_botao("🌲 Continuar pela floresta", fase11)
 ```
 
-# ============================================================
-
-# FASE 11
-
-# ============================================================
-
 def fase11(event=None):
-
-```
 preparar(11)
 
+```
 mostrar("""
 ```
 
@@ -1092,10 +941,9 @@ criar_botao("🔎 Procurar pistas ao redor", fase11_pistas)
 ```
 
 def fase11_trilha(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1116,10 +964,9 @@ criar_botao("🏚️ Continuar", fase12)
 ```
 
 def fase11_marcar(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -1141,10 +988,9 @@ criar_botao("🔥 Continuar", fase12)
 ```
 
 def fase11_pistas(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1165,17 +1011,10 @@ indicado pelos símbolos.
 criar_botao("🔥 Continuar", fase12)
 ```
 
-# ============================================================
-
-# FASE 12
-
-# ============================================================
-
 def fase12(event=None):
-
-```
 preparar(12)
 
+```
 mostrar("""
 ```
 
@@ -1200,10 +1039,9 @@ criar_botao("😴 Descansar", fase12_descansar)
 ```
 
 def fase12_milo(event):
-
-```
 state["confianca_milo"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1224,10 +1062,9 @@ criar_botao("🌅 Continuar", fase13)
 ```
 
 def fase12_barbara(event):
-
-```
 state["confianca_barbara"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1249,10 +1086,9 @@ criar_botao("🌅 Continuar", fase13)
 ```
 
 def fase12_descansar(event):
-
-```
 ganhar_sanidade()
 
+```
 mostrar("""
 ```
 
@@ -1271,17 +1107,10 @@ Agora é hora de continuar a investigação.
 criar_botao("🌅 Continuar", fase13)
 ```
 
-# ============================================================
-
-# FASE 13
-
-# ============================================================
-
 def fase13(event=None):
-
-```
 preparar(13)
 
+```
 state["pistas"] += 2
 
 mostrar("""
@@ -1308,21 +1137,13 @@ Talvez finalmente encontrem uma resposta.
 
 ```
 atualizar_status()
-
 criar_botao("🏚️ Ir até a cabana", fase14)
 ```
 
-# ============================================================
-
-# FASE 14
-
-# ============================================================
-
 def fase14(event=None):
-
-```
 preparar(14)
 
+```
 mostrar("""
 ```
 
@@ -1349,21 +1170,13 @@ pegar("diário")
 state["pistas"] += 3
 
 atualizar_status()
-
 criar_botao("📖 Ler o diário", fase15)
 ```
 
-# ============================================================
-
-# FASE 15
-
-# ============================================================
-
 def fase15(event=None):
-
-```
 preparar(15)
 
+```
 state["monstro_fraqueza"] = True
 state["pistas"] += 3
 
@@ -1397,21 +1210,13 @@ Barbara olha para os visitantes.
 
 ```
 atualizar_status()
-
 criar_botao("🎒 Procurar os equipamentos", fase16)
 ```
 
-# ============================================================
-
-# FASE 16
-
-# ============================================================
-
 def fase16(event=None):
-
-```
 preparar(16)
 
+```
 mostrar("""
 ```
 
@@ -1438,11 +1243,10 @@ criar_botao("🔱 Procurar o símbolo", fase16_simbolo)
 ```
 
 def fase16_equipamentos(event):
-
-```
 pegar("equipamento")
 state["batalha"] += 1
 
+```
 mostrar("""
 ```
 
@@ -1458,15 +1262,13 @@ O grupo está mais preparado para continuar.
 
 ```
 atualizar_status()
-
 criar_botao("🌊 Ir para o lago", fase17)
 ```
 
 def fase16_medicamento(event):
-
-```
 pegar("medicamento")
 
+```
 mostrar("""
 ```
 
@@ -1482,17 +1284,15 @@ Milo guarda o material.
 
 ```
 atualizar_status()
-
 criar_botao("🌊 Ir para o lago", fase17)
 ```
 
 def fase16_simbolo(event):
-
-```
 pegar("símbolo antigo")
 state["pistas"] += 3
 state["batalha"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1512,21 +1312,13 @@ que procurávamos.
 
 ```
 atualizar_status()
-
 criar_botao("🌊 Ir para o lago", fase17)
 ```
 
-# ============================================================
-
-# FASE 17
-
-# ============================================================
-
 def fase17(event=None):
-
-```
 preparar(17)
 
+```
 mostrar("""
 ```
 
@@ -1556,11 +1348,10 @@ criar_botao("➡️ Seguir sem investigar", fase17_seguir)
 ```
 
 def fase17_redor(event):
-
-```
 pegar("cristal")
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1578,16 +1369,14 @@ Milo observa.
 
 ```
 atualizar_status()
-
 criar_botao("🕳️ Continuar", fase18)
 ```
 
 def fase17_margem(event):
-
-```
 pegar("cristal")
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1603,15 +1392,13 @@ Talvez seja mais uma peça do mistério.
 
 ```
 atualizar_status()
-
 criar_botao("🕳️ Continuar", fase18)
 ```
 
 def fase17_seguir(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -1628,21 +1415,13 @@ A passagem leva para uma caverna escondida.
 
 ```
 atualizar_status()
-
 criar_botao("🕳️ Continuar", fase18)
 ```
 
-# ============================================================
-
-# FASE 18
-
-# ============================================================
-
 def fase18(event=None):
-
-```
 preparar(18)
 
+```
 mostrar("""
 ```
 
@@ -1671,10 +1450,9 @@ criar_botao("🔎 Procurar outra passagem", fase18_passagem)
 ```
 
 def fase18_entrar(event):
-
-```
 state["pistas"] += 3
 
+```
 mostrar("""
 ```
 
@@ -1699,10 +1477,9 @@ criar_botao("👹 Continuar", fase19)
 ```
 
 def fase18_passagem(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1722,17 +1499,10 @@ A passagem leva para uma região mais profunda.
 criar_botao("👹 Continuar", fase19)
 ```
 
-# ============================================================
-
-# FASE 19
-
-# ============================================================
-
 def fase19(event=None):
-
-```
 preparar(19)
 
+```
 perder_sanidade()
 
 mostrar("""
@@ -1770,17 +1540,10 @@ a sua fraqueza.
 criar_botao("🏃 Fugir", fase20)
 ```
 
-# ============================================================
-
-# FASE 20
-
-# ============================================================
-
 def fase20(event=None):
-
-```
 preparar(20)
 
+```
 mostrar("""
 ```
 
@@ -1805,10 +1568,9 @@ criar_botao("🫣 Procurar um esconderijo", fase20_esconder)
 ```
 
 def fase20_esquerda(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -1826,10 +1588,9 @@ criar_botao("🔎 Descobrir a fraqueza", fase21)
 ```
 
 def fase20_direita(event):
-
-```
 state["pistas"] += 2
 
+```
 mostrar("""
 ```
 
@@ -1847,10 +1608,9 @@ criar_botao("🔎 Descobrir a fraqueza", fase21)
 ```
 
 def fase20_esconder(event):
-
-```
 ganhar_sanidade()
 
+```
 mostrar("""
 ```
 
@@ -1871,17 +1631,10 @@ a criatura.
 criar_botao("🔎 Descobrir a fraqueza", fase21)
 ```
 
-# ============================================================
-
-# FASE 21
-
-# ============================================================
-
 def fase21(event=None):
-
-```
 preparar(21)
 
+```
 state["monstro_fraqueza"] = True
 state["pistas"] += 3
 
@@ -1913,21 +1666,13 @@ Agora vocês sabem o que precisam fazer.
 
 ```
 atualizar_status()
-
 criar_botao("🏚️ Voltar ao esconderijo", fase22)
 ```
 
-# ============================================================
-
-# FASE 22
-
-# ============================================================
-
 def fase22(event=None):
-
-```
 preparar(22)
 
+```
 mostrar("""
 ```
 
@@ -1953,17 +1698,10 @@ O segredo está atrás dela.
 criar_botao("🚪 Abrir a porta", fase23)
 ```
 
-# ============================================================
-
-# FASE 23
-
-# ============================================================
-
 def fase23(event=None):
-
-```
 preparar(23)
 
+```
 state["pistas"] += 2
 
 mostrar("""
@@ -2006,10 +1744,9 @@ criar_botao("🫣 Deixá-lo escondido", fase24_resgate)
 ```
 
 def fase24_resgate(event):
-
-```
 state["pistas"] += 1
 
+```
 mostrar("""
 ```
 
@@ -2029,17 +1766,10 @@ Todos seguem para a entrada principal do esconderijo.
 criar_botao("🚪 Continuar", fase24)
 ```
 
-# ============================================================
-
-# FASE 24
-
-# ============================================================
-
 def fase24(event=None):
-
-```
 preparar(24)
 
+```
 mostrar("""
 ```
 
@@ -2102,21 +1832,13 @@ Milo olha para todos.
 
 ```
 atualizar_status()
-
 criar_botao("🚪 Entrar", fase25)
 ```
 
-# ============================================================
-
-# FASE 25
-
-# ============================================================
-
 def fase25(event=None):
-
-```
 preparar(25)
 
+```
 state["pistas"] += 3
 
 mostrar("""
@@ -2126,7 +1848,7 @@ mostrar("""
 
 Dentro do esconderijo existem documentos muito antigos.
 
-Olivier/Amelie começa a procurar informações
+Olivier ou Amelie começa a procurar informações
 sobre o parente desaparecido.
 
 Depois de algum tempo, encontra uma anotação.
@@ -2154,21 +1876,13 @@ foram escondidos.
 
 ```
 atualizar_status()
-
 criar_botao("➡️ Continuar", fase26)
 ```
 
-# ============================================================
-
-# FASE 26
-
-# ============================================================
-
 def fase26(event=None):
-
-```
 preparar(26)
 
+```
 mostrar("""
 ```
 
@@ -2195,11 +1909,10 @@ criar_botao("📖 Revisar as pistas", fase26_pistas)
 ```
 
 def fase26_equipamentos(event):
+if "equipamento" in state["inv"]:
+state["batalha"] += 2
 
 ```
-if "equipamento" in state["inv"]:
-    state["batalha"] += 2
-
 mostrar("""
 ```
 
@@ -2215,16 +1928,15 @@ O grupo está preparado para continuar.
 
 ```
 atualizar_status()
-
 criar_botao("👹 Ir até a criatura", fase27)
 ```
 
 def fase26_simbolo(event):
+if "símbolo antigo" in state["inv"]:
+state["batalha"] += 3
+state["monstro_fraqueza"] = True
 
 ```
-if "símbolo antigo" in state["inv"]:
-    state["batalha"] += 3
-
     mostrar("""
 ```
 
@@ -2253,16 +1965,14 @@ Barbara decide confiar nas informações do diário.
 
 ```
 atualizar_status()
-
 criar_botao("👹 Ir até a criatura", fase27)
 ```
 
 def fase26_pistas(event):
-
-```
 state["batalha"] += 2
 state["monstro_fraqueza"] = True
 
+```
 mostrar("""
 ```
 
@@ -2278,21 +1988,13 @@ Agora todos sabem o que precisam fazer.
 
 ```
 atualizar_status()
-
 criar_botao("👹 Ir até a criatura", fase27)
 ```
 
-# ============================================================
-
-# FASE 27
-
-# ============================================================
-
 def fase27(event=None):
-
-```
 preparar(27)
 
+```
 mostrar("""
 ```
 
@@ -2313,7 +2015,7 @@ Milo reconhece o local.
 
 Barbara segura as pistas.
 
-Olivier/Amelie observa a criatura.
+Olivier ou Amelie observa a criatura.
 
 Depois de tudo que vocês descobriram,
 não existe mais como voltar atrás.
@@ -2325,17 +2027,10 @@ O segredo da ilha está diante de vocês.
 criar_botao("⚔️ Preparar o confronto", fase28)
 ```
 
-# ============================================================
-
-# FASE 28
-
-# ============================================================
-
 def fase28(event=None):
-
-```
 preparar(28)
 
+```
 mostrar("""
 ```
 
@@ -2362,13 +2057,11 @@ criar_botao("🏃 Recuar", fase28_recuar)
 ```
 
 def fase28_simbolo(event):
+if "símbolo antigo" in state["inv"]:
+state["batalha"] += 4
+state["monstro_fraqueza"] = True
 
 ```
-if "símbolo antigo" in state["inv"]:
-
-    state["batalha"] += 4
-    state["monstro_fraqueza"] = True
-
     mostrar("""
 ```
 
@@ -2390,7 +2083,6 @@ a criatura.
 
 ```
 else:
-
     perder_sanidade()
 
     mostrar("""
@@ -2406,16 +2098,14 @@ O grupo precisa procurar outra forma de continuar.
 
 ```
 atualizar_status()
-
 criar_botao("🔥 Última decisão", fase29)
 ```
 
 def fase28_milo(event):
-
-```
 state["confianca_milo"] += 2
 state["batalha"] += 2
 
+```
 mostrar("""
 ```
 
@@ -2433,16 +2123,14 @@ A descoberta ajuda o grupo.
 
 ```
 atualizar_status()
-
 criar_botao("🔥 Última decisão", fase29)
 ```
 
 def fase28_barbara(event):
-
-```
 state["confianca_barbara"] += 2
 state["batalha"] += 2
 
+```
 mostrar("""
 ```
 
@@ -2459,15 +2147,13 @@ Agora vocês sabem que a criatura pode ser enfraquecida.
 
 ```
 atualizar_status()
-
 criar_botao("🔥 Última decisão", fase29)
 ```
 
 def fase28_recuar(event):
-
-```
 perder_vida()
 
+```
 mostrar("""
 ```
 
@@ -2485,21 +2171,13 @@ Não existe mais tempo para fugir da decisão.
 
 ```
 atualizar_status()
-
 criar_botao("🔥 Última decisão", fase29)
 ```
 
-# ============================================================
-
-# FASE 29
-
-# ============================================================
-
 def fase29(event=None):
-
-```
 preparar(29)
 
+```
 mostrar("""
 ```
 
@@ -2513,7 +2191,7 @@ a verdade sobre a ilha finalmente foi descoberta.
 Milo e Barbara sabem que aquele momento pode
 decidir o futuro da ilha.
 
-Olivier/Amelie precisa tomar a decisão final.
+Olivier ou Amelie precisa tomar a decisão final.
 
 O que você fará?
 """)
@@ -2524,74 +2202,45 @@ criar_botao("🔒 Selar a criatura novamente", final_selar)
 criar_botao("🏃 Fugir da ilha", final_fugir)
 ```
 
-# ============================================================
-
-# FINAL — DERROTAR
-
-# ============================================================
-
 def final_derrotar(event):
+state["escolheu_derrotar"] = True
+state["escolheu_selar"] = False
+state["escolheu_fugir"] = False
 
 ```
-state["escolheu_derrotar"] = True
-
 if state["monstro_fraqueza"] and state["batalha"] >= 5:
-
     state["monstro_derrotado"] = True
-
 else:
-
     state["monstro_derrotado"] = False
 
 fase30()
 ```
 
-# ============================================================
-
-# FINAL — SELAR
-
-# ============================================================
-
 def final_selar(event):
-
-```
+state["escolheu_derrotar"] = False
 state["escolheu_selar"] = True
+state["escolheu_fugir"] = False
 state["monstro_derrotado"] = False
 
+```
 fase30()
 ```
 
-# ============================================================
-
-# FINAL — FUGIR
-
-# ============================================================
-
 def final_fugir(event):
-
-```
+state["escolheu_derrotar"] = False
+state["escolheu_selar"] = False
 state["escolheu_fugir"] = True
 state["monstro_derrotado"] = False
 
+```
 fase30()
 ```
 
-# ============================================================
-
-# FASE 30 — FINAIS
-
-# ============================================================
-
 def fase30(event=None):
-
-```
 limpar()
 atualizar_status()
 
-# ========================================================
-# FINAL 1 — DERROTA DA CRIATURA
-# ========================================================
-
+```
 if state["escolheu_derrotar"] and state["monstro_derrotado"]:
 
     mostrar_imagem_final("final_01.png")
@@ -2614,7 +2263,7 @@ Depois de tantos anos, o segredo da ilha finalmente
 chega ao fim.
 
 Os documentos encontrados provam que o parente
-de Olivier/Amelie esteve ali muitos anos atrás.
+de Olivier ou Amelie esteve ali muitos anos atrás.
 
 Ele tentou proteger a ilha e impedir que a criatura
 voltasse a ameaçar os moradores.
@@ -2631,10 +2280,6 @@ A ilha finalmente pode ter paz.
 """)
 
 ```
-# ========================================================
-# FINAL 2 — TENTOU DERROTAR, MAS NÃO CONSEGUIU
-# ========================================================
-
 elif state["escolheu_derrotar"]:
 
     mostrar_imagem_final("final_02.png")
@@ -2668,10 +2313,6 @@ Por enquanto, a ilha permanece em silêncio.
 """)
 
 ```
-# ========================================================
-# FINAL 3 — SELAMENTO
-# ========================================================
-
 elif state["escolheu_selar"]:
 
     mostrar_imagem_final("final_03.png")
@@ -2706,10 +2347,6 @@ por enquanto.
 """)
 
 ```
-# ========================================================
-# FINAL 4 — FUGA
-# ========================================================
-
 elif state["escolheu_fugir"]:
 
     mostrar_imagem_final("final_06.png")
@@ -2725,7 +2362,7 @@ Milo conhece o caminho de volta.
 
 Barbara ajuda o grupo a encontrar a saída.
 
-Olivier/Amelie consegue chegar ao barco
+Olivier ou Amelie consegue chegar ao barco
 com as pistas encontradas.
 
 A ilha começa a ficar para trás.
@@ -2745,10 +2382,6 @@ Talvez um dia alguém volte.
 """)
 
 ```
-# ========================================================
-# FINAL EXTRA — POUCAS PISTAS
-# ========================================================
-
 else:
 
     mostrar_imagem_final("final_03.png")
@@ -2768,7 +2401,7 @@ Milo e Barbara continuam vivendo na ilha.
 Eles sabem que existem lugares que ainda precisam
 ser investigados.
 
-Olivier/Amelie leva consigo os poucos documentos
+Olivier ou Amelie leva consigo os poucos documentos
 encontrados.
 
 Talvez a verdade ainda esteja escondida em algum
@@ -2789,53 +2422,27 @@ mostrar("""
 """)
 
 ```
-mostrar(
-    "👤 Personagem: " + state["personagem"]
-)
-
-mostrar(
-    "❤️ Vida: " + str(state["vida"])
-)
-
-mostrar(
-    "🧠 Sanidade: " + str(state["sanidade"])
-)
-
-mostrar(
-    "🔎 Pistas: " + str(state["pistas"])
-)
+mostrar("👤 Personagem: " + state["personagem"])
+mostrar("❤️ Vida: " + str(state["vida"]))
+mostrar("🧠 Sanidade: " + str(state["sanidade"]))
+mostrar("🔎 Pistas: " + str(state["pistas"]))
 
 if len(state["inv"]) > 0:
-
-    mostrar(
-        "🎒 Inventário: " +
-        ", ".join(state["inv"])
-    )
-
+    mostrar("🎒 Inventário: " + ", ".join(state["inv"]))
 else:
-
     mostrar("🎒 Inventário: vazio")
 
 criar_botao("🔄 Jogar novamente", reiniciar)
 ```
 
-# ============================================================
-
-# REINICIAR
-
-# ============================================================
-
 def reiniciar(event):
-
-```
 state["personagem"] = ""
-
 state["vida"] = 5
 state["sanidade"] = 5
 state["pistas"] = 0
-
 state["inv"] = []
 
+```
 state["milo_vivo"] = True
 state["barbara_viva"] = True
 state["olivier_vivo"] = True
@@ -2855,11 +2462,5 @@ state["batalha"] = 0
 
 fase1()
 ```
-
-# ============================================================
-
-# INICIAR JOGO
-
-# ============================================================
 
 fase1()
