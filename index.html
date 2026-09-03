@@ -1,10 +1,10 @@
+```html
 <!DOCTYPE html>
 
 <html lang="pt-BR">
 
 <head>
 
-```
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -73,6 +73,18 @@
     }
 
     /* =========================
+       VÍDEO FINAL
+    ========================= */
+
+    #video-final {
+        width: 100%;
+        max-width: 800px;
+        border-radius: 15px;
+        margin: 20px auto;
+        display: none;
+    }
+
+    /* =========================
        JOGO
     ========================= */
 
@@ -133,7 +145,6 @@
     }
 
 </style>
-```
 
 </head>
 
@@ -141,74 +152,91 @@
 
 <div id="jogo-container">
 
-```
-<h1>🏝️ O Segredo na Ilha</h1>
+    <h1>🏝️ O Segredo na Ilha</h1>
 
 
-<!-- =========================
-     MÚSICA
-========================== -->
+    <!-- =========================
+         MÚSICA
+    ========================== -->
 
-<div id="musica-controle">
+    <div id="musica-controle">
 
-    <button
-        id="botao-musica"
-        type="button">
+        <button
+            id="botao-musica"
+            type="button">
 
-        🎵 Tocar música
+            🎵 Tocar música
 
-    </button>
+        </button>
 
 
-    <audio
-        id="musica"
-        loop
-        preload="auto">
+        <audio
+            id="musica"
+            loop
+            preload="auto">
+
+            <source
+                src="./musica.mp3"
+                type="audio/mpeg">
+
+        </audio>
+
+    </div>
+
+
+    <!-- =========================
+         IMAGEM
+    ========================== -->
+
+    <img
+        id="imagem-fase"
+        src=""
+        alt="Imagem da fase">
+
+
+    <!-- =========================
+         VÍDEO DO FINAL
+    ========================== -->
+
+    <video
+        id="video-final"
+        controls
+        preload="metadata">
 
         <source
-            src="./musica.mp3"
-            type="audio/mpeg">
+            src="./video_final.mp4"
+            type="video/mp4">
 
-    </audio>
+        Seu navegador não consegue reproduzir este vídeo.
 
-</div>
-
-
-<!-- =========================
-     IMAGEM
-========================== -->
-
-<img
-    id="imagem-fase"
-    src=""
-    alt="Imagem da fase">
+    </video>
 
 
-<!-- =========================
-     STATUS
-========================== -->
+    <!-- =========================
+         STATUS
+    ========================== -->
 
-<div id="status"></div>
-
-
-<!-- =========================
-     JOGO
-========================== -->
-
-<div id="jogo"></div>
+    <div id="status"></div>
 
 
-<!-- =========================
-     BOTÕES
-========================== -->
+    <!-- =========================
+         JOGO
+    ========================== -->
 
-<div id="botoes"></div>
-```
+    <div id="jogo"></div>
+
+
+    <!-- =========================
+         BOTÕES
+    ========================== -->
+
+    <div id="botoes"></div>
 
 </div>
 
+
 <!-- =========================
-     TESTE DA MÚSICA
+     CONTROLE DA MÚSICA
 ========================= -->
 
 <script>
@@ -305,6 +333,7 @@
 
 </script>
 
+
 <!-- =========================
      JOGO PYTHON
 ========================= -->
@@ -314,11 +343,8 @@
     src="./jogo.py">
 </script>
 
+
 </body>
 
 </html>
-
-<video id="video-final" controls style="display:none; width:100%; max-width:800px;">
-    <source src="video_final.mp4" type="video/mp4">
-    Seu navegador não consegue reproduzir este vídeo.
-</video>
+```
