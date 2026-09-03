@@ -1135,6 +1135,12 @@ def final_fugir(event):
     fase25()
 
 
+def assistir_video(event):
+    video_final.style.display = "block"
+    video_final.currentTime = 0
+    video_final.play()
+
+
 def fase25(event=None):
     limpar()
     atualizar_status()
@@ -1142,10 +1148,6 @@ def fase25(event=None):
     if state["final"] == "derrotar" and state["monstro_derrotado"]:
 
         mostrar_imagem_final("final_01.png")
-
-        # VÍDEO SOMENTE NO FINAL 1
-        video_final.style.display = "block"
-        video_final.currentTime = 0
 
         mostrar("""
         🌟 FINAL 1 — PERFEITO
@@ -1178,6 +1180,8 @@ def fase25(event=None):
 
         🏝️ O segredo finalmente chegou ao fim.
         """)
+
+        criar_botao("▶️ ASSISTIR AO VÍDEO FINAL", assistir_video)
 
     elif state["final"] == "derrotar":
 
