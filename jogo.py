@@ -93,6 +93,10 @@ def ganhar_sanidade(qtd=1):
     atualizar_status()
 
 
+# =========================================================
+# FASE 1
+# =========================================================
+
 def fase1(event=None):
     preparar(1)
 
@@ -127,6 +131,10 @@ def escolher_olivier(event):
     fase2()
 
 
+# =========================================================
+# FASE 2
+# =========================================================
+
 def fase2(event=None):
     preparar(2)
 
@@ -159,8 +167,12 @@ def fase2(event=None):
     aparece completamente diante de você.
     """)
 
-    criar_botao("➡️ Continuar", fase3)
+    criar_botao("🚢 Chegar à ilha", fase3)
 
+
+# =========================================================
+# FASE 3
+# =========================================================
 
 def fase3(event=None):
     preparar(3)
@@ -197,8 +209,12 @@ def fase3(event=None):
     A investigação está apenas começando.
     """)
 
-    criar_botao("➡️ Continuar", fase4)
+    criar_botao("🏝️ Explorar a ilha", fase4)
 
+
+# =========================================================
+# FASE 4
+# =========================================================
 
 def fase4(event=None):
     preparar(4)
@@ -232,6 +248,10 @@ def fase4(event=None):
     criar_botao("🏚️ Ir para a casa abandonada", fase6)
     criar_botao("🔦 Ir para o farol", fase7)
 
+
+# =========================================================
+# FASE 5
+# =========================================================
 
 def fase5(event=None):
     preparar(5)
@@ -287,7 +307,7 @@ def fase5_simbolos(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase8)
+    criar_botao("🔎 Continuar investigação", fase8)
 
 
 def fase5_livros(event):
@@ -312,8 +332,12 @@ def fase5_livros(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase8)
+    criar_botao("🔎 Continuar investigação", fase8)
 
+
+# =========================================================
+# FASE 6
+# =========================================================
 
 def fase6(event=None):
     preparar(6)
@@ -365,7 +389,7 @@ def fase6_documentos(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase8)
+    criar_botao("🔎 Continuar investigação", fase8)
 
 
 def fase6_fotos(event):
@@ -389,7 +413,7 @@ def fase6_fotos(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase8)
+    criar_botao("🔎 Continuar investigação", fase8)
 
 
 def fase6_porao(event):
@@ -417,8 +441,12 @@ def fase6_porao(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase8)
+    criar_botao("🔎 Continuar investigação", fase8)
 
+
+# =========================================================
+# FASE 7
+# =========================================================
 
 def fase7(event=None):
     preparar(7)
@@ -450,8 +478,12 @@ def fase7(event=None):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase8)
+    criar_botao("🔎 Continuar investigação", fase8)
 
+
+# =========================================================
+# FASE 8
+# =========================================================
 
 def fase8(event=None):
     preparar(8)
@@ -516,7 +548,7 @@ def fase8_janela(event):
     Mas alguma coisa esteve ali naquela noite.
     """)
 
-    criar_botao("➡️ Continuar", fase9)
+    criar_botao("🌅 Investigar ao amanhecer", fase9)
 
 
 def fase8_ignorar(event):
@@ -539,8 +571,12 @@ def fase8_ignorar(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase9)
+    criar_botao("🌅 Investigar ao amanhecer", fase9)
 
+
+# =========================================================
+# FASE 9
+# =========================================================
 
 def fase9(event=None):
     preparar(9)
@@ -587,7 +623,7 @@ def fase9_vila(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase10)
+    criar_botao("🌲 Seguir para a floresta", fase10)
 
 
 def fase9_floresta(event):
@@ -611,8 +647,12 @@ def fase9_floresta(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase10)
+    criar_botao("🔎 Seguir as pistas", fase10)
 
+
+# =========================================================
+# FASE 10
+# =========================================================
 
 def fase10(event=None):
     preparar(10)
@@ -641,8 +681,12 @@ def fase10(event=None):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase11)
+    criar_botao("🌲 Seguir pela trilha", fase11)
 
+
+# =========================================================
+# FASE 11
+# =========================================================
 
 def fase11(event=None):
     preparar(11)
@@ -670,6 +714,10 @@ def fase11(event=None):
     criar_botao("🥾 Seguir pela trilha", fase12)
 
 
+# =========================================================
+# FASE 12
+# =========================================================
+
 def fase12(event=None):
     preparar(12)
 
@@ -693,8 +741,12 @@ def fase12(event=None):
     No dia seguinte, vocês continuarão a procura.
     """)
 
-    criar_botao("➡️ Continuar", fase13)
+    criar_botao("🌅 Continuar a jornada", fase13)
 
+
+# =========================================================
+# FASE 13
+# =========================================================
 
 def fase13(event=None):
     preparar(13)
@@ -725,8 +777,12 @@ def fase13(event=None):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar até a cabana", fase14)
+    criar_botao("🐾 Investigar as pegadas", fase14)
 
+
+# =========================================================
+# FASE 14
+# =========================================================
 
 def fase14(event=None):
     preparar(14)
@@ -757,6 +813,10 @@ def fase14(event=None):
     atualizar_status()
     criar_botao("📖 Ler o diário", fase15)
 
+
+# =========================================================
+# FASE 15
+# =========================================================
 
 def fase15(event=None):
     preparar(15)
@@ -790,8 +850,12 @@ def fase15(event=None):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase16)
+    criar_botao("🎒 Preparar-se para a jornada", fase16)
 
+
+# =========================================================
+# FASE 16
+# =========================================================
 
 def fase16(event=None):
     preparar(16)
@@ -840,7 +904,7 @@ def fase16_equipamentos(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase17)
+    criar_botao("🌊 Ir até o lago", fase17)
 
 
 def fase16_simbolo(event):
@@ -866,8 +930,12 @@ def fase16_simbolo(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase17)
+    criar_botao("🌊 Ir até o lago", fase17)
 
+
+# =========================================================
+# FASE 17
+# =========================================================
 
 def fase17(event=None):
     preparar(17)
@@ -888,8 +956,8 @@ def fase17(event=None):
     Talvez ele seja importante.
     """)
 
-    criar_botao("🔎 Pegar o cristal", fase17_cristal)
-    criar_botao("➡️ Continuar sem pegar", fase18)
+    criar_botao("💎 Pegar o cristal", fase17_cristal)
+    criar_botao("🚶 Seguir sem o cristal", fase18)
 
 
 def fase17_cristal(event):
@@ -916,8 +984,12 @@ def fase17_cristal(event):
     """)
 
     atualizar_status()
-    criar_botao("➡️ Continuar", fase18)
+    criar_botao("🕳️ Seguir até a caverna", fase18)
 
+
+# =========================================================
+# FASE 18
+# =========================================================
 
 def fase18(event=None):
     preparar(18)
@@ -943,6 +1015,10 @@ def fase18(event=None):
 
     criar_botao("🚪 Entrar na caverna", fase19)
 
+
+# =========================================================
+# FASE 19
+# =========================================================
 
 def fase19(event=None):
     preparar(19)
@@ -975,6 +1051,10 @@ def fase19(event=None):
     criar_botao("🏃 Fugir da caverna", fase20)
 
 
+# =========================================================
+# FASE 20
+# =========================================================
+
 def fase20(event=None):
     preparar(20)
 
@@ -999,8 +1079,12 @@ def fase20(event=None):
     fraqueza da criatura.
     """)
 
-    criar_botao("➡️ Continuar", fase21)
+    criar_botao("🔎 Descobrir a fraqueza", fase21)
 
+
+# =========================================================
+# FASE 21
+# =========================================================
 
 def fase21(event=None):
     limpar()
@@ -1032,8 +1116,12 @@ def fase21(event=None):
 
     atualizar_status()
 
-    criar_botao("➡️ Continuar", fase22)
+    criar_botao("🏚️ Ir para o esconderijo", fase22)
 
+
+# =========================================================
+# FASE 22
+# =========================================================
 
 def fase22(event=None):
     limpar()
@@ -1058,8 +1146,12 @@ def fase22(event=None):
     vocês encontram alguém.
     """)
 
-    criar_botao("➡️ Continuar", fase23)
+    criar_botao("🔎 Investigar a passagem", fase23)
 
+
+# =========================================================
+# FASE 23
+# =========================================================
 
 def fase23(event=None):
     limpar()
@@ -1087,8 +1179,12 @@ def fase23(event=None):
     A hora da decisão finalmente chegou.
     """)
 
-    criar_botao("➡️ Continuar", fase24)
+    criar_botao("⚔️ Preparar o confronto", fase24)
 
+
+# =========================================================
+# FASE 24
+# =========================================================
 
 def fase24(event=None):
     limpar()
@@ -1111,6 +1207,10 @@ def fase24(event=None):
     criar_botao("🔒 Selar o monstro novamente", final_selar)
     criar_botao("🏃 Fugir da ilha", final_fugir)
 
+
+# =========================================================
+# FINAIS
+# =========================================================
 
 def final_derrotar(event):
     state["final"] = "derrotar"
@@ -1302,6 +1402,10 @@ def fase25(event=None):
 
     criar_botao("🔄 Jogar novamente", reiniciar)
 
+
+# =========================================================
+# REINICIAR
+# =========================================================
 
 def reiniciar(event=None):
 
