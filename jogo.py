@@ -6,36 +6,49 @@ imagem = document.getElementById("imagem-fase")
 status = document.getElementById("status")
 video_final = document.getElementById("video-final")
 
+
+# =========================================================
+# ESTADO DO JOGO
+# =========================================================
+
 state = {
     "personagem": "",
     "vida": 5,
     "sanidade": 5,
     "pistas": 0,
     "inv": [],
+
     "milo_vivo": True,
     "barbara_viva": True,
     "olivier_vivo": True,
     "amelie_viva": True,
+
     "confianca_milo": 0,
     "confianca_barbara": 0,
+
     "monstro_fraqueza": False,
     "monstro_derrotado": False,
+
     "batalha": 0,
     "final": ""
 }
 
 
 # =========================================================
-# FUNÇÕES DO JOGO
+# FUNÇÕES BÁSICAS
 # =========================================================
 
 def limpar():
-    tela.innerHTML = ""
+    # Apaga TODAS as opções antigas
     botoes.innerHTML = ""
 
-    video_final.style.display = "none"
+    # Apaga o texto antigo
+    tela.innerHTML = ""
+
+    # Esconde e reinicia o vídeo
     video_final.pause()
     video_final.currentTime = 0
+    video_final.style.display = "none"
 
 
 def mostrar(texto):
@@ -72,20 +85,39 @@ def preparar(numero):
     limpar()
     atualizar_status()
 
-    # Existem imagens somente até a fase 20
     if numero <= 20:
         mostrar_imagem(numero)
     else:
         esconder_imagem()
 
 
+# =========================================================
+# BOTÕES
+# =========================================================
+
 def criar_botao(texto, funcao):
     botao = document.createElement("button")
     botao.className = "opcao"
     botao.innerText = texto
-    botao.onclick = funcao
+
+    def clicar(event):
+        # Desativa o botão que acabou de ser clicado
+        botao.disabled = True
+
+        # APAGA imediatamente todos os botões antigos
+        botoes.innerHTML = ""
+
+        # Executa a próxima parte do jogo
+        funcao(event)
+
+    botao.onclick = clicar
+
     botoes.appendChild(botao)
 
+
+# =========================================================
+# INVENTÁRIO / STATUS
+# =========================================================
 
 def pegar(item):
     if item not in state["inv"]:
@@ -108,7 +140,7 @@ def ganhar_sanidade(qtd=1):
 
 
 # =========================================================
-# FASE 1 - PERSONAGEM
+# FASE 1
 # =========================================================
 
 def fase1(event=None):
@@ -146,7 +178,7 @@ def escolher_olivier(event=None):
 
 
 # =========================================================
-# FASE 2 - VIAGEM
+# FASE 2
 # =========================================================
 
 def fase2(event=None):
@@ -185,7 +217,7 @@ aparece completamente diante de você.
 
 
 # =========================================================
-# FASE 3 - CHEGADA
+# FASE 3
 # =========================================================
 
 def fase3(event=None):
@@ -227,7 +259,7 @@ A investigação está apenas começando.
 
 
 # =========================================================
-# FASE 4 - VILA
+# FASE 4
 # =========================================================
 
 def fase4(event=None):
@@ -264,7 +296,7 @@ Por onde você quer começar?
 
 
 # =========================================================
-# FASE 5 - IGREJA
+# FASE 5
 # =========================================================
 
 def fase5(event=None):
@@ -328,7 +360,6 @@ A investigação continua.
 
     atualizar_status()
 
-    # AGORA VAI DIRETO PARA UMA NOVA ESCOLHA
     fase8()
 
 
@@ -361,12 +392,11 @@ A investigação continua.
 
     atualizar_status()
 
-    # VAI DIRETO PARA A NOVA ESCOLHA
     fase8()
 
 
 # =========================================================
-# FASE 6 - CASA ABANDONADA
+# FASE 6
 # =========================================================
 
 def fase6(event=None):
@@ -490,7 +520,7 @@ com o que está acontecendo.
 
 
 # =========================================================
-# FASE 7 - FAROL
+# FASE 7
 # =========================================================
 
 def fase7(event=None):
@@ -528,7 +558,7 @@ Vocês guardam a fotografia e voltam para a vila.
 
 
 # =========================================================
-# FASE 8 - PRIMEIRA NOITE
+# FASE 8
 # =========================================================
 
 def fase8(event=None):
@@ -632,7 +662,7 @@ E agora vocês precisam descobrir o que foi.
 
 
 # =========================================================
-# FASE 9 - DESAPARECIMENTO
+# FASE 9
 # =========================================================
 
 def fase9(event=None):
@@ -1272,7 +1302,7 @@ A hora da decisão finalmente chegou.
 
 
 # =========================================================
-# FASE 24 - DECISÃO FINAL
+# FASE 24
 # =========================================================
 
 def fase24(event=None):
@@ -1328,7 +1358,7 @@ def final_fugir(event=None):
 
 
 # =========================================================
-# VÍDEO DO FINAL 1
+# VÍDEO FINAL
 # =========================================================
 
 def assistir_video(event=None):
@@ -1338,7 +1368,12 @@ def assistir_video(event=None):
     promessa = video_final.play()
 
     if promessa:
-        promessa.catch(lambda erro: print("Não foi possível iniciar o vídeo:", erro))
+        promessa.catch(
+            lambda erro: print(
+                "Não foi possível iniciar o vídeo:",
+                erro
+            )
+        )
 
 
 # =========================================================
@@ -1385,7 +1420,10 @@ na ilha sem precisar temer a criatura.
 🏝️ O segredo finalmente chegou ao fim.
 """)
 
-        criar_botao("▶️ ASSISTIR AO VÍDEO FINAL", assistir_video)
+        criar_botao(
+            "▶️ ASSISTIR AO VÍDEO FINAL",
+            assistir_video
+        )
 
     elif state["final"] == "derrotar":
 
@@ -1537,7 +1575,7 @@ def reiniciar(event=None):
 
 
 # =========================================================
-# COMEÇAR O JOGO
+# INICIAR O JOGO
 # =========================================================
 
 fase1()
