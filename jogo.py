@@ -1,9 +1,11 @@
+```python
 from js import document
 
 tela = document.getElementById("jogo")
 botoes = document.getElementById("botoes")
 imagem = document.getElementById("imagem-fase")
 status = document.getElementById("status")
+video_final = document.getElementById("video-final")
 
 
 state = {
@@ -28,6 +30,11 @@ state = {
 def limpar():
     tela.innerHTML = ""
     botoes.innerHTML = ""
+
+    # Esconde o vídeo quando muda de fase
+    video_final.style.display = "none"
+    video_final.pause()
+    video_final.currentTime = 0
 
 
 def mostrar(texto):
@@ -1258,6 +1265,10 @@ def fase25(event=None):
 
         mostrar_imagem_final("final_01.png")
 
+        # MOSTRAR O VÍDEO SOMENTE NO FINAL 1
+        video_final.style.display = "block"
+        video_final.currentTime = 0
+
         mostrar("""
         🌟 FINAL 1 — PERFEITO
 
@@ -1456,3 +1467,4 @@ def reiniciar(event=None):
 # =========================================================
 
 fase1()
+```
