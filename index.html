@@ -1,242 +1,293 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>O Segredo na Ilha</title>
+    <title>O Segredo na Ilha</title>
 
-<script
-    type="module"
-    src="https://pyscript.net/releases/2025.3.1/core.js">
-</script>
+    <script
+        type="module"
+        src="https://pyscript.net/releases/2025.3.1/core.js">
+    </script>
 
-<style>
+    <style>
 
-    body {
-        margin: 0;
-        background: #111;
-        color: white;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            margin: 0;
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
 
-    #jogo-container {
-        width: 90%;
-        max-width: 900px;
-        margin: 30px auto;
-        text-align: center;
-    }
+        #jogo-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+            text-align: center;
+        }
 
-    h1 {
-        font-size: 36px;
-        margin-bottom: 20px;
-    }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
 
-    #musica-controle {
-        margin: 20px 0;
-    }
+        #musica-controle {
+            margin: 20px 0;
+        }
 
-    #botao-musica {
-        padding: 12px 22px;
-        border: none;
-        border-radius: 10px;
-        background: #444;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-    }
+        #botao-musica {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px;
+            background: #444;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    #botao-musica:hover {
-        background: #555;
-        transform: scale(1.03);
-    }
+        #botao-musica:hover {
+            background: #555;
+            transform: scale(1.03);
+        }
 
-    #imagem-fase {
-        width: 100%;
-        max-height: 450px;
-        object-fit: cover;
-        border-radius: 15px;
-        display: none;
-        margin-bottom: 20px;
-    }
+        #imagem-fase {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 15px;
+            display: none;
+            margin-bottom: 20px;
+        }
 
-    #video-final {
-        width: 100%;
-        max-width: 800px;
-        border-radius: 15px;
-        margin: 20px auto;
-        display: none;
-    }
+        #video-final {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: none;
+            background: black;
+        }
 
-    #jogo {
-        background: #1d1d1d;
-        padding: 20px;
-        border-radius: 15px;
-        text-align: left;
-        max-height: 500px;
-        overflow-y: auto;
-    }
+        #jogo {
+            background: #1d1d1d;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+            max-height: 500px;
+            overflow-y: auto;
+        }
 
-    .texto-jogo {
-        white-space: pre-wrap;
-        font-family: Arial, sans-serif;
-        font-size: 17px;
-        line-height: 1.5;
-        margin-bottom: 10px;
-    }
+        .texto-jogo {
+            white-space: pre-wrap;
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
 
-    #status {
-        background: #252525;
-        padding: 12px;
-        border-radius: 10px;
-        margin: 15px 0;
-        font-weight: bold;
-    }
+        #status {
+            background: #252525;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
 
-    #botoes {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-top: 20px;
-    }
+        #botoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-    .opcao {
-        padding: 14px 20px;
-        border: none;
-        border-radius: 10px;
-        background: #444;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-    }
+        .opcao {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #444;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .opcao:hover {
-        background: #555;
-        transform: scale(1.03);
-    }
+        .opcao:hover {
+            background: #555;
+            transform: scale(1.03);
+        }
 
-</style>
+    </style>
 
 </head>
 
 <body>
 
-<div id="jogo-container">
+    <div id="jogo-container">
 
-```
-<h1>🏝️ O Segredo na Ilha</h1>
+        <h1>🏝️ O Segredo na Ilha</h1>
 
-<div id="musica-controle">
+        <div id="musica-controle">
 
-    <button
-        id="botao-musica"
-        type="button">
+            <button
+                id="botao-musica"
+                type="button">
 
-        🎵 Tocar música
+                🎵 Tocar música
 
-    </button>
+            </button>
 
-    <audio
-        id="musica"
-        loop
-        preload="auto">
+            <audio
+                id="musica"
+                loop
+                preload="auto">
 
-        <source
-            src="./musica.mp3"
-            type="audio/mpeg">
+                <source
+                    src="./musica.mp3"
+                    type="audio/mpeg">
 
-    </audio>
+            </audio>
 
-</div>
+        </div>
 
-<img
-    id="imagem-fase"
-    src=""
-    alt="Imagem da fase">
+        <img
+            id="imagem-fase"
+            src=""
+            alt="Imagem da fase">
 
-<video
-    id="video-final"
-    controls
-    playsinline
-    preload="metadata">
+        <video
+            id="video-final"
+            controls
+            playsinline
+            preload="auto">
 
-    <source
-        src="./Firefly # 🏝️ O SEGREDO NA ILHA__## FASE 1 — ESCOLHA DO PERSONAGEM__Uma viagem misteriosa está prest (1).mp4"
-        type="video/mp4">
+            <source
+                src="./Firefly%20%23%20%F0%9F%8F%9D%EF%B8%8F%20O%20SEGREDO%20NA%20ILHA__%23%23%20FASE%201%20%E2%80%94%20ESCOLHA%20DO%20PERSONAGEM__Uma%20viagem%20misteriosa%20est%C3%A1%20prest%20%281%29.mp4"
+                type="video/mp4">
 
-    Seu navegador não consegue reproduzir este vídeo.
+            Seu navegador não consegue reproduzir este vídeo.
 
-</video>
+        </video>
 
-<div id="status"></div>
+        <div id="status"></div>
 
-<div id="jogo"></div>
+        <div id="jogo"></div>
 
-<div id="botoes"></div>
-```
+        <div id="botoes"></div>
 
-</div>
+    </div>
 
-<script>
 
-    const botaoMusica =
-        document.getElementById("botao-musica");
+    <script>
 
-    const musica =
-        document.getElementById("musica");
+        const botaoMusica =
+            document.getElementById("botao-musica");
 
-    botaoMusica.addEventListener(
-        "click",
-        async function () {
+        const musica =
+            document.getElementById("musica");
 
-            try {
 
-                if (musica.paused) {
+        botaoMusica.addEventListener(
+            "click",
+            async function () {
 
-                    await musica.play();
+                try {
 
-                    botaoMusica.innerText =
-                        "🔇 Pausar música";
+                    if (musica.paused) {
+
+                        await musica.play();
+
+                        botaoMusica.innerText =
+                            "🔇 Pausar música";
+
+                    } else {
+
+                        musica.pause();
+
+                        botaoMusica.innerText =
+                            "🎵 Tocar música";
+
+                    }
 
                 }
 
-                else {
+                catch (erro) {
 
-                    musica.pause();
+                    console.error(
+                        "ERRO DA MÚSICA:",
+                        erro
+                    );
 
-                    botaoMusica.innerText =
-                        "🎵 Tocar música";
+                    alert(
+                        "Não foi possível tocar a música."
+                    );
 
                 }
 
             }
+        );
 
-            catch (erro) {
+
+        musica.addEventListener(
+            "loadeddata",
+            function () {
+
+                console.log(
+                    "Música carregada!"
+                );
+
+            }
+        );
+
+
+        musica.addEventListener(
+            "error",
+            function () {
 
                 console.error(
-                    "ERRO DA MÚSICA:",
-                    erro
-                );
-
-                alert(
-                    "Erro ao tocar a música."
+                    "Erro ao carregar musica.mp3"
                 );
 
             }
+        );
 
-        }
-    );
 
-</script>
+        const videoFinal =
+            document.getElementById("video-final");
 
-<script
-    type="py"
-    src="./jogo.py">
-</script>
+
+        videoFinal.addEventListener(
+            "error",
+            function () {
+
+                console.error(
+                    "Erro ao carregar o vídeo final."
+                );
+
+            }
+        );
+
+
+        videoFinal.addEventListener(
+            "loadeddata",
+            function () {
+
+                console.log(
+                    "Vídeo final carregado!"
+                );
+
+            }
+        );
+
+    </script>
+
+
+    <script
+        type="py"
+        src="./jogo.py">
+    </script>
 
 </body>
 
