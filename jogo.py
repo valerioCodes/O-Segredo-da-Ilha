@@ -279,6 +279,8 @@ def fase5(event=None):
     ser investigadas.
 
     Talvez os símbolos escondam alguma informação.
+
+    O que você vai investigar?
     """)
 
     criar_botao("🔎 Examinar os símbolos", fase5_simbolos)
@@ -288,6 +290,10 @@ def fase5(event=None):
 def fase5_simbolos(event):
     state["pistas"] += 2
     pegar("fotografia dos simbolos")
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(5)
 
     mostrar("""
     🔎 OS SÍMBOLOS
@@ -304,15 +310,23 @@ def fase5_simbolos(event):
 
     Talvez esses símbolos sejam uma das primeiras
     pistas realmente importantes.
+
+    Vocês decidem continuar a investigação.
     """)
 
     atualizar_status()
-    criar_botao("🔎 Continuar investigação", fase8)
+
+    # VAI DIRETO PARA A PRÓXIMA ESCOLHA
+    fase8()
 
 
 def fase5_livros(event):
     state["pistas"] += 2
     pegar("livro antigo")
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(5)
 
     mostrar("""
     📖 OS LIVROS
@@ -329,10 +343,14 @@ def fase5_livros(event):
     Você guarda o livro para investigar depois.
 
     A descoberta deixa todos preocupados.
+
+    Vocês decidem continuar a investigação.
     """)
 
     atualizar_status()
-    criar_botao("🔎 Continuar investigação", fase8)
+
+    # VAI DIRETO PARA A PRÓXIMA ESCOLHA
+    fase8()
 
 
 # =========================================================
@@ -370,6 +388,10 @@ def fase6_documentos(event):
     state["pistas"] += 3
     pegar("documentos da familia")
 
+    limpar()
+    atualizar_status()
+    mostrar_imagem(6)
+
     mostrar("""
     📄 OS DOCUMENTOS
 
@@ -389,12 +411,18 @@ def fase6_documentos(event):
     """)
 
     atualizar_status()
-    criar_botao("🔎 Continuar investigação", fase8)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase8()
 
 
 def fase6_fotos(event):
     state["pistas"] += 2
     pegar("fotografia antiga")
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(6)
 
     mostrar("""
     🖼️ A FOTOGRAFIA
@@ -413,12 +441,18 @@ def fase6_fotos(event):
     """)
 
     atualizar_status()
-    criar_botao("🔎 Continuar investigação", fase8)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase8()
 
 
 def fase6_porao(event):
     state["pistas"] += 3
     pegar("fotografia antiga")
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(6)
 
     mostrar("""
     ⬇️ O PORÃO
@@ -441,7 +475,9 @@ def fase6_porao(event):
     """)
 
     atualizar_status()
-    criar_botao("🔎 Continuar investigação", fase8)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase8()
 
 
 # =========================================================
@@ -478,7 +514,9 @@ def fase7(event=None):
     """)
 
     atualizar_status()
-    criar_botao("🔎 Continuar investigação", fase8)
+
+    # DIRETO PARA A PRÓXIMA FASE
+    fase8()
 
 
 # =========================================================
@@ -526,6 +564,10 @@ def fase8_janela(event):
     perder_sanidade()
     state["pistas"] += 2
 
+    limpar()
+    atualizar_status()
+    mostrar_imagem(8)
+
     mostrar("""
     🪟 A JANELA
 
@@ -548,11 +590,18 @@ def fase8_janela(event):
     Mas alguma coisa esteve ali naquela noite.
     """)
 
-    criar_botao("🌅 Investigar ao amanhecer", fase9)
+    atualizar_status()
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase9()
 
 
 def fase8_ignorar(event):
     state["pistas"] += 1
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(8)
 
     mostrar("""
     😶 O SILÊNCIO
@@ -571,7 +620,9 @@ def fase8_ignorar(event):
     """)
 
     atualizar_status()
-    criar_botao("🌅 Investigar ao amanhecer", fase9)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase9()
 
 
 # =========================================================
@@ -605,6 +656,10 @@ def fase9(event=None):
 def fase9_vila(event):
     state["pistas"] += 1
 
+    limpar()
+    atualizar_status()
+    mostrar_imagem(9)
+
     mostrar("""
     🏘️ A VILA
 
@@ -623,11 +678,17 @@ def fase9_vila(event):
     """)
 
     atualizar_status()
-    criar_botao("🌲 Seguir para a floresta", fase10)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase10()
 
 
 def fase9_floresta(event):
     state["pistas"] += 2
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(9)
 
     mostrar("""
     🌲 A FLORESTA
@@ -647,7 +708,9 @@ def fase9_floresta(event):
     """)
 
     atualizar_status()
-    criar_botao("🔎 Seguir as pistas", fase10)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase10()
 
 
 # =========================================================
@@ -681,6 +744,7 @@ def fase10(event=None):
     """)
 
     atualizar_status()
+
     criar_botao("🌲 Seguir pela trilha", fase11)
 
 
@@ -777,7 +841,8 @@ def fase13(event=None):
     """)
 
     atualizar_status()
-    criar_botao("🐾 Investigar as pegadas", fase14)
+
+    criar_botao("🏚️ Entrar na cabana", fase14)
 
 
 # =========================================================
@@ -811,6 +876,7 @@ def fase14(event=None):
     """)
 
     atualizar_status()
+
     criar_botao("📖 Ler o diário", fase15)
 
 
@@ -850,6 +916,7 @@ def fase15(event=None):
     """)
 
     atualizar_status()
+
     criar_botao("🎒 Preparar-se para a jornada", fase16)
 
 
@@ -888,6 +955,10 @@ def fase16_equipamentos(event):
     pegar("equipamento")
     state["batalha"] += 2
 
+    limpar()
+    atualizar_status()
+    mostrar_imagem(16)
+
     mostrar("""
     🎒 EQUIPAMENTOS
 
@@ -904,13 +975,19 @@ def fase16_equipamentos(event):
     """)
 
     atualizar_status()
-    criar_botao("🌊 Ir até o lago", fase17)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase17()
 
 
 def fase16_simbolo(event):
     pegar("simbolo antigo")
     state["monstro_fraqueza"] = True
     state["batalha"] += 3
+
+    limpar()
+    atualizar_status()
+    mostrar_imagem(16)
 
     mostrar("""
     🔱 O SÍMBOLO
@@ -930,7 +1007,9 @@ def fase16_simbolo(event):
     """)
 
     atualizar_status()
-    criar_botao("🌊 Ir até o lago", fase17)
+
+    # DIRETO PARA A PRÓXIMA ESCOLHA
+    fase17()
 
 
 # =========================================================
@@ -965,6 +1044,10 @@ def fase17_cristal(event):
     state["pistas"] += 2
     state["batalha"] += 2
 
+    limpar()
+    atualizar_status()
+    mostrar_imagem(17)
+
     mostrar("""
     💎 O CRISTAL
 
@@ -984,7 +1067,9 @@ def fase17_cristal(event):
     """)
 
     atualizar_status()
-    criar_botao("🕳️ Seguir até a caverna", fase18)
+
+    # DIRETO PARA A PRÓXIMA FASE
+    fase18()
 
 
 # =========================================================
@@ -1089,6 +1174,7 @@ def fase20(event=None):
 def fase21(event=None):
     limpar()
     atualizar_status()
+    mostrar_imagem(21)
 
     mostrar("""
     🔎 A FRAQUEZA
@@ -1126,6 +1212,7 @@ def fase21(event=None):
 def fase22(event=None):
     limpar()
     atualizar_status()
+    mostrar_imagem(22)
 
     mostrar("""
     🏚️ O ESCONDERIJO
@@ -1156,6 +1243,7 @@ def fase22(event=None):
 def fase23(event=None):
     limpar()
     atualizar_status()
+    mostrar_imagem(23)
 
     mostrar("""
     🆘 O RESGATE
@@ -1189,6 +1277,7 @@ def fase23(event=None):
 def fase24(event=None):
     limpar()
     atualizar_status()
+    mostrar_imagem(24)
 
     mostrar("""
     ⚔️ A DECISÃO FINAL
@@ -1235,11 +1324,19 @@ def final_fugir(event):
     fase25()
 
 
+# =========================================================
+# VÍDEO DO FINAL 1
+# =========================================================
+
 def assistir_video(event):
     video_final.style.display = "block"
     video_final.currentTime = 0
     video_final.play()
 
+
+# =========================================================
+# FASE 25 / FINAIS
+# =========================================================
 
 def fase25(event=None):
     limpar()
