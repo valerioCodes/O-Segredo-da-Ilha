@@ -1,4 +1,3 @@
-```python
 from js import document
 
 tela = document.getElementById("jogo")
@@ -31,7 +30,6 @@ def limpar():
     tela.innerHTML = ""
     botoes.innerHTML = ""
 
-    # Esconde o vídeo quando muda de fase
     video_final.style.display = "none"
     video_final.pause()
     video_final.currentTime = 0
@@ -1265,7 +1263,7 @@ def fase25(event=None):
 
         mostrar_imagem_final("final_01.png")
 
-        # MOSTRAR O VÍDEO SOMENTE NO FINAL 1
+        # O VÍDEO APARECE SOMENTE NO FINAL 1
         video_final.style.display = "block"
         video_final.currentTime = 0
 
@@ -1467,4 +1465,3 @@ def reiniciar(event=None):
 # =========================================================
 
 fase1()
-```
