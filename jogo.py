@@ -6,7 +6,6 @@ imagem = document.getElementById("imagem-fase")
 status = document.getElementById("status")
 video_final = document.getElementById("video-final")
 
-
 state = {
     "personagem": "",
     "vida": 5,
@@ -29,7 +28,6 @@ state = {
 def limpar():
     tela.innerHTML = ""
     botoes.innerHTML = ""
-
     video_final.style.display = "none"
     video_final.pause()
     video_final.currentTime = 0
@@ -95,10 +93,6 @@ def ganhar_sanidade(qtd=1):
     atualizar_status()
 
 
-# =========================================================
-# FASE 1 - ESCOLHA DO PERSONAGEM
-# =========================================================
-
 def fase1(event=None):
     preparar(1)
 
@@ -132,10 +126,6 @@ def escolher_olivier(event):
     state["personagem"] = "Olivier"
     fase2()
 
-
-# =========================================================
-# FASE 2 - A VIAGEM
-# =========================================================
 
 def fase2(event=None):
     preparar(2)
@@ -171,10 +161,6 @@ def fase2(event=None):
 
     criar_botao("➡️ Continuar", fase3)
 
-
-# =========================================================
-# FASE 3 - CHEGADA NA ILHA
-# =========================================================
 
 def fase3(event=None):
     preparar(3)
@@ -214,10 +200,6 @@ def fase3(event=None):
     criar_botao("➡️ Continuar", fase4)
 
 
-# =========================================================
-# FASE 4 - CONHECENDO A VILA
-# =========================================================
-
 def fase4(event=None):
     preparar(4)
 
@@ -250,10 +232,6 @@ def fase4(event=None):
     criar_botao("🏚️ Ir para a casa abandonada", fase6)
     criar_botao("🔦 Ir para o farol", fase7)
 
-
-# =========================================================
-# FASE 5 - A IGREJA
-# =========================================================
 
 def fase5(event=None):
     preparar(5)
@@ -336,10 +314,6 @@ def fase5_livros(event):
     atualizar_status()
     criar_botao("➡️ Continuar", fase8)
 
-
-# =========================================================
-# FASE 6 - CASA ABANDONADA
-# =========================================================
 
 def fase6(event=None):
     preparar(6)
@@ -446,10 +420,6 @@ def fase6_porao(event):
     criar_botao("➡️ Continuar", fase8)
 
 
-# =========================================================
-# FASE 7 - FAROL
-# =========================================================
-
 def fase7(event=None):
     preparar(7)
 
@@ -482,10 +452,6 @@ def fase7(event=None):
     atualizar_status()
     criar_botao("➡️ Continuar", fase8)
 
-
-# =========================================================
-# FASE 8 - PRIMEIRA NOITE
-# =========================================================
 
 def fase8(event=None):
     preparar(8)
@@ -576,10 +542,6 @@ def fase8_ignorar(event):
     criar_botao("➡️ Continuar", fase9)
 
 
-# =========================================================
-# FASE 9 - DESAPARECIMENTO
-# =========================================================
-
 def fase9(event=None):
     preparar(9)
 
@@ -652,10 +614,6 @@ def fase9_floresta(event):
     criar_botao("➡️ Continuar", fase10)
 
 
-# =========================================================
-# FASE 10 - PROCURANDO PISTAS
-# =========================================================
-
 def fase10(event=None):
     preparar(10)
 
@@ -686,10 +644,6 @@ def fase10(event=None):
     criar_botao("➡️ Continuar", fase11)
 
 
-# =========================================================
-# FASE 11 - TRILHA NA FLORESTA
-# =========================================================
-
 def fase11(event=None):
     preparar(11)
 
@@ -716,10 +670,6 @@ def fase11(event=None):
     criar_botao("🥾 Seguir pela trilha", fase12)
 
 
-# =========================================================
-# FASE 12 - ACAMPAMENTO
-# =========================================================
-
 def fase12(event=None):
     preparar(12)
 
@@ -745,10 +695,6 @@ def fase12(event=None):
 
     criar_botao("➡️ Continuar", fase13)
 
-
-# =========================================================
-# FASE 13 - PEGADAS GIGANTES
-# =========================================================
 
 def fase13(event=None):
     preparar(13)
@@ -782,10 +728,6 @@ def fase13(event=None):
     criar_botao("➡️ Continuar até a cabana", fase14)
 
 
-# =========================================================
-# FASE 14 - A CABANA
-# =========================================================
-
 def fase14(event=None):
     preparar(14)
 
@@ -815,10 +757,6 @@ def fase14(event=None):
     atualizar_status()
     criar_botao("📖 Ler o diário", fase15)
 
-
-# =========================================================
-# FASE 15 - O DIÁRIO
-# =========================================================
 
 def fase15(event=None):
     preparar(15)
@@ -854,10 +792,6 @@ def fase15(event=None):
     atualizar_status()
     criar_botao("➡️ Continuar", fase16)
 
-
-# =========================================================
-# FASE 16 - PREPARAÇÃO
-# =========================================================
 
 def fase16(event=None):
     preparar(16)
@@ -935,10 +869,6 @@ def fase16_simbolo(event):
     criar_botao("➡️ Continuar", fase17)
 
 
-# =========================================================
-# FASE 17 - O LAGO
-# =========================================================
-
 def fase17(event=None):
     preparar(17)
 
@@ -989,10 +919,6 @@ def fase17_cristal(event):
     criar_botao("➡️ Continuar", fase18)
 
 
-# =========================================================
-# FASE 18 - A CAVERNA
-# =========================================================
-
 def fase18(event=None):
     preparar(18)
 
@@ -1017,10 +943,6 @@ def fase18(event=None):
 
     criar_botao("🚪 Entrar na caverna", fase19)
 
-
-# =========================================================
-# FASE 19 - PRIMEIRO ENCONTRO
-# =========================================================
 
 def fase19(event=None):
     preparar(19)
@@ -1053,10 +975,6 @@ def fase19(event=None):
     criar_botao("🏃 Fugir da caverna", fase20)
 
 
-# =========================================================
-# FASE 20 - FUGA
-# =========================================================
-
 def fase20(event=None):
     preparar(20)
 
@@ -1083,10 +1001,6 @@ def fase20(event=None):
 
     criar_botao("➡️ Continuar", fase21)
 
-
-# =========================================================
-# FASE 21 - DESCOBRINDO A FRAQUEZA
-# =========================================================
 
 def fase21(event=None):
     limpar()
@@ -1121,10 +1035,6 @@ def fase21(event=None):
     criar_botao("➡️ Continuar", fase22)
 
 
-# =========================================================
-# FASE 22 - O ESCONDERIJO
-# =========================================================
-
 def fase22(event=None):
     limpar()
     atualizar_status()
@@ -1150,10 +1060,6 @@ def fase22(event=None):
 
     criar_botao("➡️ Continuar", fase23)
 
-
-# =========================================================
-# FASE 23 - O RESGATE
-# =========================================================
 
 def fase23(event=None):
     limpar()
@@ -1184,10 +1090,6 @@ def fase23(event=None):
     criar_botao("➡️ Continuar", fase24)
 
 
-# =========================================================
-# FASE 24 - ESCOLHA DO FINAL
-# =========================================================
-
 def fase24(event=None):
     limpar()
     atualizar_status()
@@ -1210,10 +1112,6 @@ def fase24(event=None):
     criar_botao("🏃 Fugir da ilha", final_fugir)
 
 
-# =========================================================
-# FINAL 1 - PERFEITO
-# =========================================================
-
 def final_derrotar(event):
     state["final"] = "derrotar"
 
@@ -1225,45 +1123,27 @@ def final_derrotar(event):
     fase25()
 
 
-# =========================================================
-# FINAL 3 - SELAMENTO
-# =========================================================
-
 def final_selar(event):
     state["final"] = "selar"
     state["monstro_derrotado"] = False
-
     fase25()
 
-
-# =========================================================
-# FINAL 6 - SEGREDO CONTINUA
-# =========================================================
 
 def final_fugir(event):
     state["final"] = "fugir"
     state["monstro_derrotado"] = False
-
     fase25()
 
-
-# =========================================================
-# FASE 25 - FINAIS
-# =========================================================
 
 def fase25(event=None):
     limpar()
     atualizar_status()
 
-    # =====================================================
-    # FINAL 1 - PERFEITO
-    # =====================================================
-
     if state["final"] == "derrotar" and state["monstro_derrotado"]:
 
         mostrar_imagem_final("final_01.png")
 
-        # O VÍDEO APARECE SOMENTE NO FINAL 1
+        # VÍDEO SOMENTE NO FINAL 1
         video_final.style.display = "block"
         video_final.currentTime = 0
 
@@ -1299,10 +1179,6 @@ def fase25(event=None):
         🏝️ O segredo finalmente chegou ao fim.
         """)
 
-    # =====================================================
-    # FINAL 2 - VITÓRIA COM PERDAS
-    # =====================================================
-
     elif state["final"] == "derrotar":
 
         mostrar_imagem_final("final_02.png")
@@ -1336,10 +1212,6 @@ def fase25(event=None):
 
         🏝️ Vocês venceram, mas tiveram perdas.
         """)
-
-    # =====================================================
-    # FINAL 3 - SELAMENTO
-    # =====================================================
 
     elif state["final"] == "selar":
 
@@ -1376,10 +1248,6 @@ def fase25(event=None):
 
         🔒 O segredo continua guardado.
         """)
-
-    # =====================================================
-    # FINAL 6 - SEGREDO CONTINUA
-    # =====================================================
 
     elif state["final"] == "fugir":
 
@@ -1431,10 +1299,6 @@ def fase25(event=None):
     criar_botao("🔄 Jogar novamente", reiniciar)
 
 
-# =========================================================
-# REINICIAR
-# =========================================================
-
 def reiniciar(event=None):
 
     state["personagem"] = ""
@@ -1459,9 +1323,5 @@ def reiniciar(event=None):
 
     fase1()
 
-
-# =========================================================
-# COMEÇAR O JOGO
-# =========================================================
 
 fase1()
