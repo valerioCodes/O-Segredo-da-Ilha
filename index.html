@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 
 <html lang="pt-BR">
@@ -36,10 +35,6 @@
         margin-bottom: 20px;
     }
 
-    /* =========================
-       MÚSICA
-    ========================= */
-
     #musica-controle {
         margin: 20px 0;
     }
@@ -59,10 +54,6 @@
         transform: scale(1.03);
     }
 
-    /* =========================
-       IMAGEM
-    ========================= */
-
     #imagem-fase {
         width: 100%;
         max-height: 450px;
@@ -72,10 +63,6 @@
         margin-bottom: 20px;
     }
 
-    /* =========================
-       VÍDEO FINAL
-    ========================= */
-
     #video-final {
         width: 100%;
         max-width: 800px;
@@ -83,10 +70,6 @@
         margin: 20px auto;
         display: none;
     }
-
-    /* =========================
-       JOGO
-    ========================= */
 
     #jogo {
         background: #1d1d1d;
@@ -105,10 +88,6 @@
         margin-bottom: 10px;
     }
 
-    /* =========================
-       STATUS
-    ========================= */
-
     #status {
         background: #252525;
         padding: 12px;
@@ -116,10 +95,6 @@
         margin: 15px 0;
         font-weight: bold;
     }
-
-    /* =========================
-       BOTÕES
-    ========================= */
 
     #botoes {
         display: flex;
@@ -152,92 +127,59 @@
 
 <div id="jogo-container">
 
-    <h1>🏝️ O Segredo na Ilha</h1>
+```
+<h1>🏝️ O Segredo na Ilha</h1>
 
+<div id="musica-controle">
 
-    <!-- =========================
-         MÚSICA
-    ========================== -->
+    <button
+        id="botao-musica"
+        type="button">
 
-    <div id="musica-controle">
+        🎵 Tocar música
 
-        <button
-            id="botao-musica"
-            type="button">
+    </button>
 
-            🎵 Tocar música
-
-        </button>
-
-
-        <audio
-            id="musica"
-            loop
-            preload="auto">
-
-            <source
-                src="./musica.mp3"
-                type="audio/mpeg">
-
-        </audio>
-
-    </div>
-
-
-    <!-- =========================
-         IMAGEM
-    ========================== -->
-
-    <img
-        id="imagem-fase"
-        src=""
-        alt="Imagem da fase">
-
-
-    <!-- =========================
-         VÍDEO DO FINAL
-    ========================== -->
-
-    <video
-        id="video-final"
-        controls
-        preload="metadata">
+    <audio
+        id="musica"
+        loop
+        preload="auto">
 
         <source
-            src="./video_final.mp4"
-            type="video/mp4">
+            src="./musica.mp3"
+            type="audio/mpeg">
 
-        Seu navegador não consegue reproduzir este vídeo.
-
-    </video>
-
-
-    <!-- =========================
-         STATUS
-    ========================== -->
-
-    <div id="status"></div>
-
-
-    <!-- =========================
-         JOGO
-    ========================== -->
-
-    <div id="jogo"></div>
-
-
-    <!-- =========================
-         BOTÕES
-    ========================== -->
-
-    <div id="botoes"></div>
+    </audio>
 
 </div>
 
+<img
+    id="imagem-fase"
+    src=""
+    alt="Imagem da fase">
 
-<!-- =========================
-     CONTROLE DA MÚSICA
-========================= -->
+<video
+    id="video-final"
+    controls
+    playsinline
+    preload="metadata">
+
+    <source
+        src="./Firefly # 🏝️ O SEGREDO NA ILHA__## FASE 1 — ESCOLHA DO PERSONAGEM__Uma viagem misteriosa está prest (1).mp4"
+        type="video/mp4">
+
+    Seu navegador não consegue reproduzir este vídeo.
+
+</video>
+
+<div id="status"></div>
+
+<div id="jogo"></div>
+
+<div id="botoes"></div>
+```
+
+</div>
 
 <script>
 
@@ -247,16 +189,9 @@
     const musica =
         document.getElementById("musica");
 
-
     botaoMusica.addEventListener(
         "click",
         async function () {
-
-            console.log(
-                "Tentando tocar:",
-                musica.currentSrc
-            );
-
 
             try {
 
@@ -266,10 +201,6 @@
 
                     botaoMusica.innerText =
                         "🔇 Pausar música";
-
-                    console.log(
-                        "Música começou!"
-                    );
 
                 }
 
@@ -292,12 +223,7 @@
                 );
 
                 alert(
-                    "ERRO DA MÚSICA:\n\n" +
-                    erro.name +
-                    "\n\n" +
-                    erro.message +
-                    "\n\nArquivo usado:\n" +
-                    musica.currentSrc
+                    "Erro ao tocar a música."
                 );
 
             }
@@ -305,46 +231,13 @@
         }
     );
 
-
-    /* Verifica se o navegador encontrou o arquivo */
-
-    musica.addEventListener(
-        "loadeddata",
-        function () {
-
-            console.log(
-                "✅ Arquivo de música encontrado!"
-            );
-
-        }
-    );
-
-
-    musica.addEventListener(
-        "error",
-        function () {
-
-            console.error(
-                "❌ O navegador não conseguiu carregar musica.mp3"
-            );
-
-        }
-    );
-
 </script>
-
-
-<!-- =========================
-     JOGO PYTHON
-========================= -->
 
 <script
     type="py"
     src="./jogo.py">
 </script>
 
-
 </body>
 
 </html>
-```
